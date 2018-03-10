@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img src="https://img00.deviantart.net/15d3/i/2014/291/b/1/boku_no_pico_by_suminoericko-d839gti.png" alt="DocTruyen logo" title="DocTruyen" align="middle"/>
+  <img src="http://pluspng.com/img-png/anime-png-anime-1280.png" alt="DocTruyen logo" title="DocTruyen" align="middle"/>
 </p>
 
 
