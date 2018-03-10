@@ -5,7 +5,7 @@
 
 
 # DocTruyen
-[DocTruyen][doctruyen] is an application for reading on Android 
+[DocTruyen][doctruyen] is an application for reading on Android - final project for Mobile development course
 
 ## Members:
 Nguyễn Tấn Dũng - N14DCCN154<br>
