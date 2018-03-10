@@ -1,7 +1,6 @@
 
-<p align="center">
-  <img src="http://pluspng.com/img-png/anime-png-anime-1280.png" alt="DocTruyen logo" title="DocTruyen" align="middle"/>
-</p>
+  <img src="http://pluspng.com/img-png/anime-png-anime-1280.png" alt="DocTruyen logo" title="DocTruyen" align="right" width="50%" height="50%"/>
+
 
 
 # DocTruyen
