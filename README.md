@@ -11,8 +11,7 @@
 * Trần Quang Huy - N14DCCN102
 * Trần Vương Quang - N14DCCN107
 * Nguyễn Khánh Toàn - N14DCCN083
-
-*Nguyễn Thiên Thuận - N14DCCN258
+* Nguyễn Thiên Thuận - N14DCCN258
 
 
 
