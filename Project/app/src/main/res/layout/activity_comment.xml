@@ -4,69 +4,71 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context="com.nhommot.doctruyen.review">
+    tools:context="com.nhommot.doctruyen.MainActivity">
 
     <TextView
-        android:text="COMMENT "
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/textView2"
-        android:textColor="@android:color/background_dark"
-        android:textStyle="normal|italic"
-        android:textSize="16sp" />
-
-    <TextView
-        android:text="TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="@string/comment"
+        android:textColor="@android:color/background_dark"
+        android:textSize="16sp"
+        android:textStyle="normal|italic" />
+
+    <TextView
         android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:height="1dp"
-        android:background="@android:color/background_dark" />
+        android:background="@android:color/background_dark"
+        android:text="TextView" />
 
     <EditText
+        android:id="@+id/txtBinhLuan"
         android:layout_width="332dp"
         android:layout_height="69dp"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/txtBinhLuan"
-        android:hint="Add a comment..."
-        android:gravity="top|center_vertical"
         android:layout_gravity="right"
-        android:background="@android:color/background_light" />
+        android:background="@android:color/background_light"
+        android:ems="10"
+        android:gravity="top|center_vertical"
+        android:hint="Add a comment..."
+        android:inputType="textPersonName" />
 
     <TextView
-        android:text="TextView"
+        android:id="@+id/textView4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView4"
+        android:height="1dp"
         android:background="@android:color/background_dark"
-        android:height="1dp" />
+        android:text="TextView" />
 
     <Button
-        android:text="Post"
+        android:id="@+id/btnPost"
         android:layout_width="63dp"
         android:layout_height="wrap_content"
-        android:id="@+id/btnPost"
         android:layout_gravity="right"
-        android:layout_weight="0.45"
+        android:layout_weight="0.5"
         android:background="@color/colorPrimaryDark"
-        android:textStyle="normal|italic"
-        android:textColor="@android:color/background_light" />
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:text="Post"
+        android:textColor="@android:color/background_dark"
+        android:textStyle="normal|italic" />
 
     <TextView
-        android:text="TextView"
+        android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView3"
+        android:height="1dp"
         android:background="@android:color/background_dark"
-        android:height="1dp" />
+        android:text="TextView" />
 
     <ListView
+        android:id="@+id/lvdsBinhLuan"
         android:layout_width="match_parent"
         android:layout_height="359dp"
-        android:id="@+id/lvdsBinhLuan"
         android:background="@android:color/background_light"
         android:listSelector="@color/colorPrimary" />
 </LinearLayout>
