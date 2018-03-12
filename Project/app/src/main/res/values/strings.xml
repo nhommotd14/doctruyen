@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Doc Truyen</string>
-    <string name="comment">COMMENT</string>
-    <string name="comment">COMMENT</string>
+    <string name="app_name" translatable="false">Doc Truyen</string>
+
+    <string name="comment" translatable="false">COMMENT</string>
 </resources>
