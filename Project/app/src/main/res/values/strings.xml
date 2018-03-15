@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name" translatable="false">Doc Truyen</string>
-
+    <string name="main_activity_name" translatable="false">Trang chủ</string>
     <string name="comment" translatable="false">COMMENT</string>
 </resources>
