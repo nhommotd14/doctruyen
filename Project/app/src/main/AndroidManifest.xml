@@ -19,7 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ItemChapters" />
+        <activity android:name=".ui.ChaptersActivity" />
+        <activity android:name=".ui.FavouriteActivity" />
         <activity android:name=".review" />
     </application>
 
