@@ -1,18 +1,18 @@
-package com.nhommot.doctruyen;
+package com.nhommot.doctruyen.models;
 
 /**
  * Created by Nguyen Dung on 3/12/2018.
  */
 
-public class detail {
+public class Detail {
     String tenTacGia;
     String tenTruyen;
     String theLoai;
     int soChuong;
     String review;
 
-    public detail(){};
-    public detail(String tenTacGia, String tenTruyen, String theLoai, int soChuong,String review){
+    public Detail(){};
+    public Detail(String tenTacGia, String tenTruyen, String theLoai, int soChuong, String review){
         this.tenTacGia = tenTacGia;
         this.theLoai = theLoai;
         this.tenTruyen= tenTruyen;

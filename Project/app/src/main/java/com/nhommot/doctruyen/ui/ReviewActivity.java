@@ -1,10 +1,13 @@
-package com.nhommot.doctruyen;
+package com.nhommot.doctruyen.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-public class review extends AppCompatActivity {
+import com.nhommot.doctruyen.R;
+import com.nhommot.doctruyen.models.Detail;
+
+public class ReviewActivity extends AppCompatActivity {
 
     TextView tvTenTruyen = (TextView) findViewById(R.id.tvTenTruyen);
     TextView tvTacGia = (TextView) findViewById(R.id.tvTacGia);
@@ -38,5 +41,5 @@ public class review extends AppCompatActivity {
             "\n" +
             "Đoàn Dự, tiểu vương gia nước Đại Lý, là người hiền lành rất ghét võ công. Trong cuộc đời, cậu đã gặp rất nhiều mỹ nhân và hầu như tất cả những người này đều yêu thương cậu. Những người mà cậu luôn theo đuổi thì đã có ý trung nhân. Một ngày kia, cậu phát hiện ra tất cả những cô gái đó đều là em của cậu. Vậy Đoàn thế tử sẽ ra sao?";
 
-    detail truyen = new detail(tenTacGia,tenTruyen,theLoai,soChuong,review);
+    Detail truyen = new Detail(tenTacGia,tenTruyen,theLoai,soChuong,review);
 }

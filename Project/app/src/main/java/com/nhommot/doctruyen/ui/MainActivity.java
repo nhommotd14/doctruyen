@@ -1,4 +1,4 @@
-package com.nhommot.doctruyen;
+package com.nhommot.doctruyen.ui;
 
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
@@ -9,6 +9,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+
+import com.nhommot.doctruyen.R;
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
