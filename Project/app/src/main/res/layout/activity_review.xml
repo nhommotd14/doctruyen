@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context="com.nhommot.doctruyen.ui.ReviewActivity">
+
+    <TextView
+        android:id="@+id/tvTenTruyen"
+        android:layout_width="match_parent"
+        android:layout_height="53dp"
+        android:text="Thiên Long Bát Bộ"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="169dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="left|top"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/truyendemo" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="117dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvTacGia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Tác giả: Kim Dung" />
+
+            <TextView
+                android:id="@+id/tvTheLoai"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Thể loại: Kiếm Hiệp" />
+
+            <TextView
+                android:id="@+id/tvSoChuong"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Số chương: 1000" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Đọc truyện" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Danh sách chương" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Nhận xét" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvReview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:singleLine="false"
+        android:text="Giới thiệu:  Tiêu Phong, Bang chủ Cái Bang, một vị hảo hán đầu đội trời chân đạp đất tính tình hào sảng vô tư. Nhưng một ngày kia, ông khám phá ra thân thế của mình, từ đó bị mọi người trong võ lâm ghét bõ. Thật ra ông là ai?  Hư Trúc, một vị tiểu hòa thượng chùa Thiếu Lâm, tính tình ngay thẳng ngốc nghếch. Trong một lần hạ sơn, anh đã được một vị kì nhân truyền thụ võ nghệ và trở thành một vị Cung chủ được mọi người kính trọng. Hơn thế nữa, anh ta còn cưới được một vị tuyệt sắc giai nhân. Liệu phái Thiếu Lâm sẽ sử trí ra sao với Hư Trúc?  Đoàn Dự, tiểu vương gia nước Đại Lý, là người hiền lành rất ghét võ công. Trong cuộc đời, cậu đã gặp rất nhiều mỹ nhân và hầu như tất cả những người này đều yêu thương cậu. Những người mà cậu luôn theo đuổi thì đã có ý trung nhân. Một ngày kia, cậu phát hiện ra tất cả những cô gái đó đều là em của cậu. Vậy Đoàn thế tử sẽ ra sao?" />
+</LinearLayout>
+
