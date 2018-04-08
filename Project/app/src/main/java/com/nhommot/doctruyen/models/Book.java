@@ -1,31 +1,38 @@
 package com.nhommot.doctruyen.models;
 
+import java.util.List;
+
 /**
  * Created by Huy on 4/8/2018.
  */
 
 public class Book {
-
     private int itemId;
-    private String author;
+    private Author author;
     private String name;
     private String description;
     private String imgPreview;
     private int typeId;
     private int views;
+    private List<Chapter> chapters;
+    private List<Type> types;
+    private List<Rating> ratings;
+    private List<Comment> comments;
 
-    public Book(){
-
+    public List<Rating> getRatings() {
+        return ratings;
     }
 
-    public Book(int itemId, String author, String name, String description, String imgPreview, int typeId, int views) {
-        this.itemId = itemId;
-        this.author = author;
-        this.name = name;
-        this.description = description;
-        this.imgPreview = imgPreview;
-        this.typeId = typeId;
-        this.views = views;
+    public void setRatings(List<Rating> ratings) {
+        this.ratings = ratings;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 
     public int getItemId() {
@@ -36,11 +43,11 @@ public class Book {
         this.itemId = itemId;
     }
 
-    public String getAuthor() {
+    public Author getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(Author author) {
         this.author = author;
     }
 
@@ -84,5 +91,19 @@ public class Book {
         this.views = views;
     }
 
+    public List<Chapter> getChapters() {
+        return chapters;
+    }
 
+    public void setChapters(List<Chapter> chapters) {
+        this.chapters = chapters;
+    }
+
+    public List<Type> getTypes() {
+        return types;
+    }
+
+    public void setTypes(List<Type> types) {
+        this.types = types;
+    }
 }
