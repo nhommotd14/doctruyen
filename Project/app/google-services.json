@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "142402462129",
+    "firebase_url": "https://doctruyen-697d3.firebaseio.com",
+    "project_id": "doctruyen-697d3",
+    "storage_bucket": "doctruyen-697d3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:142402462129:android:0d672f92deeb1176",
+        "android_client_info": {
+          "package_name": "com.nhommot.doctruyen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "142402462129-rhdrk8k7mvd7c398l646r34187m09se8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKupaxRyDCgj64VdlKmZ9O-1_JYsZmF4w"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
