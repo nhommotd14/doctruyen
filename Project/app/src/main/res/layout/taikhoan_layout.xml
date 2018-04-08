@@ -101,14 +101,14 @@
                     app:srcCompat="@drawable/book1" />
 
                 <TextView
-                    android:id="@+id/tvTruyenDaDang"
+                    android:id="@+id/tvTruyenDaDoc"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@android:color/background_light"
                     android:paddingLeft="10dp"
                     android:paddingTop="10dp"
-                    android:text="Truyện đã đăng "
+                    android:text="Truyện đã đọc"
                     android:textColor="@android:color/black" />
             </LinearLayout>
 
