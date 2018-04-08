@@ -6,15 +6,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.nhommot.doctruyen.R;
-import com.nhommot.doctruyen.models.Item;
 
 public class MainActivity extends AppCompatActivity {
     private final String TAG = "MainActivity";
@@ -32,16 +28,6 @@ public class MainActivity extends AppCompatActivity {
         }
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
         mDrawerLayout = findViewById(R.id.drawer_layout);
-
-        test();
-    }
-
-    public void test(){
-        Log.d(TAG, "test: ");
-        Item item1 = new Item();
-        item1.setName("Batman1");
-        DatabaseReference mData = FirebaseDatabase.getInstance().getReference();
-        mData.child("Item").push().setValue(item1);
     }
 
     @Override

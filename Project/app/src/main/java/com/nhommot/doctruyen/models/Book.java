@@ -4,7 +4,7 @@ package com.nhommot.doctruyen.models;
  * Created by Huy on 4/8/2018.
  */
 
-public class Item {
+public class Book {
 
     private int itemId;
     private String author;
@@ -14,11 +14,11 @@ public class Item {
     private int typeId;
     private int views;
 
-    public Item(){
+    public Book(){
 
     }
 
-    public Item(int itemId, String author, String name, String description, String imgPreview, int typeId, int views) {
+    public Book(int itemId, String author, String name, String description, String imgPreview, int typeId, int views) {
         this.itemId = itemId;
         this.author = author;
         this.name = name;
