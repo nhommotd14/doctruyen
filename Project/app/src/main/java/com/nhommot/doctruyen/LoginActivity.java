@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.nhommot.doctruyen.R;
+
 public class LoginActivity extends AppCompatActivity {
     Button btn_login;
     @Override
