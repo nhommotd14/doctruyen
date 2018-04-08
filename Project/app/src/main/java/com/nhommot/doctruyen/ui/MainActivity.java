@@ -16,15 +16,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.nhommot.doctruyen.R;
 import com.nhommot.doctruyen.models.Item;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class MainActivity extends AppCompatActivity {
     private final String TAG = "MainActivity";
     private DrawerLayout mDrawerLayout;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
