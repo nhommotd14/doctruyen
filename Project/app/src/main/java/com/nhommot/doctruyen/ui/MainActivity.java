@@ -13,8 +13,8 @@ import android.view.MenuItem;
 import com.nhommot.doctruyen.R;
 
 public class MainActivity extends AppCompatActivity {
+    private final String TAG = "MainActivity";
     private DrawerLayout mDrawerLayout;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
