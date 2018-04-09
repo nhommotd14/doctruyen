@@ -2,16 +2,24 @@ package com.nhommot.doctruyen.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.nhommot.doctruyen.R;
+import com.nhommot.doctruyen.database.ChapterManager;
+import com.nhommot.doctruyen.database.DatabaseHelper;
+import com.nhommot.doctruyen.models.Chapter;
+import com.nhommot.doctruyen.utils.JsonUtils;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ChaptersActivity extends AppCompatActivity {
     private ArrayList<String> data = new ArrayList<>();
     private ListView lvChapters;
+    private final String TAG = "ChaptetsActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +32,23 @@ public class ChaptersActivity extends AppCompatActivity {
             data.add("Chapter " + i);
         }
         adapter.notifyDataSetChanged();
-
+        test();
+    }
+    public void test(){
+//        Create db for the first time
+        try {
+            DatabaseHelper db = new DatabaseHelper(this);
+            db.createDatabase();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+//        Get chapters
+        ChapterManager mDbHelper = new ChapterManager(this);
+        mDbHelper.open();
+        Log.d(TAG, "test: opened ===================");
+        List<Chapter> chapters = mDbHelper.getAll(0);
+        Log.d(TAG, "test: " + JsonUtils.encode(chapters));
+        mDbHelper.close();
     }
     public void setControl(){
         lvChapters = findViewById(R.id.lvChapters);
