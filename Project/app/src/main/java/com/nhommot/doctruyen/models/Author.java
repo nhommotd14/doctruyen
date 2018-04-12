@@ -7,7 +7,7 @@ import java.util.List;
  */
 
 public class Author {
-    private int authorId;
+    private String authorId;
 
     private List<Book> books;
 
@@ -16,7 +16,7 @@ public class Author {
     public Author() {
     }
 
-    public Author(int authorId, List<Book> books, String name, String desciption) {
+    public Author(String authorId, List<Book> books, String name, String desciption) {
         this.authorId = authorId;
         this.books = books;
         this.name = name;
@@ -31,11 +31,11 @@ public class Author {
         this.books = books;
     }
 
-    public int getAuthorId() {
+    public String getAuthorId() {
         return authorId;
     }
 
-    public void setAuthorId(int authorId) {
+    public void setAuthorId(String authorId) {
         this.authorId = authorId;
     }
 

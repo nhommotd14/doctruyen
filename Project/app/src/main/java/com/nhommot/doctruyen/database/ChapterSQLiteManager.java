@@ -50,26 +50,27 @@ public class ChapterManager {
     }
 
     public List<Chapter> getAll(int bookId) {
-        String sql = "SELECT * FROM Chapter";
-
-        Cursor mCur = mDb.rawQuery(sql, null);
-        if (mCur != null) {
-            mCur.moveToFirst();
-        }
-        List<Chapter> chapters = new ArrayList<>();
-        if (mCur.getCount() > 0) {
-            Log.d(TAG, "getAll: count ================== " + mCur.getCount());
-            do {
-                Chapter chapter = new Chapter();
-                chapter.setChapterId(mCur.getInt(0));
-                chapter.setBookId(mCur.getInt(1));
-                chapter.setChapterName(mCur.getString(2));
-                chapters.add(chapter);
-                Log.d(TAG, "chapter: " + JsonUtils.encode(chapter));
-            } while (mCur.moveToNext());
-
-        }
-        return chapters;
+//        String sql = "SELECT * FROM Chapter";
+//
+//        Cursor mCur = mDb.rawQuery(sql, null);
+//        if (mCur != null) {
+//            mCur.moveToFirst();
+//        }
+//        List<Chapter> chapters = new ArrayList<>();
+//        if (mCur.getCount() > 0) {
+//            Log.d(TAG, "getAll: count ================== " + mCur.getCount());
+//            do {
+//                Chapter chapter = new Chapter(chapterId, bookId, chapterName);
+//                chapter.setChapterId(mCur.getInt(0));
+//                chapter.setBookId(mCur.getInt(1));
+//                chapter.setChapterName(mCur.getString(2));
+//                chapters.add(chapter);
+//                Log.d(TAG, "chapter: " + JsonUtils.encode(chapter));
+//            } while (mCur.moveToNext());
+//
+//        }
+//        return chapters;
+        return null;
     }
 
 }

@@ -5,32 +5,25 @@ package com.nhommot.doctruyen.models;
  */
 
 public class Rating {
-    private int userId;
-    private int bookId;
+    private String userId;
+    private String bookId;
     private int stars;
+    private String content;
+    private String ratingId;
 
-    public Rating() {
-    }
-
-    public Rating(int userId, int bookId, int stars) {
-        this.userId = userId;
-        this.bookId = bookId;
-        this.stars = stars;
-    }
-
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
-    public int getBookId() {
+    public String getBookId() {
         return bookId;
     }
 
-    public void setBookId(int bookId) {
+    public void setBookId(String bookId) {
         this.bookId = bookId;
     }
 
@@ -40,5 +33,21 @@ public class Rating {
 
     public void setStars(int stars) {
         this.stars = stars;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getRatingId() {
+        return ratingId;
+    }
+
+    public void setRatingId(String ratingId) {
+        this.ratingId = ratingId;
     }
 }

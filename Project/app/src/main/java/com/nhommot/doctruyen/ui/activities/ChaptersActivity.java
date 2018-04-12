@@ -7,8 +7,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.nhommot.doctruyen.R;
-import com.nhommot.doctruyen.database.ChapterManager;
-import com.nhommot.doctruyen.database.DatabaseHelper;
+import com.nhommot.doctruyen.database.ChapterSQLiteManager;
+import com.nhommot.doctruyen.database.DatabaseSQLiteHelper;
 import com.nhommot.doctruyen.models.Chapter;
 import com.nhommot.doctruyen.utils.JsonUtils;
 
@@ -37,13 +37,13 @@ public class ChaptersActivity extends AppCompatActivity {
     public void test(){
 //        Create db for the first time
         try {
-            DatabaseHelper db = new DatabaseHelper(this);
+            DatabaseSQLiteHelper db = new DatabaseSQLiteHelper(this);
             db.createDatabase();
         } catch (IOException e) {
             e.printStackTrace();
         }
 //        Get chapters
-        ChapterManager mDbHelper = new ChapterManager(this);
+        ChapterSQLiteManager mDbHelper = new ChapterSQLiteManager(this);
         mDbHelper.open();
         Log.d(TAG, "test: opened ===================");
         List<Chapter> chapters = mDbHelper.getAll(0);
