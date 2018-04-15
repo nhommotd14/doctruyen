@@ -1,4 +1,4 @@
-package com.nhommot.doctruyen;
+package com.nhommot.doctruyen.ui.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,7 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class review_fragment extends Fragment {
+import com.nhommot.doctruyen.R;
+
+public class ReviewFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -7,17 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.nhommot.doctruyen.R;
 import com.nhommot.doctruyen.comment_risk;
-import com.nhommot.doctruyen.review_fragment;
+import com.nhommot.doctruyen.ui.fragments.ReviewFragment;
 import com.nhommot.doctruyen.ui.adapters.TabAdapter;
+import com.nhommot.doctruyen.ui.fragments.ChapterFragment;
+import com.nhommot.doctruyen.ui.fragments.ReviewFragment;
 
 public class ReviewActivity extends AppCompatActivity {
-    private String[] tabs = {"Giới thiệu", "Danh sách chương", "Comment"};
     private TabLayout tabLayout;
-    public static int[] resourceId = {
-            R.layout.activity_review_fragment,
-            R.layout.item_chapters,
-            R.layout.activity_comment,
-    };
     private ViewPager viewPager;
 
     @Override
@@ -34,8 +30,10 @@ public class ReviewActivity extends AppCompatActivity {
 
     private void setupViewPage(ViewPager viewPager) {
         TabAdapter adapter = new TabAdapter(getSupportFragmentManager());
-        adapter.addFragment(new review_fragment(), "Review");
+        adapter.addFragment(new ReviewFragment(), "Review");
+        adapter.addFragment(new ChapterFragment(),"Chapter");
         adapter.addFragment(new comment_risk(),"Comment");
+
         viewPager.setAdapter(adapter);
         viewPager.getOffscreenPageLimit();
     }
