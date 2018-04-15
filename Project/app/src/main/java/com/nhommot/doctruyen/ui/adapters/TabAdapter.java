@@ -1,4 +1,4 @@
-package com.nhommot.doctruyen.adapter;
+package com.nhommot.doctruyen.ui.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

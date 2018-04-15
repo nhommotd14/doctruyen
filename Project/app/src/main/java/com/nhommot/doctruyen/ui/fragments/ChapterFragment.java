@@ -31,8 +31,8 @@ public class ChapterFragment extends Fragment {
         Chapter chapter = new Chapter();
         chapter.setBookId("-L9pMk60_ZXDFqNErcI-");
         chapter.setChapterName("Chapter 1: End of the Earth");
-        mAdapter = new ChapterAdapter(this, bookId);
-        listChapters.setAdapter(mAdapter);
+//        mAdapter = new ChapterAdapter(this, bookId);
+//        listChapters.setAdapter(mAdapter);
 
         return rootView;
     }

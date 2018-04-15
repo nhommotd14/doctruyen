@@ -6,9 +6,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.nhommot.doctruyen.R;
-import com.nhommot.doctruyen.adapter.TabAdapter;
 import com.nhommot.doctruyen.comment_risk;
 import com.nhommot.doctruyen.review_fragment;
+import com.nhommot.doctruyen.ui.adapters.TabAdapter;
 
 public class ReviewActivity extends AppCompatActivity {
     private String[] tabs = {"Giới thiệu", "Danh sách chương", "Comment"};

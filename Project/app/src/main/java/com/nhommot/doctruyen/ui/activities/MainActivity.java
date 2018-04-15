@@ -12,8 +12,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.nhommot.doctruyen.R;
-import com.nhommot.doctruyen.database.OnGetDataListener;
-import com.nhommot.doctruyen.ui.adapters.AuthorAdapter;
+//import com.nhommot.doctruyen.database.OnGetDataListener;
+//import com.nhommot.doctruyen.ui.adapters.AuthorAdapter;
 import com.nhommot.doctruyen.ui.adapters.BookAdapter;
 
 public class MainActivity extends AppCompatActivity {
