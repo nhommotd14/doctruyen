@@ -1,9 +1,8 @@
-package com.nhommot.doctruyen.ui;
+package com.nhommot.doctruyen.ui.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
-import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.nhommot.doctruyen.R;

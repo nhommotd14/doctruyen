@@ -6,7 +6,7 @@
     android:background="@color/colorPrimaryDark"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context="com.nhommot.doctruyen.ui.MainActivity">
+    tools:context="com.nhommot.doctruyen.ui.activities.MainActivity">
 
     <TextView
         android:id="@+id/textView2"
