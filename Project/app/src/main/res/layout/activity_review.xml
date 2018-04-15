@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context="com.nhommot.doctruyen.ui.ReviewActivity">
+    tools:context="com.nhommot.doctruyen.ui.activities.ReviewActivity">
 
     <android.support.v7.widget.CardView
         style="@style/MyCardViewStyle"

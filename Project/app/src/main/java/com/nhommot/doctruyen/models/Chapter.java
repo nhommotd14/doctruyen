@@ -12,6 +12,8 @@ public class Chapter {
     private String chapterName;
     private List<Content> contents;
 
+    public Chapter(){};
+
     public Chapter(String chapterId, String bookId, String chapterName) {
         this.chapterId = chapterId;
         this.bookId = bookId;

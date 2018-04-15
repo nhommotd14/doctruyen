@@ -1,4 +1,4 @@
-package com.nhommot.doctruyen.ui;
+package com.nhommot.doctruyen.ui.activities;
 
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
@@ -11,20 +11,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.google.firebase.database.FirebaseDatabase;
 import com.nhommot.doctruyen.R;
-import com.nhommot.doctruyen.database.AuthorFirebaseManager;
-import com.nhommot.doctruyen.database.BookFirebaseManager;
 import com.nhommot.doctruyen.database.OnGetDataListener;
-import com.nhommot.doctruyen.models.Author;
-import com.nhommot.doctruyen.models.Book;
-import com.nhommot.doctruyen.models.Type;
-import com.nhommot.doctruyen.utils.JsonUtils;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.nhommot.doctruyen.ui.adapters.AuthorAdapter;
+import com.nhommot.doctruyen.ui.adapters.BookAdapter;
 
 public class MainActivity extends AppCompatActivity {
     private final String TAG = "MainActivity";
@@ -50,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 //        Author author = new Author();
 //        author.setName("Huy Tran");
 //        author.setDesciption("My name is Huy Tran");
-//        AuthorFirebaseManager authorFirebaseManager = new AuthorFirebaseManager();
+//        AuthorAdapter authorFirebaseManager = new AuthorAdapter();
 
 //        Set data to firebase
 //        author = authorFirebaseManager.addAuthor(author);
@@ -85,9 +75,28 @@ public class MainActivity extends AppCompatActivity {
 //        map1.put("Fiction", true);
 //        map1.put("Incest", true);
 //        book.setTypes(map1);
-        BookFirebaseManager bookFirebaseManager = new BookFirebaseManager();
-//        book = bookFirebaseManager.addBook(book);
-        bookFirebaseManager.getBook("-L9pMvlQUc11i0Jvmpl3");
+        Log.d(TAG, "test: ccccccccccccccccccccccc");
+        BookAdapter bookAdapter = new BookAdapter();
+//        book = bookAdapter.addBook(book);
+        bookAdapter.getBook("-L9pMvlQUc11i0Jvmpl3");
+
+//        AuthorAdapter authorAdapter = new AuthorAdapter();
+//        authorAdapter.getAuthor("ab", new OnGetDataListener() {
+//            @Override
+//            public void onSuccess(Object data) {
+//
+//            }
+//
+//            @Override
+//            public void onStart() {
+//
+//            }
+//
+//            @Override
+//            public void onFailed(Object data) {
+//
+//            }
+//        });
     }
 
     @Override

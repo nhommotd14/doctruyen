@@ -1,7 +1,6 @@
 package com.nhommot.doctruyen.database;
 
 import android.content.Context;
-import android.database.DatabaseErrorHandler;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -17,17 +16,17 @@ import java.io.OutputStream;
  * Created by Huy on 4/9/2018.
  */
 
-public class DatabaseHelper extends SQLiteOpenHelper {
-    private static String TAG = "DatabaseHelper";
+public class DatabaseSQLiteHelper extends SQLiteOpenHelper {
+    private static String TAG = "DatabaseSQLiteHelper";
     private static String DB_PATH = "";
     private static String DB_NAME = "doctruyen.db";
     private SQLiteDatabase mDatabase;
     private final Context mContext;
 
-    private static DatabaseHelper databaseHelper;
+    private static DatabaseSQLiteHelper databaseSQLiteHelper;
 
 
-    public DatabaseHelper(Context context) {
+    public DatabaseSQLiteHelper(Context context) {
         super(context, DB_NAME, null, 1);
         if (android.os.Build.VERSION.SDK_INT >= 17) {
             DB_PATH = context.getApplicationInfo().dataDir + "/databases/";

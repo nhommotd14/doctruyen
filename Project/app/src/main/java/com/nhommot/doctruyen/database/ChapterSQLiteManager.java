@@ -1,39 +1,36 @@
 package com.nhommot.doctruyen.database;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.nhommot.doctruyen.models.Chapter;
-import com.nhommot.doctruyen.utils.JsonUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Huy on 4/9/2018.
  */
 
-public class ChapterManager {
-    private final String TAG = "ChapterManager";
-    private static ChapterManager chapterManager;
+public class ChapterSQLiteManager {
+    private final String TAG = "ChapterSQLiteManager";
+    private static ChapterSQLiteManager chapterSQLiteManager;
 
-    public ChapterManager() {
+    public ChapterSQLiteManager() {
     }
 
     private SQLiteDatabase mDb;
-    private DatabaseHelper mDbHelper;
+    private DatabaseSQLiteHelper mDbHelper;
 
     private Context mContext;
 
-    public ChapterManager(Context context) {
+    public ChapterSQLiteManager(Context context) {
         this.mContext = context;
-        mDbHelper = new DatabaseHelper(mContext);
+        mDbHelper = new DatabaseSQLiteHelper(mContext);
     }
 
-    public ChapterManager open() throws SQLException {
+    public ChapterSQLiteManager open() throws SQLException {
         try {
             mDbHelper.openDatabase();
             mDbHelper.close();
