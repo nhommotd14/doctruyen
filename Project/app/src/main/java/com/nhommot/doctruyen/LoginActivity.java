@@ -1,4 +1,4 @@
-package com.nhommot.doctruyen.ui;
+package com.example.toanld.loginform;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
