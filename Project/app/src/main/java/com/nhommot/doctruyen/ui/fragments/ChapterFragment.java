@@ -44,7 +44,8 @@ public class ChapterFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_chapters, container, false);
 
 //        Get current book id
-        String currentBookId = SharedPrefsUtils.getCurrentBookId(this.getContext());
+//        String currentBookId = SharedPrefsUtils.getCurrentBookId(this.getContext());
+                String currentBookId = "bookRandomStr1";
         if (currentBookId != null){
             result = new ArrayList<>();
             recyclerView = rootView.findViewById(R.id.chapter_recycler_view);
@@ -53,11 +54,8 @@ public class ChapterFragment extends Fragment {
             llm.setOrientation(LinearLayoutManager.VERTICAL);
             recyclerView.setLayoutManager(llm);
             recyclerView.addItemDecoration(new SimpleDividerItemDecoration(this.getContext()));
-            Log.d(TAG, "onCreate: 1=======================");
-            mAdapter = new ChapterAdapter(result);
-            Log.d(TAG, "onCreate: 2=======================");
+            mAdapter = new ChapterAdapter(this.getContext(), result);
             recyclerView.setAdapter(mAdapter);
-            Log.d(TAG, "onCreate: 3=======================");
             FirebaseUtils.getChapterRef().child(currentBookId).addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
