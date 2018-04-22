@@ -34,7 +34,7 @@ public class SharedPrefsUtils {
         return getPrefs(context).getString(CURRENT_BOOK_ID, "");
     }
 
-    public static void setCurrentBook(Context context, String bookId) {
+    public static void setCurrentBookId(Context context, String bookId) {
         getPrefs(context).edit().putString(CURRENT_BOOK_ID, bookId).commit();
     }
 
