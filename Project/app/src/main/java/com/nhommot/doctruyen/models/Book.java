@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class Book {
     private String bookId;
-    private Author author;
+    private String author;
     private String name;
     private String description;
     private String imgPreview;
@@ -28,11 +28,11 @@ public class Book {
         this.bookId = bookId;
     }
 
-    public Author getAuthor() {
+    public String getAuthor() {
         return author;
     }
 
-    public void setAuthor(Author author) {
+    public void setAuthor(String author) {
         this.author = author;
     }
 

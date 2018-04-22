@@ -14,6 +14,24 @@
         <activity
             android:name=".ui.activities.MainActivity"
             android:label="@string/main_activity_name">
+
+
+        </activity>
+        <!--<activity android:name=".ui.ChaptersActivity" />-->
+        <!--<activity android:name=".ui.FavouriteActivity" />-->
+        <!--<activity android:name=".ui.ReviewActivity" />-->
+        <activity android:name=".ui.SettingActivity"/>
+        <activity android:name=".ui.AccountActivity">
+
+
+        </activity>
+        <activity android:name=".ui.activities.ChaptersActivity" />
+        <activity android:name=".ui.activities.LoginActivity" />
+        <activity android:name=".ui.activities.ReadActivity" >
+
+        </activity>
+        <activity android:name=".ui.activities.FavouriteActivity" />
+        <activity android:name=".ui.activities.ReviewActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,8 +52,6 @@
         <activity android:name=".ui.activities.ReadActivity" >
 
         </activity>
-        <activity android:name=".ui.activities.FavouriteActivity" />
-        <activity android:name=".ui.activities.ReviewActivity" />
         <activity android:name=".ui.activities.AdminActivity" />
         <!--<activity android:name=".ui.activities.TestActivity">-->
             <!---->

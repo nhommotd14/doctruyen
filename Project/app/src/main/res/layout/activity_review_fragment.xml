@@ -3,6 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.nhommot.doctruyen.review_fragment">
-
+    android:padding="14px"
+    tools:context="com.nhommot.doctruyen.ui.fragments.ReviewFragment">
+    <TextView
+        android:id="@+id/tvReview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="17sp" />
 </android.support.constraint.ConstraintLayout>

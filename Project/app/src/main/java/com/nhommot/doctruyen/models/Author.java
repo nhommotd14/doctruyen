@@ -1,6 +1,7 @@
 package com.nhommot.doctruyen.models;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Huy on 4/8/2018.
@@ -9,25 +10,25 @@ import java.util.List;
 public class Author {
     private String authorId;
 
-    private List<Book> books;
+    private Map<String,Boolean> books;
 
     private String name;
     private String desciption;
     public Author() {
     }
 
-    public Author(String authorId, List<Book> books, String name, String desciption) {
+    public Author(String authorId, Map<String,Boolean> books, String name, String desciption) {
         this.authorId = authorId;
         this.books = books;
         this.name = name;
         this.desciption = desciption;
     }
 
-    public List<Book> getBooks() {
+    public Map<String, Boolean> getBooks() {
         return books;
     }
 
-    public void setBooks(List<Book> books) {
+    public void setBooks(Map<String, Boolean> books) {
         this.books = books;
     }
 

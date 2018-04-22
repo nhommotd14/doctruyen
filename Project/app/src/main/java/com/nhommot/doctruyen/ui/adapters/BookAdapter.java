@@ -26,13 +26,13 @@ public class BookAdapter {
         bookRef = FirebaseDatabase.getInstance().getReference(BOOK_REF);
     }
 
-    public Book addBook(Book book){
-        DatabaseReference authorOfBookRef = bookRef.child(book.getAuthor().getAuthorId());
-        String bookID = authorOfBookRef.push().getKey();
-        book.setBookId(bookID);
-        authorOfBookRef.child(bookID).setValue(book);
-        return book;
-    }
+//    public Book addBook(Book book){
+//        DatabaseReference authorOfBookRef = bookRef.child(book.getAuthor().getAuthorId());
+//        String bookID = authorOfBookRef.push().getKey();
+//        book.setBookId(bookID);
+//        authorOfBookRef.child(bookID).setValue(book);
+//        return book;
+//    }
 
     public void getBook(final String bookId) {
         Log.d(TAG, "getBook: bookId " + bookId);
