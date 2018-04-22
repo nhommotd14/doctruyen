@@ -23,89 +23,44 @@ import com.nhommot.doctruyen.R;
 import com.nhommot.doctruyen.models.Chapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Huy on 4/11/2018.
  */
 
-public class ChapterAdapter extends BaseAdapter {
+public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterViewHolder> {
     private final String TAG = "ChapterAdapter";
-    private final Context mContext;
+    private List<Chapter> chapters;
 
-    private DatabaseReference mChapterRef;
-    private ArrayList<Chapter> mData;
-
-
-    public ChapterAdapter(Context mContext, ArrayList<Chapter> mData) {
-        this.mContext = mContext;
-        this.mData = mData;
-        mChapterRef = FirebaseDatabase.getInstance().getReference(Constants.CHAPTER_PATH);
-    }
-
-    public void addChapter(final Chapter chapter) {
-        Query query = mChapterRef.child(chapter.getBookId()).orderByChild("chapterName").equalTo(chapter.getChapterName());
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d(TAG, "onDataChange: " + dataSnapshot.getKey());
-                if (dataSnapshot.exists()) {
-                    Toast.makeText(mContext, "Da co chapter nay roi", Toast.LENGTH_LONG).show();
-                } else {
-                    String chapterId = mChapterRef.push().getKey();
-                    chapter.setChapterId(chapterId);
-                    mChapterRef.child(chapterId).setValue(chapter);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-    }
-
-
-
-    @Override
-    public int getCount() {
-        return mData.size();
+    public ChapterAdapter(List<Chapter> chapters) {
+        this.chapters = chapters;
     }
 
     @Override
-    public Object getItem(int i) {
-        return null;
+    public ChapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new ChapterViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chapters, parent, false));
     }
 
     @Override
-    public long getItemId(int i) {
-        return 0;
+    public void onBindViewHolder(ChapterViewHolder holder, int position) {
+        Chapter chapter = chapters.get(position);
+        holder.textChaptername.setText(chapter.getChapterName());
+
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        ViewHolder viewHolder;
-        if (view == null) {
-            viewHolder = new ViewHolder();
-            LayoutInflater inflater = LayoutInflater.from(mContext);
-            view = inflater.inflate(R.layout.item_chapters, viewGroup, false);
-            viewHolder.tvTitle = (TextView) view.findViewById(R.id.tvTitle);
-            viewHolder.tvDateTime = (TextView) view.findViewById(R.id.tvDateTime);
-            viewHolder.img = (ImageView) view.findViewById(R.id.img_icon_chapter);
-            view.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) view.getTag();
+    public int getItemCount() {
+        return chapters.size();
+    }
+
+    class ChapterViewHolder extends RecyclerView.ViewHolder {
+        TextView textChaptername;
+
+        public ChapterViewHolder(View itemView) {
+            super(itemView);
+            Log.d(TAG, "ChapterViewHolder: ");
+            textChaptername = itemView.findViewById(R.id.tvChapterName);
         }
-        viewHolder.tvTitle.setText(mData.get(i).getChapterName());
-        return view;
     }
-
-    private static class ViewHolder {
-        private TextView tvTitle;
-        private TextView tvDateTime;
-        private TextView tvCategory;
-        private ImageView img;
-    }
-
-
 }
