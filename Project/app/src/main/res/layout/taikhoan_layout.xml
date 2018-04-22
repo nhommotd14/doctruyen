@@ -30,11 +30,18 @@
             android:textSize="18sp" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_weight="8"
+        android:background="@android:color/background_dark" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="4"
-        android:background="?attr/colorButtonNormal"
+        android:background="@android:color/background_light"
         android:orientation="vertical"
         android:padding="0dp">
 
@@ -59,7 +66,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingLeft="5dp">
 
                 <ImageView
                     android:id="@+id/imgCaiDat"
@@ -76,21 +84,17 @@
                     android:layout_weight="1"
                     android:background="@android:color/background_light"
                     android:paddingLeft="10dp"
-                    android:paddingTop="10dp"
+                    android:paddingTop="12dp"
                     android:text="Cài đặt"
                     android:textColor="@android:color/black" />
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/textView16"
-                android:layout_width="match_parent"
-                android:layout_height="1dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingLeft="5dp">
 
                 <ImageView
                     android:id="@+id/imgDaDang"
@@ -107,21 +111,17 @@
                     android:layout_weight="1"
                     android:background="@android:color/background_light"
                     android:paddingLeft="10dp"
-                    android:paddingTop="10dp"
+                    android:paddingTop="12dp"
                     android:text="Truyện đã đọc"
                     android:textColor="@android:color/black" />
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/textView15"
-                android:layout_width="match_parent"
-                android:layout_height="1dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingLeft="5dp">
 
                 <ImageView
                     android:id="@+id/imgTruyenTheoDoi"
@@ -138,11 +138,18 @@
                     android:layout_weight="1"
                     android:background="@android:color/background_light"
                     android:paddingLeft="10dp"
-                    android:paddingTop="10dp"
+                    android:paddingTop="12dp"
                     android:text="Truyện đã theo dõi"
                     android:textColor="@android:color/black" />
             </LinearLayout>
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_weight="4"
+            android:background="@android:color/background_dark" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -166,7 +173,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingLeft="5dp">
 
                 <ImageView
                     android:id="@+id/imgChinhSach"
@@ -198,7 +206,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingLeft="5dp">
 
                 <ImageView
                     android:id="@+id/imgRate5sao"
@@ -214,23 +223,18 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@android:color/background_light"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="10dp"
+                    android:paddingLeft="12dp"
+                    android:paddingTop="12dp"
                     android:text="Rate 5 sao"
                     android:textColor="@android:color/black" />
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/textView18"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_weight="1" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingLeft="5dp">
 
                 <ImageView
                     android:id="@+id/imgVeChungToi"
@@ -254,6 +258,13 @@
             </LinearLayout>
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/textView18"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_weight="4"
+            android:background="@android:color/background_dark" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -269,7 +280,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingLeft="5dp">
 
                 <ImageView
                     android:id="@+id/imgDangXuat"
@@ -285,7 +297,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@android:color/background_light"
-                    android:paddingLeft="5dp"
+                    android:paddingLeft="10dp"
                     android:paddingTop="12dp"
                     android:text="Đăng xuất"
                     android:textColor="@android:color/black" />

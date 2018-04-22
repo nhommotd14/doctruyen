@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent">
@@ -35,14 +36,14 @@
             android:textColor="@android:color/black" />
 
         <TextView
-            android:id="@+id/tvThemen"
+            android:id="@+id/tvTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="24dp"
             android:text="Bình Thường"
-            android:textColor="@android:color/black"/>
+            android:textColor="@android:color/black" />
     </RelativeLayout>
 
     <View
@@ -100,6 +101,33 @@
             android:layout_marginEnd="24dp"
             android:text="0.00MB"
             android:textColor="@android:color/black"/>
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/view4"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="61dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="14dp"
+            android:text="Độ sáng màn hình"
+            android:textColor="@android:color/black" />
+
+        <SeekBar
+            android:id="@+id/lightBar"
+            android:layout_width="192dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="21dp" />
     </RelativeLayout>
 
 </LinearLayout>
