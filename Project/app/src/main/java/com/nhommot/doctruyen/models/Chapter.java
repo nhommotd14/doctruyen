@@ -1,12 +1,13 @@
 package com.nhommot.doctruyen.models;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Huy on 4/8/2018.
  */
 
-public class Chapter {
+public class Chapter implements Serializable{
     private String chapterId;
     private String bookId;
     private String chapterName;
