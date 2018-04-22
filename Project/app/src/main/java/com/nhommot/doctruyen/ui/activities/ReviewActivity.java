@@ -11,17 +11,20 @@ import android.widget.TextView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nhommot.doctruyen.R;
 import com.nhommot.doctruyen.comment_risk;
 import com.nhommot.doctruyen.models.Author;
 import com.nhommot.doctruyen.models.Book;
-import com.nhommot.doctruyen.ui.fragments.ReviewFragment;
 import com.nhommot.doctruyen.ui.adapters.TabAdapter;
 import com.nhommot.doctruyen.ui.fragments.ChapterFragment;
 import com.nhommot.doctruyen.ui.fragments.ReviewFragment;
+import com.nhommot.doctruyen.utils.FirebaseUtils;
 import com.nhommot.doctruyen.utils.JsonUtils;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 public class ReviewActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
@@ -31,9 +34,8 @@ public class ReviewActivity extends AppCompatActivity {
     private ImageView img;
     private TextView tvTenTruyen;
     private TextView tvTacGia;
-    private TextView tvSoChuong;
     private TextView tvTheLoai;
-    private TextView tvReview;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,15 +47,22 @@ public class ReviewActivity extends AppCompatActivity {
         tvTenTruyen = (TextView) findViewById(R.id.tvTenTruyen);
         tvTacGia = (TextView) findViewById(R.id.tvTacGia);
         tvTheLoai = (TextView) findViewById(R.id.tvTheLoai);
-        mDatabase = FirebaseDatabase.getInstance().getReference("books").child("bookRandomStr1");
-
+        final ImageView img = (ImageView) findViewById(R.id.imgReview);
         ValueEventListener bookListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Book book = dataSnapshot.getValue(Book.class);
                 Log.d(TAG, "onDataChange: " + JsonUtils.encode(book));
                 tvTenTruyen.setText(String.valueOf(book.getName()));
-                FirebaseDatabase.getInstance().getReference("authors").child(book.getAuthor()).addListenerForSingleValueEvent(new ValueEventListener() {
+                String theLoai ="";
+
+                for (Map.Entry<String, Boolean> entry : book.getTypes().entrySet()) {
+                    theLoai += entry.getKey() + " ";
+                }
+                tvTheLoai.setText(theLoai);
+                Picasso.with(ReviewActivity.this).load(book.getImgPreview()).into(img);
+
+                FirebaseUtils.getAuthorRef().child(book.getAuthor()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Author author = dataSnapshot.getValue(Author.class);
@@ -73,7 +82,7 @@ public class ReviewActivity extends AppCompatActivity {
 
             }
         };
-        mDatabase.addValueEventListener(bookListener);
+        FirebaseUtils.getBookRef().child("bookRandomStr1").addValueEventListener(bookListener);
 
 
     }
@@ -81,8 +90,8 @@ public class ReviewActivity extends AppCompatActivity {
     private void setupViewPage(ViewPager viewPager) {
         TabAdapter adapter = new TabAdapter(getSupportFragmentManager());
         adapter.addFragment(new ReviewFragment(), "Review");
-        adapter.addFragment(new ChapterFragment(),"Chapter");
-        adapter.addFragment(new comment_risk(),"Comment");
+        adapter.addFragment(new ChapterFragment(), "Chapter");
+        adapter.addFragment(new comment_risk(), "Comment");
 
         viewPager.setAdapter(adapter);
 //        viewPager.getOffscreenPageLimit();
