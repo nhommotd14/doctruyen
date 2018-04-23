@@ -19,6 +19,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.nhommot.doctruyen.R;
+import com.nhommot.doctruyen.ui.AccountActivity;
+import com.nhommot.doctruyen.ui.SettingActivity;
 import com.nhommot.doctruyen.ui.fragments.FavouriteFragment;
 import com.nhommot.doctruyen.utils.SharedPrefsUtils;
 
@@ -91,7 +93,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Log.d(TAG, "onNavigationItemSelected: nav_manage clicked");
             fragmentClass = FavouriteFragment.class;
 
-        }
+        } else if (id == R.id.nav_setting) {
+            Intent intent = new Intent(MainActivity.this, AccountActivity.class);
+            startActivity(intent);
+
+    }
         try {
             fragment = (Fragment) fragmentClass.newInstance();
         } catch (Exception e) {

@@ -15,6 +15,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nhommot.doctruyen.R;
 import com.nhommot.doctruyen.models.Book;
+import com.nhommot.doctruyen.utils.SharedPrefsUtils;
 
 public class ReviewFragment extends Fragment {
 
@@ -29,7 +30,9 @@ public class ReviewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_review_fragment,null);
         tvReview = (TextView) view.findViewById(R.id.tvReview);
-        mDatabase = FirebaseDatabase.getInstance().getReference("books").child("bookRandomStr1");
+        String bookId = SharedPrefsUtils.getCurrentBookId(this.getContext());
+
+        mDatabase = FirebaseDatabase.getInstance().getReference("books").child(bookId);
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
