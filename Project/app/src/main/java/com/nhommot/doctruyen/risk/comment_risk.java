@@ -1,4 +1,4 @@
-package com.nhommot.doctruyen;
+package com.nhommot.doctruyen.risk;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.nhommot.doctruyen.R;
 
 public class comment_risk extends Fragment {
 

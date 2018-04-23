@@ -1,10 +1,13 @@
 package com.nhommot.doctruyen.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,7 +16,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.nhommot.doctruyen.R;
-import com.nhommot.doctruyen.comment_risk;
+import com.nhommot.doctruyen.risk.comment_risk;
 import com.nhommot.doctruyen.models.Author;
 import com.nhommot.doctruyen.models.Book;
 import com.nhommot.doctruyen.ui.adapters.TabAdapter;
@@ -23,7 +26,6 @@ import com.nhommot.doctruyen.utils.FirebaseUtils;
 import com.nhommot.doctruyen.utils.JsonUtils;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 public class ReviewActivity extends AppCompatActivity {
@@ -35,6 +37,7 @@ public class ReviewActivity extends AppCompatActivity {
     private TextView tvTenTruyen;
     private TextView tvTacGia;
     private TextView tvTheLoai;
+    private Button btnDocTruyen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,8 @@ public class ReviewActivity extends AppCompatActivity {
         tvTenTruyen = (TextView) findViewById(R.id.tvTenTruyen);
         tvTacGia = (TextView) findViewById(R.id.tvTacGia);
         tvTheLoai = (TextView) findViewById(R.id.tvTheLoai);
+        btnDocTruyen = (Button) findViewById(R.id.doctruyen);
+
         final ImageView img = (ImageView) findViewById(R.id.imgReview);
         ValueEventListener bookListener = new ValueEventListener() {
             @Override
@@ -54,7 +59,7 @@ public class ReviewActivity extends AppCompatActivity {
                 Book book = dataSnapshot.getValue(Book.class);
                 Log.d(TAG, "onDataChange: " + JsonUtils.encode(book));
                 tvTenTruyen.setText(String.valueOf(book.getName()));
-                String theLoai ="";
+                String theLoai = "";
 
                 for (Map.Entry<String, Boolean> entry : book.getTypes().entrySet()) {
                     theLoai += entry.getKey() + " ";
@@ -87,6 +92,11 @@ public class ReviewActivity extends AppCompatActivity {
 
     }
 
+    public void onClickDocTruyen(View v) {
+        Intent intent = new Intent(ReviewActivity.this, ReadActivity.class);
+        startActivity(intent);
+    }
+
     private void setupViewPage(ViewPager viewPager) {
         TabAdapter adapter = new TabAdapter(getSupportFragmentManager());
         adapter.addFragment(new ReviewFragment(), "Review");
@@ -94,7 +104,6 @@ public class ReviewActivity extends AppCompatActivity {
         adapter.addFragment(new comment_risk(), "Comment");
 
         viewPager.setAdapter(adapter);
-//        viewPager.getOffscreenPageLimit();
     }
 }
 
