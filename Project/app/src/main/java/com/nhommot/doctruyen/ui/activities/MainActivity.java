@@ -20,7 +20,7 @@ import android.view.MenuItem;
 
 import com.nhommot.doctruyen.R;
 import com.nhommot.doctruyen.ui.fragments.FavouriteFragment;
-import com.nhommot.doctruyen.utils.SharedPrefsUtils;
+import com.nhommot.doctruyen.ui.fragments.MainFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private final String TAG = "MainActivity";
@@ -39,19 +39,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         handleIntent(getIntent());
         ActionBar actionbar = getSupportActionBar();
+        if (actionbar != null) {
+            actionbar.setDisplayHomeAsUpEnabled(true);
+        }
+        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+//        Test
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, new MainFragment()).commit();
+
 
     }
 
@@ -81,13 +90,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_home) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+            fragmentClass = MainFragment.class;
+        } else if (id == R.id.nav_history) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_download) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_favourite) {
             Log.d(TAG, "onNavigationItemSelected: nav_manage clicked");
             fragmentClass = FavouriteFragment.class;
 

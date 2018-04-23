@@ -16,6 +16,7 @@ public class FirebaseUtils {
     public static final String RATING_PATH = "ratings";
     public static final String TYPE_PATH = "types";
     public static final String FAVOURITE_PATH = "favourites";
+    public static final String LATEST_PATH = "latest";
 
     public static DatabaseReference getBaseRef() {
         return FirebaseDatabase.getInstance().getReference();
@@ -43,6 +44,9 @@ public class FirebaseUtils {
     }
     public static DatabaseReference getFavouriteRef(){
         return getBaseRef().child(FAVOURITE_PATH);
+    }
+    public static DatabaseReference getLatestRef(){
+        return getBaseRef().child(LATEST_PATH);
     }
 
 }
