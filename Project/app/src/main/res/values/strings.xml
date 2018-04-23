@@ -2,6 +2,9 @@
     <string name="app_name" translatable="false">Doc Truyen</string>
     <string name="comment" translatable="false">COMMENT</string>
 
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
     //TVQuang
     <string name="main_activity_name" translatable="false">Trang chủ</string>
     <string name="search">Search</string>
