@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.nhommot.doctruyen">
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"></uses-permission>
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -21,20 +22,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.SettingActivity"/>
-        <activity android:name=".ui.AccountActivity">
-        </activity>
+        <activity android:name=".ui.SettingActivity" />
+        <activity android:name=".ui.AccountActivity"></activity>
         <activity android:name=".ui.activities.ChaptersActivity" />
         <activity android:name=".ui.activities.LoginActivity" />
-        <activity android:name=".ui.activities.ReadActivity" >
-
-        </activity>
+        <activity android:name=".ui.activities.ReadActivity"></activity>
         <activity android:name=".ui.activities.FavouriteActivity" />
-        <activity android:name=".ui.activities.ReviewActivity">
-
-
-        </activity>
+        <activity android:name=".ui.activities.ReviewActivity"></activity>
         <activity android:name=".ui.activities.AdminActivity" />
+        <activity android:name=".Register"></activity>
     </application>
 
 </manifest>
