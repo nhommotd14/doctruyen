@@ -23,9 +23,9 @@ public class LoginActivity extends AppCompatActivity {
     Button btnLogin, btnRegister;
     EditText edtEmail, edtPassword;
     ImageView imgView;
-    public static String uIdAccount="4mPxG86sC0OuSalGRDeR3XBU3Uh2";
+    //public static String uIdAccount="4mPxG86sC0OuSalGRDeR3XBU3Uh2";
 
-    FirebaseAuth mAuthencation;
+    public static FirebaseAuth mAuthencation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +69,8 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(LoginActivity.this, "Đăng nhập thành công !", Toast.LENGTH_SHORT).show();
+                            Intent intent  = new Intent(LoginActivity.this,MainActivity.class);
+                            startActivity(intent);
                         } else {
                             Toast.makeText(LoginActivity.this, "Tài khoản hoặc mật khẩu không đúng, vui lòng nhập lại", Toast.LENGTH_SHORT).show();
                         }

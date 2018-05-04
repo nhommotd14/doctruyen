@@ -24,9 +24,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,6 +46,7 @@ import com.google.firebase.storage.UploadTask;
 import com.nhommot.doctruyen.R;
 import com.nhommot.doctruyen.models.ImageAccount;
 import com.nhommot.doctruyen.models.User;
+import com.nhommot.doctruyen.ui.activities.LoginActivity;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -50,18 +56,19 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.nhommot.doctruyen.ui.activities.LoginActivity.uIdAccount;
+import static com.nhommot.doctruyen.ui.activities.LoginActivity.mAuthencation;
+//import static com.nhommot.doctruyen.ui.activities.LoginActivity.uIdAccount;
 
 public class AccountActivity extends AppCompatActivity {
     TextView tvCaiDat, tvCapNhat,tvTenTaiKhoan,tvHoTen;
-    RelativeLayout layoutCaiDat,layoutChinhSach,layoutAbout,layoutDangXuat,layoutTaiKhoan;
+    RelativeLayout layoutCaiDat,layoutChinhSach,layoutAbout,layoutDangXuat,layoutTaiKhoan,layoutDoiMatKhau;
     CircleImageView imgTaiKhoan;
     private android.support.design.widget.FloatingActionButton floatingActionButton;
     private static final int PICK_IMAGE_REQUEST = 1;
     private Uri mImageUri;
     private StorageReference mStorageRef;
     private DatabaseReference root;
-
+    private String uIdAccount;
     private StorageTask mUploadTask;
     private List<ImageAccount> imageAccounts;
 
@@ -70,18 +77,35 @@ public class AccountActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.taikhoan_layout);
+        System.out.println(uIdAccount);
+        if (mAuthencation!=null){
+            uIdAccount=mAuthencation.getCurrentUser().getUid();
         addControls();
+        Toast.makeText(AccountActivity.this,uIdAccount,Toast.LENGTH_SHORT).show();
         addEvents();
+        }
+        else {
+            layoutCaiDat = findViewById(R.id.layoutCaiDat);
+            layoutAbout = findViewById(R.id.layoutAbout);
+            layoutCaiDat.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(AccountActivity.this, SettingActivity.class);
+                    startActivity(intent);
+                }
+            });
+            layoutAbout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ShowAlertDialogAbout();
+                }
+            });
+        }
+
     }
 
     private void addEvents() {
-        layoutCaiDat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(AccountActivity.this, SettingActivity.class);
-                startActivity(intent);
-            }
-        });
+
         imgTaiKhoan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,12 +120,7 @@ public class AccountActivity extends AppCompatActivity {
             }
         });
 
-        layoutAbout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ShowAlertDialogAbout();
-            }
-        });
+
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -109,6 +128,38 @@ public class AccountActivity extends AppCompatActivity {
             }
         });
 
+        layoutDoiMatKhau.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadDialogDoiMK();
+            }
+        });
+        layoutDangXuat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAuthencation.signOut();
+                mAuthencation=null;
+                finish();
+            }
+        });
+    }
+
+    private void loadDialogDoiMK() {
+        final Dialog dialog = new Dialog(AccountActivity.this);
+        dialog.setTitle("Đổi mật khẩu");
+        dialog.setContentView(R.layout.dialog_doimatkhau);
+        final EditText edOldPassword = dialog.findViewById(R.id.edOldPassword);
+        final EditText edNewPassword = dialog.findViewById(R.id.edNewPassword);
+        Button btnDoiPass = dialog.findViewById(R.id.btnDoiPass);
+        Button btnThoatDoiPass = dialog.findViewById(R.id.btnThoatDoiPass);
+        mAuthencation.getCurrentUser().updatePassword("654321").addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(AccountActivity.this,"User password updated.",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     @Override
@@ -232,7 +283,7 @@ public class AccountActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
-                        String imageUrl = dataSnapshot.getValue(User.class).getImgURL();
+                         String imageUrl = dataSnapshot.getValue(User.class).getImgURL();
                         String userName = dataSnapshot.getValue(User.class).getUsername();
                         String firstName = dataSnapshot.getValue(User.class).getFirstName();
                         String lastName = dataSnapshot.getValue(User.class).getLastName();
@@ -273,6 +324,7 @@ public class AccountActivity extends AppCompatActivity {
         layoutChinhSach = findViewById(R.id.layoutChinhSach);
         layoutDangXuat = findViewById(R.id.layoutLogout);
         layoutCaiDat = findViewById(R.id.layoutCaiDat);
+        layoutDoiMatKhau = findViewById(R.id.layoutDoiMatKhau);
         layoutTaiKhoan = findViewById(R.id.layoutTaiKhoan);
         floatingActionButton = findViewById(R.id.fab);
         mStorageRef = FirebaseStorage.getInstance().getReference("ImageAccount");
