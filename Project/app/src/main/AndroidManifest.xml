@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.nhommot.doctruyen">
 
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <!--<uses-permission android:name="android.permission.WRITE_SETTINGS" />-->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -18,19 +18,19 @@
             android:label="@string/main_activity_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".ui.SettingActivity" />
-        <activity android:name=".ui.AccountActivity"></activity>
+        <activity android:name=".ui.AccountActivity" />
         <activity android:name=".ui.activities.ChaptersActivity" />
         <activity android:name=".ui.activities.LoginActivity" />
-        <activity android:name=".ui.activities.ReadActivity"></activity>
+        <activity android:name=".ui.activities.ReadActivity" />
         <activity android:name=".ui.activities.FavouriteActivity" />
-        <activity android:name=".ui.activities.ReviewActivity"></activity>
+        <activity android:name=".ui.activities.ReviewActivity" />
         <activity android:name=".ui.activities.AdminActivity" />
-        <activity android:name=".Register"></activity>
+        <activity android:name=".Register" />
     </application>
 
 </manifest>
