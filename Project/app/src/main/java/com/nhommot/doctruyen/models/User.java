@@ -5,13 +5,15 @@ package com.nhommot.doctruyen.models;
  */
 
 public class User {
-    public String userName;
+    public String firstName;
+    public String lastName;
     public Integer age;
     public String  sex;
     public String URLImage;
 
-    public User(String userName, Integer age, String sex, String URLImage) {
-        this.userName = userName;
+    public User(String firstName, String lastName, Integer age, String sex, String URLImage) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.age = age;
         this.sex = sex;
         this.URLImage = URLImage;
