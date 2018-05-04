@@ -23,7 +23,7 @@ import com.nhommot.doctruyen.models.User;
 public class RegisterActivity extends AppCompatActivity {
     public String uid;
     Button btnDangKy;
-    EditText edtEmail, edtPassword, edtName, edtImage, edtAge;
+    EditText edtEmail, edtPassword, edtFirstName, edtLastName, edtAge;
     RadioButton radionButton;
     RadioGroup radioGroup;
 
@@ -45,7 +45,7 @@ public class RegisterActivity extends AppCompatActivity {
         btnDangKy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String flg = checkValidate(edtEmail.getText().toString(), edtPassword.getText().toString(), edtName.getText().toString(), edtAge.getText().toString());
+                String flg = checkValidate(edtFirstName.getText().toString(), edtLastName.getText().toString(),edtEmail.getText().toString(), edtPassword.getText().toString(), edtAge.getText().toString());
                 if (flg.equals("")) {
                     DangKy();
                 } else {
@@ -58,8 +58,9 @@ public class RegisterActivity extends AppCompatActivity {
     private void DangKy() {
         String email = edtEmail.getText().toString();
         String pass = edtPassword.getText().toString();
-        final String username = edtName.getText().toString();
-        final String image = edtImage.getText().toString();
+        final String firstName = edtFirstName.getText().toString();
+        final String lastName = edtLastName.getText().toString();
+        final String image = "https://firebasestorage.googleapis.com/v0/b/doctruyen-697d3.appspot.com/o/ImageAccount%2Faccount2.png?alt=media&token=cd8d5ce8-f18b-48fb-b1e3-5821799d7aa4";
         final int age = Integer.parseInt(edtAge.getText().toString());
         final String sex = radionButton.getText().toString();
 
@@ -73,7 +74,7 @@ public class RegisterActivity extends AppCompatActivity {
                             if (user != null) {
                                 uid = user.getUid();
                             }
-                            User data = new User(username, age, sex, image);
+                            User data = new User(firstName, lastName, age, sex, image);
                             mData.child("User").child(uid).setValue(data);
                             Toast.makeText(RegisterActivity.this, "Đăng Ký Thành Công !", Toast.LENGTH_SHORT).show();
                         } else {
@@ -87,17 +88,20 @@ public class RegisterActivity extends AppCompatActivity {
         btnDangKy = (Button) findViewById(R.id.buttonDangKy);
         edtEmail = (EditText) findViewById(R.id.editTextEmail);
         edtPassword = (EditText) findViewById(R.id.editTextPassword);
-        edtName = (EditText) findViewById(R.id.editTextName);
-        edtImage = (EditText) findViewById(R.id.editTextImage);
+        edtFirstName = (EditText) findViewById(R.id.editFirstName);
+        edtLastName = (EditText) findViewById(R.id.editLastName);
         edtAge = (EditText) findViewById(R.id.editTextAge);
         radioGroup = (RadioGroup) findViewById(R.id.radioSex);
         int selectedId = radioGroup.getCheckedRadioButtonId();
         radionButton = (RadioButton) findViewById(selectedId);
     }
 
-    private String checkValidate(String email, String pass, String name, String age) {
-        if (name.equals("")) {
-            return "Vui lòng nhập tên !";
+    private String checkValidate(String fistName, String lastName, String email, String pass,  String age) {
+        if (fistName.equals("")) {
+            return "Vui lòng nhập Tên !";
+        }
+        if (lastName.equals("")) {
+            return "Vui lòng nhập Họ !";
         }
         if (email.equals("")) {
             return "Vui lòng nhập email !";

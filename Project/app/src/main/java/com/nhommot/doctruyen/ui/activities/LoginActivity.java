@@ -37,12 +37,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String flag = checkValidate(edtEmail.getText().toString(), edtPassword.getText().toString());
-                if(flag.equals(""))
-                {
+                if (flag.equals("")) {
                     DangNhap();
-                }
-                else
-                {
+                } else {
                     Toast.makeText(LoginActivity.this, flag, Toast.LENGTH_SHORT).show();
                 }
             }
@@ -65,7 +62,8 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(LoginActivity.this, "Đăng nhập thành công !", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
                         } else {
                             Toast.makeText(LoginActivity.this, "Tài khoản hoặc mật khẩu không đúng, vui lòng nhập lại", Toast.LENGTH_SHORT).show();
                         }
