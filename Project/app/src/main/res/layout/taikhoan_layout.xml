@@ -3,16 +3,37 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="#EEEEEE"
     android:orientation="vertical"
-    android:padding="3dp">
+>
 
+    <android.support.v7.widget.CardView
+        style="@style/MyCardViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:gravity="center"
+        android:orientation="vertical"
+        >
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="103dp"
+        android:layout_height="108dp"
         android:layout_weight="8"
+        android:background="#2962FF"
         android:weightSum="10">
 
-        <ImageView
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:clickable="true"
+            android:layout_margin="10dp"
+            app:srcCompat="@drawable/update_white_36x36" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imgTaiKhoan"
             android:layout_width="100dp"
             android:layout_height="83dp"
@@ -20,17 +41,38 @@
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/account2" />
 
-        <TextView
-            android:layout_width="206dp"
-            android:layout_height="35dp"
+        <RelativeLayout
+            android:id="@+id/layoutTaiKhoan"
+            android:layout_width="261dp"
+            android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginEnd="33dp"
-            android:layout_weight="1"
-            android:text="Tên Tài Khoản"
-            android:textAlignment="textStart"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            android:layout_alignParentTop="true">
+
+            <TextView
+                android:id="@+id/tvHoTen"
+                android:layout_width="160dp"
+                android:layout_height="29dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignStart="@+id/tvTenTaiKhoan"
+                android:layout_marginTop="12dp"
+                android:text="Họ Tên"
+                android:textAlignment="textStart"
+                android:textColor="@android:color/background_dark" />
+
+            <TextView
+                android:id="@+id/tvTenTaiKhoan"
+                android:layout_width="161dp"
+                android:layout_height="35dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginBottom="15dp"
+                android:layout_marginStart="44dp"
+                android:layout_weight="1"
+                android:text="Tên Tài Khoản"
+                android:textAlignment="textStart"
+                android:textColor="@android:color/black"
+                android:textSize="14sp" />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/tvCapNhat"
@@ -39,23 +81,18 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
             android:layout_marginStart="21dp"
-            android:text="Cập Nhật"
+            android:text="Tải ảnh lên"
             android:textColor="@android:color/background_dark"
             android:textStyle="italic" />
     </RelativeLayout>
-
-    <TextView
-        android:id="@+id/textView16"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_weight="8"
-        android:background="@android:color/background_dark" />
+    </android.support.v7.widget.CardView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="8dp"
         android:layout_weight="4"
-        android:background="@android:color/background_light"
+        android:background="#F5F5F5"
         android:orientation="vertical"
         android:padding="0dp">
 
@@ -76,43 +113,74 @@
                 android:textAllCaps="true"
                 android:textColor="@android:color/black" />
 
-            <LinearLayout
+            <android.support.v7.widget.CardView
+                style="@style/MyCardViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="1dp"
+                android:clipToPadding="false"
+                android:gravity="center"
+                android:orientation="vertical"
+                >
+            <RelativeLayout
+                android:id="@+id/layoutCaiDat"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="8dp"
                 android:layout_weight="1"
+                android:background="@android:color/background_light"
                 android:orientation="horizontal"
                 android:paddingLeft="5dp">
 
                 <ImageView
                     android:id="@+id/imgCaiDat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_width="26dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
                     android:layout_weight="1"
                     android:background="@android:color/background_light"
-                    app:srcCompat="@drawable/setting" />
+                    app:srcCompat="@drawable/ic_settings_black_48dp" />
 
                 <TextView
                     android:id="@+id/tvCaiDat"
-                    android:layout_width="match_parent"
+                    android:layout_width="74dp"
                     android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="50dp"
                     android:layout_weight="1"
                     android:background="@android:color/background_light"
                     android:paddingLeft="10dp"
-                    android:paddingTop="12dp"
+                    android:paddingTop="15dp"
                     android:text="Cài đặt"
+                    android:textAlignment="viewStart"
                     android:textColor="@android:color/black" />
-            </LinearLayout>
+            </RelativeLayout>
+            </android.support.v7.widget.CardView>
 
-            <LinearLayout
+            <android.support.v7.widget.CardView
+                style="@style/MyCardViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="1dp"
+                android:clipToPadding="false"
+                android:gravity="center"
+                android:orientation="vertical"
+                >
+            <RelativeLayout
+                android:id="@+id/layoutTruyenDaDoc"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="8dp"
                 android:layout_weight="1"
+                android:background="@android:color/background_light"
                 android:orientation="horizontal"
                 android:paddingLeft="5dp">
 
                 <ImageView
                     android:id="@+id/imgDaDang"
-                    android:layout_width="wrap_content"
+                    android:layout_width="24dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@android:color/background_light"
@@ -120,50 +188,21 @@
 
                 <TextView
                     android:id="@+id/tvTruyenDaDoc"
-                    android:layout_width="match_parent"
+                    android:layout_width="157dp"
                     android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="50dp"
                     android:layout_weight="1"
                     android:background="@android:color/background_light"
                     android:paddingLeft="10dp"
-                    android:paddingTop="12dp"
+                    android:paddingTop="15dp"
                     android:text="Truyện đã đọc"
                     android:textColor="@android:color/black" />
-            </LinearLayout>
+            </RelativeLayout>
+            </android.support.v7.widget.CardView>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:paddingLeft="5dp">
-
-                <ImageView
-                    android:id="@+id/imgTruyenTheoDoi"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@android:color/background_light"
-                    app:srcCompat="@drawable/book2" />
-
-                <TextView
-                    android:id="@+id/tvTruyenTheoDoi"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@android:color/background_light"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="12dp"
-                    android:text="Truyện đã theo dõi"
-                    android:textColor="@android:color/black" />
-            </LinearLayout>
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/textView15"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_weight="4"
-            android:background="@android:color/background_dark" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -183,101 +222,93 @@
                 android:textAllCaps="true"
                 android:textColor="@android:color/black" />
 
-            <LinearLayout
+            <android.support.v7.widget.CardView
+                style="@style/MyCardViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="1dp"
+                android:clipToPadding="false"
+                android:gravity="center"
+                android:orientation="vertical"
+                >
+            <RelativeLayout
+                android:id="@+id/layoutChinhSach"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="8dp"
                 android:layout_weight="1"
+                android:background="@android:color/background_light"
                 android:orientation="horizontal"
                 android:paddingLeft="5dp">
 
                 <ImageView
                     android:id="@+id/imgChinhSach"
-                    android:layout_width="wrap_content"
-                    android:layout_height="42dp"
+                    android:layout_width="25dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@android:color/background_light"
-                    app:srcCompat="@drawable/chinhsach" />
+                    app:srcCompat="@drawable/ic_assignment_black_48dp" />
 
                 <TextView
                     android:id="@+id/tvChinhSach"
-                    android:layout_width="match_parent"
+                    android:layout_width="219dp"
                     android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="50dp"
                     android:layout_weight="1"
                     android:background="@android:color/background_light"
                     android:paddingLeft="10dp"
-                    android:paddingTop="10dp"
+                    android:paddingTop="15dp"
                     android:text="Chính sách"
                     android:textColor="@android:color/black" />
-            </LinearLayout>
+            </RelativeLayout>
+            </android.support.v7.widget.CardView>
 
-            <TextView
-                android:id="@+id/textView17"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_weight="1" />
-
-            <LinearLayout
+            <android.support.v7.widget.CardView
+                style="@style/MyCardViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:paddingLeft="5dp">
-
-                <ImageView
-                    android:id="@+id/imgRate5sao"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@android:color/background_light"
-                    app:srcCompat="@drawable/rate" />
-
-                <TextView
-                    android:id="@+id/tvRate"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@android:color/background_light"
-                    android:paddingLeft="12dp"
-                    android:paddingTop="12dp"
-                    android:text="Rate 5 sao"
-                    android:textColor="@android:color/black" />
-            </LinearLayout>
-
-            <LinearLayout
+                android:layout_margin="1dp"
+                android:clipToPadding="false"
+                android:gravity="center"
+                android:orientation="vertical"
+                >
+            <RelativeLayout
+                android:id="@+id/layoutAbout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="52dp"
+                android:layout_marginTop="8dp"
                 android:layout_weight="1"
+                android:background="@android:color/background_light"
                 android:orientation="horizontal"
                 android:paddingLeft="5dp">
 
                 <ImageView
                     android:id="@+id/imgVeChungToi"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@android:color/background_light"
-                    app:srcCompat="@drawable/people" />
-
-                <TextView
-                    android:id="@+id/tvVeChungToi"
-                    android:layout_width="match_parent"
+                    android:layout_width="25dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@android:color/background_light"
+                    app:srcCompat="@drawable/ic_developer_board_black_48dp" />
+
+                <TextView
+                    android:id="@+id/tvVeChungToi"
+                    android:layout_width="220dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="50dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/background_light"
                     android:paddingLeft="10dp"
-                    android:paddingTop="10dp"
+                    android:paddingTop="15dp"
                     android:text="Về chúng tôi"
                     android:textColor="@android:color/black" />
 
-            </LinearLayout>
+            </RelativeLayout>
+            </android.support.v7.widget.CardView>
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/textView18"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_weight="4"
-            android:background="@android:color/background_dark" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -291,31 +322,48 @@
                 android:layout_height="34dp"
                 android:paddingTop="7dp" />
 
-            <LinearLayout
+            <android.support.v7.widget.CardView
+                style="@style/MyCardViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="1dp"
+                android:clipToPadding="false"
+                android:gravity="center"
+                android:orientation="vertical"
+                >
+            <RelativeLayout
+                android:id="@+id/layoutLogout"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="8dp"
+                android:background="@android:color/background_light"
                 android:orientation="horizontal"
                 android:paddingLeft="5dp">
 
                 <ImageView
                     android:id="@+id/imgDangXuat"
-                    android:layout_width="wrap_content"
+                    android:layout_width="24dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@android:color/background_light"
-                    app:srcCompat="@drawable/logout" />
+                    app:srcCompat="@drawable/ic_exit_to_app_black_48dp" />
 
                 <TextView
                     android:id="@+id/tvDangXuat"
-                    android:layout_width="match_parent"
+
+                    android:layout_width="218dp"
                     android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="51dp"
                     android:layout_weight="1"
                     android:background="@android:color/background_light"
                     android:paddingLeft="10dp"
-                    android:paddingTop="12dp"
+                    android:paddingTop="15dp"
                     android:text="Đăng xuất"
                     android:textColor="@android:color/black" />
-            </LinearLayout>
+            </RelativeLayout>
+            </android.support.v7.widget.CardView>
         </LinearLayout>
 
     </LinearLayout>

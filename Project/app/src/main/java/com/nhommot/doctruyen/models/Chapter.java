@@ -1,48 +1,39 @@
 package com.nhommot.doctruyen.models;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Huy on 4/8/2018.
  */
 
-public class Chapter {
-    private int chapterId;
-    private int bookId;
+public class Chapter implements Serializable{
+    private String chapterId;
+    private String bookId;
     private String chapterName;
     private List<Content> contents;
 
-    public Chapter(int chapterId, int bookId, List<Content> contents, String chapterName) {
+    public Chapter(){};
+
+    public Chapter(String chapterId, String bookId, String chapterName) {
         this.chapterId = chapterId;
         this.bookId = bookId;
-        this.contents = contents;
         this.chapterName = chapterName;
     }
 
-    public Chapter(){}
-
-
-    public List<Content> getContents() {
-        return contents;
-    }
-
-    public void setContents(List<Content> contents) {
-        this.contents = contents;
-    }
-
-    public int getChapterId() {
+    public String getChapterId() {
         return chapterId;
     }
 
-    public void setChapterId(int chapterId) {
+    public void setChapterId(String chapterId) {
         this.chapterId = chapterId;
     }
 
-    public int getBookId() {
+    public String getBookId() {
         return bookId;
     }
 
-    public void setBookId(int bookId) {
+    public void setBookId(String bookId) {
         this.bookId = bookId;
     }
 
@@ -52,5 +43,13 @@ public class Chapter {
 
     public void setChapterName(String chapterName) {
         this.chapterName = chapterName;
+    }
+
+    public List<Content> getContents() {
+        return contents;
+    }
+
+    public void setContents(List<Content> contents) {
+        this.contents = contents;
     }
 }

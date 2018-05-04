@@ -7,32 +7,20 @@ import java.util.List;
  */
 
 public class Type {
-    private int typeId;
+    private String typeId;
     private String description;
     private List<Book> books;
 
-    public Type() {
-    }
-
-    public Type(int typeId, String description, List<Book> books) {
+    public Type(String typeId, String description) {
         this.typeId = typeId;
         this.description = description;
-        this.books = books;
     }
 
-    public List<Book> getBooks() {
-        return books;
-    }
-
-    public void setBooks(List<Book> books) {
-        this.books = books;
-    }
-
-    public int getTypeId() {
+    public String getTypeId() {
         return typeId;
     }
 
-    public void setTypeId(int typeId) {
+    public void setTypeId(String typeId) {
         this.typeId = typeId;
     }
 
@@ -42,5 +30,13 @@ public class Type {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 }

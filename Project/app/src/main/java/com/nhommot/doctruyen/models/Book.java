@@ -1,53 +1,38 @@
 package com.nhommot.doctruyen.models;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Huy on 4/8/2018.
  */
 
 public class Book {
-    private int itemId;
-    private Author author;
+    private String bookId;
+    private String author;
     private String name;
     private String description;
     private String imgPreview;
-    private int typeId;
     private int views;
     private List<Chapter> chapters;
-    private List<Type> types;
+    private Map<String, Boolean> types;
     private List<Rating> ratings;
     private List<Comment> comments;
 
-    public List<Rating> getRatings() {
-        return ratings;
+
+    public String getBookId() {
+        return bookId;
     }
 
-    public void setRatings(List<Rating> ratings) {
-        this.ratings = ratings;
+    public void setBookId(String bookId) {
+        this.bookId = bookId;
     }
 
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
-
-    public int getItemId() {
-        return itemId;
-    }
-
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
-    }
-
-    public Author getAuthor() {
+    public String getAuthor() {
         return author;
     }
 
-    public void setAuthor(Author author) {
+    public void setAuthor(String author) {
         this.author = author;
     }
 
@@ -75,14 +60,6 @@ public class Book {
         this.imgPreview = imgPreview;
     }
 
-    public int getTypeId() {
-        return typeId;
-    }
-
-    public void setTypeId(int typeId) {
-        this.typeId = typeId;
-    }
-
     public int getViews() {
         return views;
     }
@@ -99,11 +76,27 @@ public class Book {
         this.chapters = chapters;
     }
 
-    public List<Type> getTypes() {
+    public Map<String, Boolean> getTypes() {
         return types;
     }
 
-    public void setTypes(List<Type> types) {
+    public void setTypes(Map<String, Boolean> types) {
         this.types = types;
+    }
+
+    public List<Rating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(List<Rating> ratings) {
+        this.ratings = ratings;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }

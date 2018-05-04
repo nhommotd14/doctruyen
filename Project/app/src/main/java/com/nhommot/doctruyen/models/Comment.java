@@ -5,33 +5,32 @@ package com.nhommot.doctruyen.models;
  */
 
 public class Comment {
-    private int userId;
-    private int itemId;
+    private String userId;
+    private String bookId;
     private String content;
+    private String commentId;
 
-    public Comment() {
-    }
-
-    public Comment(int userId, int itemId, String content) {
+    public Comment(String userId, String bookId, String content, String commentId) {
         this.userId = userId;
-        this.itemId = itemId;
+        this.bookId = bookId;
         this.content = content;
+        this.commentId = commentId;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
-    public int getItemId() {
-        return itemId;
+    public String getBookId() {
+        return bookId;
     }
 
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
+    public void setBookId(String bookId) {
+        this.bookId = bookId;
     }
 
     public String getContent() {
@@ -40,5 +39,13 @@ public class Comment {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getCommentId() {
+        return commentId;
+    }
+
+    public void setCommentId(String commentId) {
+        this.commentId = commentId;
     }
 }

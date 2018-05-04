@@ -2,6 +2,9 @@
     <string name="app_name" translatable="false">Doc Truyen</string>
     <string name="comment" translatable="false">COMMENT</string>
 
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
     //TVQuang
     <string name="main_activity_name" translatable="false">Trang chủ</string>
     <string name="search">Search</string>
@@ -18,6 +21,23 @@
 
 
     //TVQuang
+    <!--New book activity-->
+    <string name="hint_edtBookName">Tên truyện</string>
+    <string name="hint_edtAuthorName">Tên tác giả</string>
+    <string name="hint_edtDescription">Mô tả</string>
+    <string name="hint_edtType">Thể loại</string>
 
+
+    //Quang Chien
+    <string-array name="DreamTeam">
+        <item>Nguyễn Tấn Dũng</item>
+        <item>Bạch Quang Chiến</item>
+        <item>Trần Vương Quang</item>
+        <item>Lê Đức Toàn</item>
+        <item>Trần Anh Hào</item>
+        <item>Đinh Nhất Thi</item>
+        <item>Nguyễn Thiên Thuận</item>
+        <item>Lê Đức Huy</item>
+    </string-array>
 
 </resources>
