@@ -26,11 +26,11 @@
         <activity android:name=".ui.AccountActivity" />
         <activity android:name=".ui.activities.ChaptersActivity" />
         <activity android:name=".ui.activities.LoginActivity" />
+        <activity android:name=".ui.activities.RegisterActivity" />
         <activity android:name=".ui.activities.ReadActivity" />
         <activity android:name=".ui.activities.FavouriteActivity" />
         <activity android:name=".ui.activities.ReviewActivity" />
         <activity android:name=".ui.activities.AdminActivity" />
-        <activity android:name=".Register" />
     </application>
 
 </manifest>
