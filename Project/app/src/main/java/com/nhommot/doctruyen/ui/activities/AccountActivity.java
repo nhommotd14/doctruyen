@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -54,7 +55,7 @@ public class AccountActivity extends AppCompatActivity {
     private Uri mImageUri;
     private StorageReference mStorageRef;
     private DatabaseReference root;
-    private String uIdAccount="";
+    private String uIdAccount;
     private StorageTask mUploadTask;
     private List<ImageAccount> imageAccounts;
     FirebaseAuth mAuth;
@@ -65,13 +66,9 @@ public class AccountActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.taikhoan_layout);
         FirebaseUser user = mAuth.getCurrentUser();
-        if (user!=null){
-            try {
-                uIdAccount = user.getUid();
-            }
-            catch (Exception ex){
 
-            }
+        if (user!=null){
+            uIdAccount = user.getUid();
             addControls();
             addEvents();
         }
@@ -156,8 +153,7 @@ public class AccountActivity extends AppCompatActivity {
         final CircleImageView circleImageTaiKhoan = dialog.findViewById(R.id.circleImgTaiKhoan);
         Button btnDongY = dialog.findViewById(R.id.btnDongY);
         Button btnThoatAccount = dialog.findViewById(R.id.btnThoatAccount);
-        User user = new User();
-
+        final User user = new User();
         root.child("User").child(uIdAccount).
                 addValueEventListener(new ValueEventListener() {
                     @Override
@@ -165,9 +161,10 @@ public class AccountActivity extends AppCompatActivity {
                         edUsernameAcc.setText(dataSnapshot.getValue(User.class).getUsername());
                         edFirstNameAcc.setText(dataSnapshot.getValue(User.class).getFirstName());
                         edLastNameAcc.setText(dataSnapshot.getValue(User.class).getLastName());
+                        edTuoi.setText(dataSnapshot.getValue(User.class).getAge()+"");
                         edAddressAcc.setText(dataSnapshot.getValue(User.class).getAddress());
                         edPhoneAcc.setText(dataSnapshot.getValue(User.class).getPhoneNumber());
-                        edTuoi.setText(dataSnapshot.getValue(User.class).getAge()+"");
+
                         String imageUrl = dataSnapshot.getValue(User.class).getImgURL();
                         Picasso.with(AccountActivity.this).load(imageUrl).into(circleImageTaiKhoan);
                     }
@@ -181,14 +178,20 @@ public class AccountActivity extends AppCompatActivity {
         btnDongY.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                User user = new User();
                 user.setUsername(edUsernameAcc.getText()+"");
-                root.child("User").child(uIdAccount).child("username").setValue(edUsernameAcc.getText()+"");
-                root.child("User").child(uIdAccount).child("firstName").setValue(edFirstNameAcc.getText()+"");
-                root.child("User").child(uIdAccount).child("lastName").setValue(edLastNameAcc.getText()+"");
-                root.child("User").child(uIdAccount).child("address").setValue(edAddressAcc.getText()+"");
-                root.child("User").child(uIdAccount).child("phoneNumber").setValue(edPhoneAcc.getText()+"");
-                root.child("User").child(uIdAccount).child("age").setValue(edTuoi.getText()+"");
+                user.setFirstName(edFirstNameAcc.getText()+"");
+                user.setLastName(edLastNameAcc.getText()+"");
+                user.setAge(Integer.parseInt(String.valueOf(edTuoi.getText())));
+                user.setAddress(edAddressAcc.getText()+"");
+                user.setPhoneNumber(edPhoneAcc.getText()+"");
+                root.child("User").child(uIdAccount).setValue(user);
+//                root.child("User").child(uIdAccount).child("username").setValue(edUsernameAcc.getText()+"");
+//                root.child("User").child(uIdAccount).child("firstName").setValue(edFirstNameAcc.getText()+"");
+//                root.child("User").child(uIdAccount).child("lastName").setValue(edLastNameAcc.getText()+"");
+//                root.child("User").child(uIdAccount).child("age").setValue(edTuoi.getText()+"");
+//                root.child("User").child(uIdAccount).child("address").setValue(edAddressAcc.getText()+"");
+//                root.child("User").child(uIdAccount).child("phoneNumber").setValue(edPhoneAcc.getText()+"");
+
                 dialog.hide();
             }
         });
@@ -257,25 +260,23 @@ public class AccountActivity extends AppCompatActivity {
     public void loadImageAccount() {
 
         root.child("User").child(uIdAccount).
-                addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+               addValueEventListener(new ValueEventListener() {
+                   @Override
+                   public void onDataChange(DataSnapshot dataSnapshot) {
+                       String imageUrl = dataSnapshot.getValue(User.class).getImgURL()+"";
+                       String userName = dataSnapshot.getValue(User.class).getUsername()+"";
+                       String firstName = dataSnapshot.getValue(User.class).getFirstName()+"";
+                       String lastName = dataSnapshot.getValue(User.class).getLastName()+"";
+                       tvTenTaiKhoan.setText(userName);
+                       tvHoTen.setText(firstName+" "+lastName);
+                       Picasso.with(AccountActivity.this).load(imageUrl).into(imgTaiKhoan);
+                   }
 
-                         String imageUrl = dataSnapshot.getValue(User.class).getImgURL();
-                        String userName = dataSnapshot.getValue(User.class).getUsername();
-                        String firstName = dataSnapshot.getValue(User.class).getFirstName();
-                        String lastName = dataSnapshot.getValue(User.class).getLastName();
-                        tvTenTaiKhoan.setText(userName);
-                        tvHoTen.setText(firstName+" "+lastName);
-                        Picasso.with(AccountActivity.this).load(imageUrl).into(imgTaiKhoan);
+                   @Override
+                   public void onCancelled(DatabaseError databaseError) {
 
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
+                   }
+               });
 
 
     }
