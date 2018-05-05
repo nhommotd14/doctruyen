@@ -58,6 +58,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void DangKy() {
         String email = edtEmail.getText().toString();
         String pass = edtPassword.getText().toString();
+        final String userName = email;
         final String firstName = edtFirstName.getText().toString();
         final String lastName = edtLastName.getText().toString();
         final String image = "https://firebasestorage.googleapis.com/v0/b/doctruyen-697d3.appspot.com/o/ImageAccount%2Faccount2.png?alt=media&token=cd8d5ce8-f18b-48fb-b1e3-5821799d7aa4";
@@ -74,7 +75,7 @@ public class RegisterActivity extends AppCompatActivity {
                             if (user != null) {
                                 uid = user.getUid();
                             }
-                            User data = new User(firstName, lastName, age, image, sex);
+                            User data = new User(userName,firstName, lastName, age, image, sex);
                             mData.child("User").child(uid).setValue(data);
                             Toast.makeText(RegisterActivity.this, "Đăng Ký Thành Công !", Toast.LENGTH_SHORT).show();
                         }

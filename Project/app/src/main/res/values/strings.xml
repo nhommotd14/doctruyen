@@ -26,5 +26,16 @@
     <string name="hint_edtAuthorName">Tên tác giả</string>
     <string name="hint_edtDescription">Mô tả</string>
     <string name="hint_edtType">Thể loại</string>
+    //Quang Chien
+    <string-array name="DreamTeam">
+        <item>Nguyễn Tấn Dũng</item>
+        <item>Bạch Quang Chiến</item>
+        <item>Trần Vương Quang</item>
+        <item>Lê Đức Toàn</item>
+        <item>Trần Anh Hào</item>
+        <item>Đinh Nhất Thi</item>
+        <item>Nguyễn Thiên Thuận</item>
+        <item>Lê Đức Huy</item>
+    </string-array>
 
 </resources>

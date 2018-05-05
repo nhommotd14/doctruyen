@@ -22,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText edtEmail, edtPassword;
     ImageView imgView;
 
-    FirebaseAuth mAuthencation;
+    public static FirebaseAuth mAuthencation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

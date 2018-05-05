@@ -19,7 +19,8 @@ public class User {
     private int age;
     private String sex;
 
-    public User(String firstName, String lastName, int age, String imgURL, String sex) {
+    public User(String userName,String firstName, String lastName, int age, String imgURL, String sex) {
+        this.username = userName;
         this.firstName = firstName;
         this.lastName = lastName;
         this.imgURL = imgURL;
