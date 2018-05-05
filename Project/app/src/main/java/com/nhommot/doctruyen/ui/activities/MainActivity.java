@@ -98,7 +98,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_history) {
 
         } else if (id == R.id.nav_download) {
-
+            Intent intent =new Intent(MainActivity.this,BookOfflineActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_favourite) {
             Log.d(TAG, "onNavigationItemSelected: nav_manage clicked");
             fragmentClass = FavouriteFragment.class;

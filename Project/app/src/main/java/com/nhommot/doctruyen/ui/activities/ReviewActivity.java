@@ -1,6 +1,8 @@
 package com.nhommot.doctruyen.ui.activities;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -16,6 +18,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.nhommot.doctruyen.R;
+import com.nhommot.doctruyen.database.BookOfflineSQLite;
 import com.nhommot.doctruyen.risk.comment_risk;
 import com.nhommot.doctruyen.models.Author;
 import com.nhommot.doctruyen.models.Book;
@@ -26,6 +29,7 @@ import com.nhommot.doctruyen.utils.FirebaseUtils;
 import com.nhommot.doctruyen.utils.JsonUtils;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Map;
 
 public class ReviewActivity extends AppCompatActivity {
@@ -39,6 +43,10 @@ public class ReviewActivity extends AppCompatActivity {
     private TextView tvTheLoai;
     private Button btnDocTruyen;
 
+//    //Test by Toan
+//    private Button buttonTest;
+//    private String des;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +59,10 @@ public class ReviewActivity extends AppCompatActivity {
         tvTacGia = (TextView) findViewById(R.id.tvTacGia);
         tvTheLoai = (TextView) findViewById(R.id.tvTheLoai);
         btnDocTruyen = (Button) findViewById(R.id.doctruyen);
+
+//        //Test
+//        buttonTest=(Button) findViewById(R.id.buttonTest);
+//        //
 
         final ImageView img = (ImageView) findViewById(R.id.imgReview);
         ValueEventListener bookListener = new ValueEventListener() {
@@ -80,6 +92,9 @@ public class ReviewActivity extends AppCompatActivity {
                     }
                 });
 
+//                //Test
+//                des=book.getDescription();
+//                //
             }
 
             @Override
@@ -89,7 +104,20 @@ public class ReviewActivity extends AppCompatActivity {
         };
         FirebaseUtils.getBookRef().child("bookRandomStr1").addValueEventListener(bookListener);
 
-
+//        //Test
+//        buttonTest.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                final BookOfflineSQLite dbOffline=new BookOfflineSQLite(getApplicationContext(),"OfflineBook.sqlite",null,1);
+//                String tableBook="create table if not exists Bookoffline(id integer primary key,name nvarchar,author nvarchar,description nvarchar,img Blob)";
+//                dbOffline.QueryData(tableBook);
+//                String tableBookChap="create table if not exists BookChap(idtruyen integer,idchap integer,chapnum integer,hinh Blob)";
+//                dbOffline.QueryData(tableBookChap);
+//
+//                dbOffline.InsertBook((double)1,tvTenTruyen.getText().toString(),tvTacGia.getText().toString(),des,ImageViewToByte(img));
+//            }
+//        });
+//        //
     }
 
     public void onClickDocTruyen(View v) {
@@ -105,6 +133,18 @@ public class ReviewActivity extends AppCompatActivity {
 
         viewPager.setAdapter(adapter);
     }
+
+//    //Test
+//    public byte[] ImageViewToByte(ImageView imageView){
+//        BitmapDrawable drawable=(BitmapDrawable) imageView.getDrawable();
+//        Bitmap bitmap=drawable.getBitmap();
+//
+//        ByteArrayOutputStream stream=new ByteArrayOutputStream();
+//        bitmap.compress(Bitmap.CompressFormat.PNG,100,stream);
+//        byte[] bytes=stream.toByteArray();
+//        return bytes;
+//    }
+//    //
 }
 
 

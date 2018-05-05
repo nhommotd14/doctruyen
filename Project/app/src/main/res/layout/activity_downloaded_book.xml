@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:background="@android:color/background_light"
+    tools:context=".ui.activities.DownloadedBookActivity">
+
+    <ImageView
+        android:id="@+id/imageViewDownloadedBook"
+        android:layout_width="144dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="16dp"
+        app:srcCompat="@android:drawable/sym_def_app_icon" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textViewTenTruyen"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/textView10"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="23dp"
+            android:layout_weight="3"
+            android:textColor="@android:color/holo_orange_dark"
+            android:textSize="36sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textViewTacgia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/textView10"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="2"
+            android:text="auuthor"
+            android:textColor="@android:color/holo_orange_dark"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+</LinearLayout>
