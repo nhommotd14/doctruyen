@@ -1,42 +1,32 @@
-package com.nhommot.doctruyen.ui;
+package com.nhommot.doctruyen.ui.activities;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
@@ -46,20 +36,16 @@ import com.google.firebase.storage.UploadTask;
 import com.nhommot.doctruyen.R;
 import com.nhommot.doctruyen.models.ImageAccount;
 import com.nhommot.doctruyen.models.User;
-import com.nhommot.doctruyen.ui.activities.LoginActivity;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.nhommot.doctruyen.ui.activities.LoginActivity.mAuthencation;
-//import static com.nhommot.doctruyen.ui.activities.LoginActivity.uIdAccount;
 
 public class AccountActivity extends AppCompatActivity {
+    private static final String TAG ="" ;
     TextView tvCaiDat, tvCapNhat,tvTenTaiKhoan,tvHoTen;
     RelativeLayout layoutCaiDat,layoutChinhSach,layoutAbout,layoutDangXuat,layoutTaiKhoan,layoutThongTinTaiKhoan;
     CircleImageView imgTaiKhoan;
@@ -68,20 +54,29 @@ public class AccountActivity extends AppCompatActivity {
     private Uri mImageUri;
     private StorageReference mStorageRef;
     private DatabaseReference root;
-    private String uIdAccount;
+    private String uIdAccount="";
     private StorageTask mUploadTask;
     private List<ImageAccount> imageAccounts;
-
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.taikhoan_layout);
-        System.out.println(uIdAccount);
-        if (mAuthencation!=null){
-            uIdAccount=mAuthencation.getCurrentUser().getUid();
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user!=null){
+            try {
+                uIdAccount = user.getUid();
+            }
+            catch (Exception ex){
+
+            }
             addControls();
             addEvents();
+        }
+        else {
+            Toast.makeText(AccountActivity.this,"Vui lòng đăng nhập để sử dụng các chức năng",Toast.LENGTH_LONG);
         }
 
             layoutCaiDat = findViewById(R.id.layoutCaiDat);
@@ -101,6 +96,11 @@ public class AccountActivity extends AppCompatActivity {
             });
 
     }
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
 
     private void addEvents() {
 
@@ -136,20 +136,12 @@ public class AccountActivity extends AppCompatActivity {
         layoutDangXuat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mAuthencation.signOut();
-                mAuthencation=null;
+                FirebaseAuth.getInstance().signOut();
                 finish();
             }
         });
     }
 
-
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        FirebaseAuth.getInstance().signOut();
-    }
 
     private void loadDialogAccount() {
         final Dialog dialog = new Dialog(AccountActivity.this);

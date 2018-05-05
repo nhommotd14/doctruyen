@@ -18,8 +18,8 @@
             android:label="@string/main_activity_name">
 
         </activity>
-        <activity android:name=".ui.SettingActivity" />
-        <activity android:name=".ui.AccountActivity" />
+        <activity android:name=".ui.activities.SettingActivity" />
+        <activity android:name=".ui.activities.AccountActivity" />
         <activity android:name=".ui.activities.ChaptersActivity" />
         <activity android:name=".ui.activities.LoginActivity" >
             <intent-filter>

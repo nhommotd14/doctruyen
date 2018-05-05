@@ -1,5 +1,8 @@
 package com.nhommot.doctruyen.ui.fragments;
 
+import android.content.SharedPreferences;
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,6 +20,8 @@ import com.nhommot.doctruyen.R;
 import com.nhommot.doctruyen.models.Book;
 import com.nhommot.doctruyen.utils.SharedPrefsUtils;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class ReviewFragment extends Fragment {
 
     @Override
@@ -30,8 +35,8 @@ public class ReviewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_review_fragment,null);
         tvReview = (TextView) view.findViewById(R.id.tvReview);
+        setFontForTvReview();
         String bookId = SharedPrefsUtils.getCurrentBookId(this.getContext());
-
         mDatabase = FirebaseDatabase.getInstance().getReference("books").child(bookId);
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -46,5 +51,13 @@ public class ReviewFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    public void setFontForTvReview(){
+        SharedPreferences pre = getActivity().getSharedPreferences("user_setting",MODE_PRIVATE);
+        String fontChu = pre.getString("fontChu","times.ttf");
+        AssetManager assetManager = getActivity().getAssets();
+        Typeface typeface = Typeface.createFromAsset(assetManager,"fonts/"+fontChu);
+        tvReview.setTypeface(typeface);
     }
 }

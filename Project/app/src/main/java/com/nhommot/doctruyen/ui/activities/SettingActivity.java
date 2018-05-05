@@ -1,4 +1,4 @@
-package com.nhommot.doctruyen.ui;
+package com.nhommot.doctruyen.ui.activities;
 
 import android.app.AlertDialog;
 import android.content.ContentResolver;
@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -15,8 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -87,7 +84,7 @@ public class SettingActivity extends AppCompatActivity {
                 SharedPreferences.Editor edit = pre.edit();
                 edit.clear();
                 edit.commit();
-                tvTenFont.setText("At Most Sphere.ttf");
+                tvTenFont.setText("times.ttf (Mặc định) ");
                 Toast.makeText(SettingActivity.this,"Phục hồi thành công",Toast.LENGTH_SHORT).show();
             }
         });
@@ -129,7 +126,7 @@ public class SettingActivity extends AppCompatActivity {
         dsFont = new ArrayList<>();
 
         pre=getSharedPreferences("user_setting", MODE_PRIVATE);
-        tvTenFont.setText(pre.getString("fontChu", "At Most Sphere.ttf"));
+        tvTenFont.setText(pre.getString("fontChu", "times.ttf"));
 
         setLightBar();
 
