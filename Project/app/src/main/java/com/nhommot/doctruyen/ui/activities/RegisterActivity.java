@@ -27,7 +27,7 @@ public class RegisterActivity extends AppCompatActivity {
     RadioButton radionButton;
     RadioGroup radioGroup;
 
-    FirebaseAuth mAuthencation;
+    public static FirebaseAuth mAuthencation;
 
     DatabaseReference mData;
 
@@ -74,10 +74,11 @@ public class RegisterActivity extends AppCompatActivity {
                             if (user != null) {
                                 uid = user.getUid();
                             }
-                            User data = new User(firstName, lastName, age, sex, image);
+                            User data = new User(firstName, lastName, age, image, sex);
                             mData.child("User").child(uid).setValue(data);
                             Toast.makeText(RegisterActivity.this, "Đăng Ký Thành Công !", Toast.LENGTH_SHORT).show();
-                        } else {
+                        }
+                        else {
                             Toast.makeText(RegisterActivity.this, "Lỗi !", Toast.LENGTH_SHORT).show();
                         }
                     }
