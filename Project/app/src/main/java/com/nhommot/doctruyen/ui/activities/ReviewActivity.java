@@ -237,7 +237,9 @@ public class ReviewActivity extends AppCompatActivity {
                                         try {
                                             Cursor cursor = dbOffline.Getdata("Select * from chap where chapnum='" + content.getContentNumber() + "' AND idchap='" + chapter.getChapterId() + "'");
                                             if (cursor.getCount() == 0)
-                                                dbOffline.InsertContent(content.getChapterId(), content.getContentNumber(), urlImgToByte(content.getSrc()));
+                                                new LoadImageInternet().execute(content.getSrc());
+                                                dbOffline.InsertContent(content.getChapterId(), content.getContentNumber(), ImageViewToByte(img));
+                                            Log.d(TAG, "onDataChange: asdsaf333"+JsonUtils.encode(content));
                                         } catch (Exception e) {
                                             e.printStackTrace();
                                         }

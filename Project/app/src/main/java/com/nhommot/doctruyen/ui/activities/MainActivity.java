@@ -104,6 +104,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         dbOffline.QueryData(tableBookChap);
         String tableChap="create table if not exists Chap(idchap nvarchar,chapnum integer,img Blob)";
         dbOffline.QueryData(tableChap);
+
+        //Ket noi database
+        Cursor cursor=dbOffline.Getdata("select * from chap where idchap='chapterRandomStr1'");
+        ContentOffline contentOffline=null;
+        while (cursor.moveToNext()){
+            contentOffline= new ContentOffline(
+                    cursor.getString(0),
+                    cursor.getString(1),
+                    cursor.getBlob(2)
+            );
+        }
+        Log.d(TAG, "createDB: f444fdg7///7777////////////"+JsonUtils.encode(contentOffline));
     }
 
     @Override
