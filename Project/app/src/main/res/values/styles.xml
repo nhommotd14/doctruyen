@@ -7,6 +7,11 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
+    <style name="SplashscreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/bg_splashscreen</item>
+    </style>
+
     <style name="MyCardViewStyle" parent="Theme.AppCompat.Light">
         <!--<item name="cardCornerRadius">2dp</item>-->
         <!--<item name="cardElevation">2dp</item>-->
