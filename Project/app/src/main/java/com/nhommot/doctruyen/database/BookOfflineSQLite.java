@@ -56,13 +56,13 @@ public class BookOfflineSQLite extends SQLiteOpenHelper {
         statement.execute();
     }
 
-    public void InsertContent(String idChap,String chapNum,byte[] img){
+    public void InsertContent(String idChap,double chapNum,byte[] img){
         SQLiteDatabase db=getWritableDatabase();
-        String insert="insert into Chap values(?,?,?)";
+        String insert="insert into chap values(?,?,?)";
         SQLiteStatement statement=db.compileStatement(insert);
         statement.clearBindings();
         statement.bindString(1,idChap);
-        statement.bindString(2,chapNum);
+        statement.bindDouble(2,chapNum);
         statement.bindBlob(3,img);
         statement.execute();
     }

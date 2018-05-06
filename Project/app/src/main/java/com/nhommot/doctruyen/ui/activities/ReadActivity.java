@@ -34,7 +34,6 @@ public class ReadActivity extends AppCompatActivity {
     String chapterId = "";
     String userID;
     String bookId;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,10 +42,10 @@ public class ReadActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerRead);
 
         //get value từ Adapter
-        mAdapter = new ReadAdapter(this, contentArrayList);
+        mAdapter = new ReadAdapter(this,contentArrayList);
 
         //tạo layout Horizontal
-        layoutManager = new LinearLayoutManager(this, layoutManager.HORIZONTAL, false);
+        layoutManager = new LinearLayoutManager(this, layoutManager.HORIZONTAL,false);
 
         //set các thông số cho recyclerView
         recyclerView.setHasFixedSize(true);
@@ -62,7 +61,7 @@ public class ReadActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent.hasExtra("chapterId")) {
             chapterId = intent.getStringExtra("chapterId");
-            Log.d(TAG, "onCreate: ===============" + chapterId);
+            Log.d(TAG, "onCreate: ==============="+ chapterId);
             chapterId = intent.getStringExtra("chapterId");
             contentDatabase = FirebaseDatabase.getInstance().getReference().child("contents").child(chapterId);
 
@@ -70,8 +69,8 @@ public class ReadActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Iterable<DataSnapshot> nodeChild = dataSnapshot.getChildren();
-                    for (DataSnapshot dataSnapshot1 : nodeChild) {
-                        Content content = dataSnapshot1.getValue(Content.class);
+                    for (DataSnapshot dataSnapshot1:nodeChild){
+                        Content content=dataSnapshot1.getValue(Content.class);
                         contentArrayList.add(content);
                     }
                     mAdapter.notifyDataSetChanged();
@@ -120,61 +119,61 @@ public class ReadActivity extends AppCompatActivity {
                                                     recyclerView.scrollToPosition(content.getContentNumber()-1);
 
                                                 }
+                                            }
 
-                                                @Override
-                                                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                                            @Override
+                                            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-                                                }
+                                            }
 
-                                                @Override
-                                                public void onChildRemoved(DataSnapshot dataSnapshot) {
+                                            @Override
+                                            public void onChildRemoved(DataSnapshot dataSnapshot) {
 
-                                                }
+                                            }
 
-                                                @Override
-                                                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                                            @Override
+                                            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
-                                                }
+                                            }
 
-                                                @Override
-                                                public void onCancelled(DatabaseError databaseError) {
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
 
-                                                }
-                                            });
-                                        }
+                                            }
+                                        });
                                     }
-                                    mAdapter.notifyDataSetChanged();
                                 }
+                                mAdapter.notifyDataSetChanged();
+                            }
 
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
 
-                                }
-                            });
-                        }
+                            }
+                        });
                     }
+                }
 
-                    @Override
-                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-                    }
+                }
 
-                    @Override
-                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
 
-                    }
+                }
 
-                    @Override
-                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
-                    }
+                }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-                    }
-                });
-            }
+                }
+            });
         }
 
     }
@@ -182,23 +181,9 @@ public class ReadActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-<<<<<<< HEAD
-        Log.d(TAG, "onStop: " + SharedPrefsUtils.getCurrentContentId(this));
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d(TAG, "onPause: " + SharedPrefsUtils.getCurrentContentId(this));
 //        FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).removeValue();
-//        FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).child("contentRandomStr"+SharedPrefsUtils.getCurrentContentId(this)).setValue(true);
-
-    }
-=======
-        FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).removeValue();
-        FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).child(SharedPrefsUtils.getCurrentContentId(this)).setValue(true);
-        Log.d(TAG, "onStop: "+ SharedPrefsUtils.getCurrentContentId(this));
+//        FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).child(SharedPrefsUtils.getCurrentContentId(this)).setValue(true);
+//        Log.d(TAG, "onStop: "+ SharedPrefsUtils.getCurrentContentId(this));
     }
 
->>>>>>> 0c998e72a193dc4b3529715e782f31d0b5f6d710
 }
