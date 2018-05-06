@@ -187,8 +187,8 @@ public class ReadActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         Log.d(TAG, "onPause: "+ SharedPrefsUtils.getCurrentContentId(this));
-        FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).removeValue();
-        FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).child("contentRandomStr"+SharedPrefsUtils.getCurrentContentId(this)).setValue(true);
+//        FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).removeValue();
+//        FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).child("contentRandomStr"+SharedPrefsUtils.getCurrentContentId(this)).setValue(true);
 
     }
 }

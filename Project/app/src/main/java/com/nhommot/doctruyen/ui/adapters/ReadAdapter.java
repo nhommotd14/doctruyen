@@ -52,7 +52,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.ContentViewHol
 
         String imgUrl=content.getSrc();
 
-        Picasso.with(holder.img.getContext()).load(imgUrl).into(holder.img);
+        Picasso.get().load(imgUrl).into(holder.img);
 
         holder.img.setOnClickListener(new View.OnClickListener() {
             @Override
