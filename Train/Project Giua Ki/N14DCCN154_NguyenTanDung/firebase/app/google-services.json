@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "45503009631",
+    "firebase_url": "https://giuaki-fc54c.firebaseio.com",
+    "project_id": "giuaki-fc54c",
+    "storage_bucket": "giuaki-fc54c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:45503009631:android:5af58333ee43844b",
+        "android_client_info": {
+          "package_name": "nhommot.com.firebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "45503009631-ip90obb59grgihbva67b7f46pe43974a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDC1I55R9DLTsYpgc_ZZp1Ezf9Mbb6y5Y"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

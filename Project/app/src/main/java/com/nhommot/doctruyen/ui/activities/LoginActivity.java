@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String flag = checkValidate(edtEmail.getText().toString(), edtPassword.getText().toString());
+                String flag = checkValidate(edtEmail.getText().toString().trim(), edtPassword.getText().toString().trim());
                 if (flag.equals("")) {
                     DangNhap();
                 } else {
@@ -67,8 +67,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void DangNhap() {
-        final String email = edtEmail.getText().toString();
-        final String password = edtPassword.getText().toString();
+        final String email = edtEmail.getText().toString().trim();
+        final String password = edtPassword.getText().toString().trim();
         mAuthencation.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
