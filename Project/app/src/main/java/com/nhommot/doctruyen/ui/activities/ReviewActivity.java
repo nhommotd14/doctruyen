@@ -107,7 +107,9 @@ public class ReviewActivity extends AppCompatActivity {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Rating rate = dataSnapshot.getValue(Rating.class);
 //                    Toast.makeText(ReviewActivity.this,"ass "+rate.getBookId(),Toast.LENGTH_LONG).show();
-                    ratingBar.setRating(rate.getStars());
+                    if(rate!=null) {
+                        ratingBar.setRating(rate.getStars());
+                    }
                 }
 
                 @Override
