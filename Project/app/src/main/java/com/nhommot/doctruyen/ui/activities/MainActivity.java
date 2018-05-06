@@ -1,40 +1,53 @@
 package com.nhommot.doctruyen.ui.activities;
 
+import android.app.AlertDialog;
 import android.app.SearchManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.nhommot.doctruyen.R;
-import com.nhommot.doctruyen.ui.fragments.BookOfflineFragment;
+import com.nhommot.doctruyen.models.User;
 import com.nhommot.doctruyen.ui.fragments.FavouriteFragment;
 import com.nhommot.doctruyen.ui.fragments.MainFragment;
+import com.squareup.picasso.Picasso;
+
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private final String TAG = "MainActivity";
     private DrawerLayout drawer;
-    FirebaseAuth firebaseAuth;
     Button login, register;
-
-    private void handleIntent(Intent intent) {
-
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            //use the query to search your data somehow
-        }
-    }
+    TextView email, name;
+    ImageView avataUser;
+    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    DatabaseReference root = firebaseDatabase.getReference();
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
                 drawer,
@@ -56,8 +68,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        Fragment fragment = new MainFragment();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.content_frame, fragment);
+        ft.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             navigationView.removeHeaderView(navigationView.getHeaderView(0));
             navigationView.inflateHeaderView(R.layout.nav_header_logged_null);
@@ -72,7 +94,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     startActivity(intent);
                 }
-
             });
             register.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -84,73 +105,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             navigationView.removeHeaderView(navigationView.getHeaderView(0));
             navigationView.inflateHeaderView(R.layout.nav_header);
+            final View headerLayout = navigationView.getHeaderView(0);
+            email = headerLayout.findViewById(R.id.txt_email);
+            name = headerLayout.findViewById(R.id.txt_name);
+            avataUser = headerLayout.findViewById(R.id.avata_user_nav);
+            String uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+            root.child("User").child(uid).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    name.setText(Objects.requireNonNull(dataSnapshot.getValue(User.class)).getFirstName());
+                    email.setText(Objects.requireNonNull(dataSnapshot.getValue(User.class)).getUsername());
+                    Picasso.with(headerLayout.getContext()).load(Objects.requireNonNull(dataSnapshot.getValue(User.class)).getImgURL()).into(avataUser);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
         }
-
-        Fragment fragment = new MainFragment();
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.content_frame, fragment);
-        ft.commit();
-
-//        handleIntent(getIntent());
-//        ActionBar actionbar = getSupportActionBar();
-//        if (actionbar != null) {
-//            actionbar.setDisplayHomeAsUpEnabled(true);
-//        }
-//        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
-//    }
-//
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.options_menu, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case android.R.id.home:
-//                drawerLayout.openDrawer(GravityCompat.START);
-//                return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
-//
-//    @Override
-//    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//        // Handle navigation view item clicks here.
-//        int id = item.getItemId();
-//        Fragment fragment = null;
-//        Class fragmentClass = null;
-//
-//
-//        if (id == R.id.nav_home) {
-//            // Handle the camera action
-//            fragmentClass = MainFragment.class;
-//        } else if (id == R.id.nav_history) {
-//
-//        } else if (id == R.id.nav_download) {
-//
-//        } else if (id == R.id.nav_favourite) {
-//            //Log.d(TAG, "onNavigationItemSelected: nav_manage clicked");
-//            fragmentClass = FavouriteFragment.class;
-//        } else if (id == R.id.nav_setting) {
-//            Intent intent = new Intent(MainActivity.this, AccountActivity.class);
-//            startActivity(intent);
-//        }
-//        try {
-//            fragment = (Fragment) fragmentClass.newInstance();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        Log.d(TAG, "onNavigationItemSelected: " + fragment);
-//
-//        if (fragment != null) {
-//            FragmentManager fragmentManager = getSupportFragmentManager();
-//            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-//        }
-//        drawerLayout.closeDrawer(GravityCompat.START);
-//        return true;
     }
 
     /**
@@ -159,6 +132,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * @param item The selected item
      * @return true to display the item as the selected item
      */
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
@@ -168,12 +142,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_home:
                 fragment = new MainFragment();
                 break;
-            case R.id.nav_history:
-                //TODO add fragment or start activity for History
-                break;
             case R.id.nav_download:
-                //TODO add fragment or start activity for Download
-                fragment = new BookOfflineFragment();
                 break;
             case R.id.nav_favourite:
                 fragment = new FavouriteFragment();
@@ -182,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 intent = new Intent(MainActivity.this, AccountActivity.class);
                 break;
             case R.id.nav_about:
-                //TODO add fragment or start activity for About
+                ShowAlertDialogAbout();
                 break;
             default:
                 fragment = new MainFragment();
@@ -205,5 +174,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             super.onBackPressed();
         }
+    }
+
+    public void ShowAlertDialogAbout() {
+        String[] arrTeam = getResources().getStringArray(R.array.DreamTeam);
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setTitle("Danh Sách Thành Viên");
+        dialogBuilder.setItems(arrTeam, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+
+        AlertDialog alertDialogObject = dialogBuilder.create();
+        alertDialogObject.show();
     }
 }

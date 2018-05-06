@@ -64,7 +64,6 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            intent.putExtra("email", email);
                             startActivity(intent);
                         } else {
                             Toast.makeText(LoginActivity.this, "Tài khoản hoặc mật khẩu không đúng, vui lòng nhập lại", Toast.LENGTH_SHORT).show();

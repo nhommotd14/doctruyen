@@ -57,8 +57,9 @@ public class AListOfflineBookAdapter extends RecyclerView.Adapter<AListOfflineBo
             @Override
             public void onClick(View view, int position, boolean isLongClick) {
 //                Toast.makeText(mContext, " "+favourites.get(position), Toast.LENGTH_SHORT).show();
-                SharedPrefsUtils.setCurrentBookId(mContext, String.valueOf(bookOfflines.get(position).getBookId()));
+                SharedPrefsUtils.setCurrentBookId(mContext, bookOfflines.get(position).getBookId());
                 Intent intent = new Intent(mContext, ReviewActivity.class);
+//                intent.putExtra("bookOffline",);
                 mContext.startActivity(intent);
             }
         });

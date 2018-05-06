@@ -36,10 +36,10 @@ public class BookOfflineSQLite extends SQLiteOpenHelper {
         statement.execute();
     }
 
-//    public boolean DeleteRow(String name){
-//        SQLiteDatabase db=getWritableDatabase();
-//        return db.delete("truyentranh","tentruyen='"+name+"'",null)>0;
-//    }
+    public boolean DeleteBook(String name){
+        SQLiteDatabase db=getWritableDatabase();
+        return db.delete("bookoffline","name='"+name+"'",null)>0;
+    }
 
     public void InsertChap(Double idBook,Double idChap,Double chapNum, byte[] img){
         SQLiteDatabase db=getWritableDatabase();

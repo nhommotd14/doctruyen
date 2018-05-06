@@ -1,13 +1,15 @@
 package com.nhommot.doctruyen.models;
 
-public class BookOffline {
-    private int bookId;
+import java.io.Serializable;
+
+public class BookOffline implements Serializable {
+    private String bookId;
     private String bookName;
     private String bookAuthor;
     private String bookDescription;
     private byte[] img;
 
-    public BookOffline(int bookId, String bookName, String bookAuthor, String bookDescription, byte[] img) {
+    public BookOffline(String bookId, String bookName, String bookAuthor, String bookDescription, byte[] img) {
         this.bookId = bookId;
         this.bookName = bookName;
         this.bookAuthor = bookAuthor;
@@ -15,11 +17,11 @@ public class BookOffline {
         this.img = img;
     }
 
-    public int getBookId() {
+    public String getBookId() {
         return bookId;
     }
 
-    public void setBookId(int bookId) {
+    public void setBookId(String bookId) {
         this.bookId = bookId;
     }
 

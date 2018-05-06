@@ -34,8 +34,6 @@ public class BookOfflineFragment extends Fragment {
 
     private AListOfflineBookAdapter mAdapter;
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                 Bundle savedInstanceState)  {
@@ -54,7 +52,7 @@ public class BookOfflineFragment extends Fragment {
         Cursor cursor=dbOffline.Getdata("select * from Bookoffline");
         while (cursor.moveToNext()){
             bookArray.add(new BookOffline(
-                    cursor.getInt(0),
+                    cursor.getString(0),
                     cursor.getString(1),
                     cursor.getString(2),
                     cursor.getString(3),
