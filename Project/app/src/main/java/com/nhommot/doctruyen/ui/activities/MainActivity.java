@@ -2,8 +2,11 @@ package com.nhommot.doctruyen.ui.activities;
 
 import android.app.AlertDialog;
 import android.app.SearchManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -32,11 +35,19 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nhommot.doctruyen.R;
+import com.nhommot.doctruyen.database.BookOfflineSQLite;
 import com.nhommot.doctruyen.models.User;
+import com.nhommot.doctruyen.ui.fragments.BookOfflineFragment;
 import com.nhommot.doctruyen.ui.fragments.FavouriteFragment;
 import com.nhommot.doctruyen.ui.fragments.MainFragment;
+import com.nhommot.doctruyen.utils.SharedPrefsUtils;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -55,7 +66,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        createDB();
+        Log.d(TAG, "onCreate: "+!isInternetAvailable());
+        SharedPrefsUtils.setOfflineState(this,!isInternetAvailable());
 
         //set actionbar
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -77,6 +90,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.content_frame, fragment);
         ft.commit();
+    }
+
+    private void createDB() {
+        final BookOfflineSQLite dbOffline=new BookOfflineSQLite(getApplicationContext(),"OfflineBook.sqlite",null,1);
+        String tableBook="create table if not exists bookoff(id nvarchar,name nvarchar,author nvarchar,description nvarchar,img Blob,type nvarchar,star integer)";
+        dbOffline.QueryData(tableBook);
+        String tableBookChap="create table if not exists BookChapoff(idtruyen nvarchar,idchap nvarchar,chapname nvarchar)";
+        dbOffline.QueryData(tableBookChap);
+        String tableChap="create table if not exists Chap(idchap nvarchar,chapnum integer,img Blob)";
+        dbOffline.QueryData(tableChap);
     }
 
     @Override
@@ -145,6 +168,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new MainFragment();
                 break;
             case R.id.nav_download:
+                fragment = new BookOfflineFragment();
                 break;
             case R.id.nav_favourite:
                 fragment = new FavouriteFragment();
@@ -190,5 +214,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         AlertDialog alertDialogObject = dialogBuilder.create();
         alertDialogObject.show();
+    }
+    public boolean isInternetAvailable() {
+            ConnectivityManager cm =
+                    (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo netInfo = cm.getActiveNetworkInfo();
+            return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 }

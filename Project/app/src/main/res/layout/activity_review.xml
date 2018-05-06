@@ -120,13 +120,14 @@
                             style="@style/Widget.AppCompat.Button.Borderless"
                             app:srcCompat="@drawable/ic_thumb_up_black_18dp" />
                         <ImageButton
-                            android:id="@+id/imageButton3"
+                            android:id="@+id/imageButtonDownload"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:layout_margin="2dp"
                             style="@style/Widget.AppCompat.Button.Borderless"
-                            app:srcCompat="@drawable/ic_file_download" />
+                            app:srcCompat="@drawable/ic_file_download"
+                            tools:ignore="VectorDrawableCompat" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -163,4 +164,3 @@
 
 
 </LinearLayout>
-

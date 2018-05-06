@@ -69,7 +69,7 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.Favo
 
         public FavouriteViewHolder(View itemView) {
             super(itemView);
-            Log.d(TAG, "FavouriteViewHolder: ");
+            Log.d(TAG, "BookOfflineViewHolder: ");
 //            TODO: replace tvChapterName to tvName of layout list book @Quang
             textFavouritename = itemView.findViewById(R.id.tvChapterName);
             itemView.setOnClickListener(this);

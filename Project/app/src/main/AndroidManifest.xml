@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -26,6 +28,8 @@
         <activity android:name=".ui.activities.FavouriteActivity" />
         <activity android:name=".ui.activities.ReviewActivity" />
         <activity android:name=".ui.activities.AdminActivity" />
+        <activity android:name=".ui.fragments.BookOfflineFragment" />
+
         <activity android:name=".ui.activities.Detail" />
         <activity
             android:name=".ui.activities.SplashScreenActivity"
