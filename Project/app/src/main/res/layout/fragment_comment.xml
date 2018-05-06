@@ -3,27 +3,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
+
     android:orientation="vertical"
     android:padding="16dp"
     tools:context="com.nhommot.doctruyen.ui.activities.MainActivity">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/comment"
-        android:textColor="@android:color/background_dark"
-        android:textSize="16sp"
-        android:textStyle="normal|italic" />
+    <!--<TextView-->
+        <!--android:id="@+id/textView2"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/comment"-->
+        <!--android:textColor="@android:color/background_dark"-->
+        <!--android:textSize="16sp"-->
+        <!--android:textStyle="normal|italic" />-->
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:height="1dp"
-        android:background="@android:color/background_dark"
-        android:text="TextView" />
+    <!--<TextView-->
+        <!--android:id="@+id/textView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:height="1dp"-->
+        <!--android:background="@android:color/background_dark"-->
+        <!--android:text="TextView" />-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -48,8 +48,7 @@
             android:layout_width="63dp"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:background="@color/colorPrimaryDark"
-            android:backgroundTint="@color/colorPrimaryDark"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:text="Post"
             android:textColor="@android:color/background_dark"
             android:textStyle="normal|italic" />
