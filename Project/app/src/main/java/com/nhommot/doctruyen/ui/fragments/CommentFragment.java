@@ -51,15 +51,15 @@ public class CommentFragment extends Fragment {
         return fragment;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        if(firebaseAuth.getCurrentUser() == null){
-            Intent intent = new Intent(getContext(), LoginActivity.class);
-            startActivity(intent);
-        }
-    }
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+//        if(firebaseAuth.getCurrentUser() == null){
+//            Intent intent = new Intent(getContext(), LoginActivity.class);
+//            startActivity(intent);
+//        }
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
