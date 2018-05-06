@@ -22,7 +22,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.nhommot.doctruyen.R;
 import com.nhommot.doctruyen.models.Comment;
 import com.nhommot.doctruyen.ui.adapters.CommentAdapter;
-import com.nhommot.doctruyen.utils.AuthorUtils;
 import com.nhommot.doctruyen.utils.FirebaseUtils;
 import com.nhommot.doctruyen.utils.SharedPrefsUtils;
 
@@ -90,7 +89,7 @@ public class CommentFragment extends Fragment {
                 Comment comment = new Comment();
                 comment.setContent(content);
                 comment.setBookId(SharedPrefsUtils.getCurrentBookId(getContext()));
-                comment.setUserId(AuthorUtils.getCurrentUserId());
+               // comment.setUserId(AuthorUtils.getCurrentUserId());
 
                 DatabaseReference databaseReference = FirebaseUtils.getCommentRef();
                 Date date = new Date();
