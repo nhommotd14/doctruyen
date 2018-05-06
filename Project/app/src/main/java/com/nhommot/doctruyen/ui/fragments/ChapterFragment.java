@@ -1,6 +1,5 @@
 package com.nhommot.doctruyen.ui.fragments;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,15 +8,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.nhommot.doctruyen.R;
-import com.nhommot.doctruyen.models.Book;
 import com.nhommot.doctruyen.models.Chapter;
-import com.nhommot.doctruyen.models.User;
 import com.nhommot.doctruyen.ui.adapters.ChapterAdapter;
 import com.nhommot.doctruyen.ui.adapters.SimpleDividerItemDecoration;
 import com.nhommot.doctruyen.utils.FirebaseUtils;

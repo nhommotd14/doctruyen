@@ -6,15 +6,18 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,11 +27,13 @@ import com.nhommot.doctruyen.R;
 import com.nhommot.doctruyen.models.Author;
 import com.nhommot.doctruyen.models.Book;
 import com.nhommot.doctruyen.models.Rating;
+import com.nhommot.doctruyen.models.User;
 import com.nhommot.doctruyen.ui.adapters.TabAdapter;
 import com.nhommot.doctruyen.ui.fragments.ChapterFragment;
 import com.nhommot.doctruyen.ui.fragments.CommentFragment;
 import com.nhommot.doctruyen.ui.fragments.ReviewFragment;
 import com.nhommot.doctruyen.utils.FirebaseUtils;
+import com.nhommot.doctruyen.utils.JsonUtils;
 import com.nhommot.doctruyen.utils.SharedPrefsUtils;
 import com.squareup.picasso.Picasso;
 
@@ -48,6 +53,7 @@ public class ReviewActivity extends AppCompatActivity {
     private RatingBar ratingBar;
     private String userId;
     private Bitmap bmp;
+    private ImageButton btnLike;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +69,8 @@ public class ReviewActivity extends AppCompatActivity {
         tvTheLoai = (TextView) findViewById(R.id.tvTheLoai);
         btnDocTruyen = (Button) findViewById(R.id.doctruyen);
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
+        btnLike = findViewById(R.id.imageButtonLike);
+
 
         final ImageView img = (ImageView) findViewById(R.id.imgReview);
         ValueEventListener bookListener = new ValueEventListener() {
@@ -107,7 +115,7 @@ public class ReviewActivity extends AppCompatActivity {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Rating rate = dataSnapshot.getValue(Rating.class);
 //                    Toast.makeText(ReviewActivity.this,"ass "+rate.getBookId(),Toast.LENGTH_LONG).show();
-                    if(rate!=null) {
+                    if (rate != null) {
                         ratingBar.setRating(rate.getStars());
                     }
                 }
@@ -119,8 +127,66 @@ public class ReviewActivity extends AppCompatActivity {
             });
             addListenerOnRatingBar();
         }
+        if (userId != null) {
+            FirebaseUtils.getFavouriteRef().child(userId).addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(final DataSnapshot dataSnapshot, String s) {
+                    if (dataSnapshot.getKey().equals(bookId)) {
+                        Log.d(TAG, "onChildAdded: true");
+                        btnLike.setImageResource(R.drawable.ic_thumb_up_black_18dp_pressed);
+                        btnLike.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                FirebaseUtils.getFavouriteRef().child(userId).child(dataSnapshot.getKey()).removeValue();
+                                btnLike.setImageResource(R.drawable.ic_thumb_up_black_18dp);
+                                btnLike.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        if (userId != null) {
+                                            FirebaseUtils.getFavouriteRef().child(userId).child(bookId).setValue(true);
+                                            btnLike.setImageResource(R.drawable.ic_thumb_up_black_18dp_pressed);
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+
+                    }
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
 
 
+            btnLike.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (userId != null) {
+                        FirebaseUtils.getFavouriteRef().child(userId).child(bookId).setValue(true);
+                        btnLike.setImageResource(R.drawable.ic_thumb_up_black_18dp_pressed);
+                    }
+                }
+            });
+        }
     }
 
     public void onClickDocTruyen(View v) {

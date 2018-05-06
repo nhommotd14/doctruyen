@@ -181,9 +181,12 @@ public class ReadActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).removeValue();
-        FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).child(SharedPrefsUtils.getCurrentContentId(this)).setValue(true);
-        Log.d(TAG, "onStop: "+ SharedPrefsUtils.getCurrentContentId(this));
+        if (userID != null) {
+            FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).removeValue();
+            FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).child(SharedPrefsUtils.getCurrentContentId(this)).setValue(true);
+            Log.d(TAG, "onStop: "+ SharedPrefsUtils.getCurrentContentId(this));
+        }
+
     }
 
 }
