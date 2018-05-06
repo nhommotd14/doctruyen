@@ -51,7 +51,8 @@ public class ReadActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(mAdapter);
-//
+//      Set onSwipe
+
         bookId = SharedPrefsUtils.getCurrentBookId(this);
 
 
@@ -115,7 +116,7 @@ public class ReadActivity extends AppCompatActivity {
                                                 Log.d(TAG, "onChildAdded: *****"+ dataSnapshot.getKey().equals(dataSnapshot1.getKey()));
                                                 if(dataSnapshot.getKey().equals(dataSnapshot1.getKey())){
                                                     Log.d(TAG, "onChildAdded: ="+ dataSnapshot.getKey());
-                                                    recyclerView.scrollToPosition(content.getContentId()-1);
+                                                    recyclerView.scrollToPosition(content.getContentNumber()-1);
 
                                                 }
                                             }
@@ -180,15 +181,9 @@ public class ReadActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).removeValue();
+        FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).child(SharedPrefsUtils.getCurrentContentId(this)).setValue(true);
         Log.d(TAG, "onStop: "+ SharedPrefsUtils.getCurrentContentId(this));
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d(TAG, "onPause: "+ SharedPrefsUtils.getCurrentContentId(this));
-//        FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).removeValue();
-//        FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).child("contentRandomStr"+SharedPrefsUtils.getCurrentContentId(this)).setValue(true);
-
-    }
 }
