@@ -24,9 +24,11 @@ import com.nhommot.doctruyen.models.Author;
 import com.nhommot.doctruyen.models.Book;
 import com.nhommot.doctruyen.ui.adapters.TabAdapter;
 import com.nhommot.doctruyen.ui.fragments.ChapterFragment;
+import com.nhommot.doctruyen.ui.fragments.CommentFragment;
 import com.nhommot.doctruyen.ui.fragments.ReviewFragment;
 import com.nhommot.doctruyen.utils.FirebaseUtils;
 import com.nhommot.doctruyen.utils.JsonUtils;
+import com.nhommot.doctruyen.utils.SharedPrefsUtils;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
@@ -42,6 +44,7 @@ public class ReviewActivity extends AppCompatActivity {
     private TextView tvTacGia;
     private TextView tvTheLoai;
     private Button btnDocTruyen;
+    private String bookId = "";
 
 //    //Test by Toan
 //    private Button buttonTest;
@@ -51,6 +54,7 @@ public class ReviewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
+        getBookId();
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPage(viewPager);
@@ -102,7 +106,7 @@ public class ReviewActivity extends AppCompatActivity {
 
             }
         };
-        FirebaseUtils.getBookRef().child("bookRandomStr1").addValueEventListener(bookListener);
+        FirebaseUtils.getBookRef().child(bookId).addValueEventListener(bookListener);
 
 //        //Test
 //        buttonTest.setOnClickListener(new View.OnClickListener() {
@@ -129,7 +133,7 @@ public class ReviewActivity extends AppCompatActivity {
         TabAdapter adapter = new TabAdapter(getSupportFragmentManager());
         adapter.addFragment(new ReviewFragment(), "Review");
         adapter.addFragment(new ChapterFragment(), "Chapter");
-        adapter.addFragment(new comment_risk(), "Comment");
+        adapter.addFragment(new CommentFragment(), "Comment");
 
         viewPager.setAdapter(adapter);
     }
@@ -145,6 +149,9 @@ public class ReviewActivity extends AppCompatActivity {
 //        return bytes;
 //    }
 //    //
+    public void getBookId() {
+        bookId = SharedPrefsUtils.getCurrentBookId(this);
+    }
 }
 
 

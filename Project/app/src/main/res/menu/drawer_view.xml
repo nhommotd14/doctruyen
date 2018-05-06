@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
+            android:checked="true"
             android:icon="@drawable/ic_home"
             android:title="@string/home" />
         <item
@@ -16,10 +18,18 @@
         <item
             android:id="@+id/nav_favourite"
             android:icon="@drawable/ic_favorite"
-            android:title="@string/favorite" />
-        <item
-            android:id="@+id/nav_setting"
-            android:icon="@drawable/setting"
-            android:title="@string/setting" />
+            android:title="@string/nav_favorite" />
     </group>
+    <item tools:ignore="MenuTitle">
+        <menu>
+            <item
+                android:id="@+id/nav_setting"
+                android:icon="@drawable/setting"
+                android:title="@string/nav_setting" />
+            <item
+                android:id="@+id/nav_about"
+                android:icon="@drawable/ic_info_black_24dp"
+                android:title="@string/nav_about" />
+        </menu>
+    </item>
 </menu>

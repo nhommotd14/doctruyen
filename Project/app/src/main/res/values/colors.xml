@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--<color name="colorPrimary">#009624</color>-->
-    <!--<color name="colorPrimaryDark">#009624</color>-->
-    <!--<color name="colorAccent">#f71d05</color>-->
+    <color name="colorPrimary">#00c853</color>
+    <color name="colorPrimaryDark">#009624</color>
+    <color name="colorAccent">#5efc82</color>
+
     <color name="base">#AAAAAA</color>
-    <color name="colorPrimary">#00796B</color>
-    <color name="colorPrimaryDark">#009688</color>
     <color name="backgroundColor">#FAFAFA</color>
-    <color name="colorAccent">#FF4081</color>
     <color name="cardView">#FFFFFF</color>
 </resources>
