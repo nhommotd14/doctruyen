@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#90caf9"
+    android:background="#ffffff"
     android:fitsSystemWindows="true">
 
     <LinearLayout
@@ -25,7 +25,6 @@
             android:layout_marginBottom="15dp"
             android:layout_marginTop="45dp"
             android:ems="10"
-            android:fontFamily="sans-serif-medium"
             android:gravity="center_vertical"
             android:hint="Email"
             android:inputType="textPersonName"
@@ -38,7 +37,6 @@
             android:layout_marginBottom="40dp"
             android:layout_marginTop="15dp"
             android:ems="10"
-            android:fontFamily="sans-serif-medium"
             android:hint="Password"
             android:inputType="textPassword"
             android:textSize="20sp" />
@@ -56,11 +54,11 @@
                 android:layout_height="60dp"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:background="@android:color/holo_blue_dark"
-                android:fontFamily="sans-serif-medium"
+                android:background="#2196F3"
                 android:gravity="center"
                 android:padding="12dp"
                 android:text="SIGN IN"
+                android:textColor="#ffffff"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -70,11 +68,11 @@
                 android:layout_height="60dp"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:background="@android:color/holo_blue_dark"
-                android:fontFamily="sans-serif-medium"
+                android:background="#f44336"
                 android:gravity="center"
                 android:padding="12dp"
                 android:text="SIGN UP"
+                android:textColor="#ffffff"
                 android:textSize="20sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -87,7 +85,8 @@
             android:layout_centerHorizontal="true"
             android:autoLink="all"
             android:linksClickable="true"
-            android:text="Forget password?"
+            android:text="Forget password? Click HERE"
+            android:textSize="8pt"
             android:textStyle="italic" />
 
 
