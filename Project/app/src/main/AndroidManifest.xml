@@ -31,7 +31,7 @@
         <activity android:name=".ui.activities.FavouriteActivity" />
         <activity android:name=".ui.activities.ReviewActivity" />
         <activity android:name=".ui.activities.AdminActivity" />
-        <activity android:name=".ui.activities.BookOfflineActivity" />
+        <activity android:name=".ui.fragments.BookOfflineFragment" />
 
     </application>
 

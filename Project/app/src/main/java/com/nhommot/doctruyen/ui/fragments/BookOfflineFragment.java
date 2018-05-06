@@ -1,19 +1,24 @@
-package com.nhommot.doctruyen.ui.activities;
+package com.nhommot.doctruyen.ui.fragments;
 
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ListView;
 
 import com.nhommot.doctruyen.R;
 import com.nhommot.doctruyen.database.BookOfflineSQLite;
 import com.nhommot.doctruyen.models.BookOffline;
-import com.nhommot.doctruyen.ui.adapters.listOfflineBookAdapter;
+import com.nhommot.doctruyen.ui.adapters.AListOfflineBookAdapter;
+import com.nhommot.doctruyen.ui.adapters.SimpleDividerItemDecoration;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -23,19 +28,20 @@ import java.net.URL;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
-public class BookOfflineActivity extends AppCompatActivity {
-    ListView listViewOfflineBook;
+public class BookOfflineFragment extends Fragment {
     ArrayList<BookOffline> bookArray;
+    RecyclerView recyclerView;
+
+    private AListOfflineBookAdapter mAdapter;
+
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_book_offline);
-
-        listViewOfflineBook=(ListView) findViewById(R.id.listBookOffline);
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                Bundle savedInstanceState)  {
+        View rootView = inflater.inflate(R.layout.fragment_book_offline, container, false);
         //Database
-        final BookOfflineSQLite dbOffline=new BookOfflineSQLite(getApplicationContext(),"OfflineBook.sqlite",null,1);
+        final BookOfflineSQLite dbOffline=new BookOfflineSQLite(this.getContext(),"OfflineBook.sqlite",null,1);
         String tableBook="create table if not exists Bookoffline(id integer primary key,name nvarchar,author nvarchar,description nvarchar,img Blob)";
         dbOffline.QueryData(tableBook);
         String tableBookChap="create table if not exists BookChap(idtruyen integer,idchap integer,chapnum integer,hinh Blob)";
@@ -55,8 +61,19 @@ public class BookOfflineActivity extends AppCompatActivity {
                     cursor.getBlob(4)
             ));
         }
-        listOfflineBookAdapter listAdapter=new listOfflineBookAdapter(getApplicationContext(),R.layout.activity_downloaded_book,bookArray);
-        listViewOfflineBook.setAdapter(listAdapter);
+        recyclerView = rootView.findViewById(R.id.bookoffline_recycle_view);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager llm = new LinearLayoutManager(this.getContext());
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(llm);
+        recyclerView.addItemDecoration(new SimpleDividerItemDecoration(this.getContext()));
+        mAdapter = new AListOfflineBookAdapter(this.getContext(), bookArray);
+        recyclerView.setAdapter(mAdapter);
+
+
+
+        mAdapter.notifyDataSetChanged();
+        return rootView;
     }
 
     public byte[] ImageViewToByte(ImageView imageView){

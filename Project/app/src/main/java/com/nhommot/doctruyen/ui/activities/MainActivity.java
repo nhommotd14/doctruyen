@@ -6,23 +6,19 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.nhommot.doctruyen.R;
+import com.nhommot.doctruyen.ui.fragments.BookOfflineFragment;
 import com.nhommot.doctruyen.ui.fragments.FavouriteFragment;
 import com.nhommot.doctruyen.ui.fragments.MainFragment;
 
@@ -177,8 +173,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_download:
                 //TODO add fragment or start activity for Download
-                intent = new Intent(this, BookOfflineActivity.class);
-                startActivity(intent);
+                fragment = new BookOfflineFragment();
                 break;
             case R.id.nav_favourite:
                 fragment = new FavouriteFragment();
