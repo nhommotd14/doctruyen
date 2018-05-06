@@ -19,6 +19,8 @@ import com.nhommot.doctruyen.models.Chapter;
 import com.nhommot.doctruyen.ui.adapters.ChapterAdapter;
 import com.nhommot.doctruyen.ui.adapters.MainAdapter;
 import com.nhommot.doctruyen.ui.adapters.SimpleDividerItemDecoration;
+import com.nhommot.doctruyen.ui.adapters.Snap;
+import com.nhommot.doctruyen.ui.adapters.SnapAdapter;
 import com.nhommot.doctruyen.utils.FirebaseUtils;
 import com.nhommot.doctruyen.utils.JsonUtils;
 import com.nhommot.doctruyen.utils.SharedPrefsUtils;
@@ -30,6 +32,7 @@ import java.util.Map;
 public class MainFragment extends Fragment {
     private final String TAG = "MainFragment";
     private MainAdapter mAdapter;
+    private SnapAdapter snapAdapter;
 
     List<Book> result;
     RecyclerView recyclerView;
@@ -48,8 +51,13 @@ public class MainFragment extends Fragment {
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(llm);
         recyclerView.addItemDecoration(new SimpleDividerItemDecoration(this.getContext()));
-        mAdapter = new MainAdapter(this.getContext(), result);
-        recyclerView.setAdapter(mAdapter);
+        snapAdapter= new SnapAdapter(container.getContext());
+        snapAdapter.addSnap(new Snap(1,"Truyện mới cập nhật",result));
+        snapAdapter.addSnap(new Snap(1,"Truyện nổi bật trong tuần ",result));
+        snapAdapter.addSnap(new Snap(1,"Phiêu lưu",result));
+        snapAdapter.addSnap(new Snap(1,"Kinh dị",result));
+        snapAdapter.addSnap(new Snap(1,"Hài hước",result));
+        recyclerView.setAdapter(snapAdapter);
         FirebaseUtils.getLatestRef().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -62,7 +70,8 @@ public class MainFragment extends Fragment {
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             Book book = dataSnapshot.getValue(Book.class);
                             result.add(book);
-                            mAdapter.notifyDataSetChanged();
+                            Log.d(TAG, "onDataChange: " + dataSnapshot.getValue());
+                            snapAdapter.notifyDataSetChanged();
                         }
 
                         @Override

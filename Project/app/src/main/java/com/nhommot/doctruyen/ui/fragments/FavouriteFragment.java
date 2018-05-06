@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -46,7 +47,7 @@ public class FavouriteFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        snapAdapter = new SnapAdapter();
+        //snapAdapter = new SnapAdapter();
 
 //        Get current user id
         String userId = "4mPxG86sC0OuSalGRDeR3XBU3Uh2";
@@ -59,6 +60,7 @@ public class FavouriteFragment extends Fragment {
         recyclerView.setLayoutManager(llm);
         recyclerView.addItemDecoration(new SimpleDividerItemDecoration(this.getContext()));
         mAdapter = new FavouriteAdapter(this.getContext(), result);
+
 
         FirebaseUtils.getFavouriteRef().child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -81,6 +83,8 @@ public class FavouriteFragment extends Fragment {
                         }
                     });
                 }
+                snapAdapter.addSnap(new Snap(1,"TOP 10",result));
+                recyclerView.setAdapter(snapAdapter);
             }
 
             @Override
@@ -88,10 +92,10 @@ public class FavouriteFragment extends Fragment {
 
             }
         });
-        ArrayList<Book> books = new ArrayList<>();
-        books.add(new Book("Naruto","Thikute","https://firebasestorage.googleapis.com/v0/b/doctruyen-697d3.appspot.com/o/books%2FbookRandomStr1%2Fpreview.jpeg?alt=media&token=158efc95-8b3a-41de-8790-04387dd006af",12334));
-        snapAdapter.addSnap(new Snap(1,"TOP 10",books));
-        recyclerView.setAdapter(snapAdapter);
+       // Toast.makeText(container.getContext(), result.get(0).getName(), Toast.LENGTH_SHORT).show();
+
+
         return rootView;
     }
+
 }

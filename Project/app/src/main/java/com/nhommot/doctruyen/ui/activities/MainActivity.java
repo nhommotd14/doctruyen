@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     name.setText(Objects.requireNonNull(dataSnapshot.getValue(User.class)).getFirstName());
                     email.setText(Objects.requireNonNull(dataSnapshot.getValue(User.class)).getUsername());
-                    Picasso.with(headerLayout.getContext()).load(Objects.requireNonNull(dataSnapshot.getValue(User.class)).getImgURL()).into(avataUser);
+                    Picasso.get().load(Objects.requireNonNull(dataSnapshot.getValue(User.class)).getImgURL()).into(avataUser);
                 }
 
                 @Override

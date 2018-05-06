@@ -26,6 +26,7 @@ public class SnapAdapter  extends RecyclerView.Adapter<SnapAdapter.ViewHolder> i
 
     public static final int VERTICAL = 0;
     public static final int HORIZONTAL = 1;
+    private Context context;
 
     private ArrayList<Snap> mSnaps;
     // Disable touch detection for parent recyclerView if we use vertical nested recyclerViews
@@ -37,9 +38,9 @@ public class SnapAdapter  extends RecyclerView.Adapter<SnapAdapter.ViewHolder> i
         }
     };
 
-    public SnapAdapter() {
+    public SnapAdapter(Context context) {
         mSnaps = new ArrayList<>();
-
+        this.context = context;
     }
 
     public void addSnap(Snap snap) {
@@ -120,7 +121,7 @@ public class SnapAdapter  extends RecyclerView.Adapter<SnapAdapter.ViewHolder> i
         }
 
 
-        holder.recyclerView.setAdapter(new Adapter(snap.getGravity() == Gravity.START
+        holder.recyclerView.setAdapter(new Adapter(context,snap.getGravity() == Gravity.START
                 || snap.getGravity() == Gravity.END
                 || snap.getGravity() == Gravity.CENTER_HORIZONTAL,
                 snap.getGravity() == Gravity.CENTER, snap.getApps()));
