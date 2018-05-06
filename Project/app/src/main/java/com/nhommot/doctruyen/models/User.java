@@ -44,10 +44,10 @@ public class User {
         this.sex = sex;
     }
     public User(String userName, Integer age, String sex, String URLImage) {
-        this.userName = userName;
-        this.age = age;
-        this.sex = sex;
-        this.URLImage = URLImage;
+//        this.userName = userName;
+//        this.age = age;
+//        this.sex = sex;
+//        this.URLImage = URLImage;
     }
 
     public User() {

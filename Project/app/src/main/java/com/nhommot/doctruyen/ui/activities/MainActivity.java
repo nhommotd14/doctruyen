@@ -78,6 +78,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
 
             });
+            register.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(view.getContext(), RegisterActivity.class);
+                    startActivity(intent);
+                }
+            });
         } else {
             navigationView.removeHeaderView(navigationView.getHeaderView(0));
             navigationView.inflateHeaderView(R.layout.nav_header);
