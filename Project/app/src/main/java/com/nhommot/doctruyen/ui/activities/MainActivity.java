@@ -40,12 +40,14 @@ import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private final String TAG = "MainActivity";
     private DrawerLayout drawer;
     Button login, register;
     TextView email, name;
-    ImageView avataUser;
+    CircleImageView avataUser;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference root = firebaseDatabase.getReference();
     NavigationView navigationView;
@@ -116,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     name.setText(Objects.requireNonNull(dataSnapshot.getValue(User.class)).getFirstName());
                     email.setText(Objects.requireNonNull(dataSnapshot.getValue(User.class)).getUsername());
-                    Picasso.with(headerLayout.getContext()).load(Objects.requireNonNull(dataSnapshot.getValue(User.class)).getImgURL()).into(avataUser);
+                    Picasso.get().load(Objects.requireNonNull(dataSnapshot.getValue(User.class)).getImgURL()).into(avataUser);
                 }
 
                 @Override

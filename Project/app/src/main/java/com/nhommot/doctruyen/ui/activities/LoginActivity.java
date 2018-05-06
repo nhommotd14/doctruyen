@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,6 +23,8 @@ public class LoginActivity extends AppCompatActivity {
     Button btnLogin, btnRegister;
     EditText edtEmail, edtPassword;
     ImageView imgView;
+    TextView link;
+
 
     FirebaseAuth mAuthencation;
 
@@ -53,6 +56,14 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        link.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, ForgetPasswordActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void DangNhap() {
@@ -79,6 +90,7 @@ public class LoginActivity extends AppCompatActivity {
         edtPassword = (EditText) findViewById(R.id.edtPassword);
         imgView = (ImageView) findViewById(R.id.imageView);
         imgView.setImageResource(R.drawable.comic);
+        link = (TextView) findViewById(R.id.link);
     }
 
     private String checkValidate(String email, String password) {

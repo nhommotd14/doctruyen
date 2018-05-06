@@ -100,7 +100,7 @@ public class ReviewActivity extends AppCompatActivity {
                     theLoai += entry.getKey() + " ";
                 }
                 tvTheLoai.setText(theLoai);
-                Picasso.with(ReviewActivity.this).load(book.getImgPreview()).into(img);
+                Picasso.get().load(book.getImgPreview()).into(img);
 
                 FirebaseUtils.getAuthorRef().child(book.getAuthor()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
