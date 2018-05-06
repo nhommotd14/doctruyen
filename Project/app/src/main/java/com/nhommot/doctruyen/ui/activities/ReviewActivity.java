@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -49,6 +50,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -100,7 +102,7 @@ public class ReviewActivity extends AppCompatActivity {
 
 
         img = (ImageView) findViewById(R.id.imgReview);
-        Log.d(TAG, "onCreate: "+SharedPrefsUtils.getOfflineState(this));
+        Log.d(TAG, "onCreate: " + SharedPrefsUtils.getOfflineState(this));
         if (SharedPrefsUtils.getOfflineState(this)) {
             Cursor cursor = dbOffline.Getdata("select * from bookoff where id='" + bookId + "'");
             BookOffline bookOffline = null;
@@ -211,115 +213,60 @@ public class ReviewActivity extends AppCompatActivity {
                         @Override
                         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                             Log.d(TAG, "onChildAdded: KEY " + dataSnapshot.getKey());
-                            Chapter chapter = dataSnapshot.getValue(Chapter.class);
-                            dbOffline.InsertChap(chapter.getBookId(), chapter.getChapterId(), chapter.getChapterName());
+                            final Chapter chapter = dataSnapshot.getValue(Chapter.class);
+                            Cursor cursor = dbOffline.Getdata("Select * from bookchapoff where idtruyen='" + currentBookId + "' AND idchap='" + chapter.getChapterId() + "'");
+                            if (cursor.getCount() == 0)
+                                dbOffline.InsertChap(chapter.getBookId(), chapter.getChapterId(), chapter.getChapterName());
 
-                            FirebaseUtils.getChapterRef().child(currentBookId).addChildEventListener(new ChildEventListener() {
+                            //InsertContent
+                            contentDatabase = FirebaseDatabase.getInstance().getReference().child("contents").child(chapter.getChapterId());
+
+                            contentDatabase.addValueEventListener(new ValueEventListener() {
+
                                 @Override
-                                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                                    Log.d(TAG, "onChildAdded: KEY " + dataSnapshot.getKey());
-                                    final Chapter chapter = dataSnapshot.getValue(Chapter.class);
-                                    Cursor cursor=dbOffline.Getdata("Select * from bookchapoff where idtruyen='"+currentBookId+"' AND idchap='"+chapter.getChapterId()+"'");
-                                    if(cursor.getCount()==0)
-                                    dbOffline.InsertChap(chapter.getBookId(), chapter.getChapterId(), chapter.getChapterName());
-
-                                    //InsertContent
-                                    contentDatabase = FirebaseDatabase.getInstance().getReference().child("contents").child(chapter.getChapterId());
-
-                                    contentDatabase.addValueEventListener(new ValueEventListener() {
-
-                                        @Override
-                                        public void onDataChange(DataSnapshot dataSnapshot) {
-                                            Iterable<DataSnapshot> nodeChild = dataSnapshot.getChildren();
-                                            for (final DataSnapshot dataSnapshot1 : nodeChild) {
-                                                final Content content = dataSnapshot1.getValue(Content.class);
-                                                try {
-                                                    Cursor cursor=dbOffline.Getdata("Select * from chap where chapnum='"+content.getContentNumber()+"' AND idchap='"+chapter.getChapterId()+"'");
-                                                    if(cursor.getCount()==0)
-                                                    dbOffline.InsertContent(content.getChapterId(), content.getContentNumber(), urlImgToByte(content.getSrc()));
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
-                                                }
-
-                                            }
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    Iterable<DataSnapshot> nodeChild = dataSnapshot.getChildren();
+                                    for (final DataSnapshot dataSnapshot1 : nodeChild) {
+                                        final Content content = dataSnapshot1.getValue(Content.class);
+                                        try {
+                                            Cursor cursor = dbOffline.Getdata("Select * from chap where chapnum='" + content.getContentNumber() + "' AND idchap='" + chapter.getChapterId() + "'");
+                                            if (cursor.getCount() == 0)
+                                                dbOffline.InsertContent(content.getChapterId(), content.getContentNumber(), urlImgToByte(content.getSrc()));
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
                                         }
 
-                                        @Override
-                                        public void onCancelled(DatabaseError databaseError) {
-
-                                        }
-                                    });
-                                }
-
-                                @Override
-                                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                                }
-
-                                @Override
-                                public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                                }
-
-                                @Override
-                                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                                }
-
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-
-                                }
-                            });
-                            Log.d(TAG, "onChildAdded: chapter.getChapterId() " + chapter.getChapterId());
-                            FirebaseUtils.getContentRef().child(chapter.getChapterId()).addChildEventListener(new ChildEventListener() {
-                                @Override
-                                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                                    Log.d(TAG, "onChildAdded content: ");
-                                    Content content = dataSnapshot.getValue(Content.class);
-                                    Log.d(TAG,"content"+content.getChapterId());
-                                    try {
-
-                                    dbOffline.InsertContent(content.getChapterId(),content.getContentNumber(),urlImgToByte(content.getSrc()));
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
                                     }
                                 }
 
                                 @Override
-                                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                                }
-
-                                @Override
-                                public void onChildRemoved(DataSnapshot dataSnapshot) {
-                                }
-
-                                @Override
-                                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                                }
-
-                                @Override
                                 public void onCancelled(DatabaseError databaseError) {
+
                                 }
                             });
                         }
 
                         @Override
                         public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
                         }
 
                         @Override
                         public void onChildRemoved(DataSnapshot dataSnapshot) {
+
                         }
 
                         @Override
                         public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
                         }
 
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
+
                         }
                     });
+
 
                     Toast.makeText(ReviewActivity.this, "Da Tai Thanh Cong", Toast.LENGTH_SHORT).show();
                 }
@@ -380,7 +327,7 @@ public class ReviewActivity extends AppCompatActivity {
         Picasso.get().load(src).into(img, new Callback() {
             @Override
             public void onSuccess() {
-                rt[0] =ImageViewToByte(img);
+                rt[0] = ImageViewToByte(img);
                 Picasso.get().load(urlImg).into(img);
             }
 
@@ -390,6 +337,30 @@ public class ReviewActivity extends AppCompatActivity {
             }
         });
         return rt[0];
+    }
+
+    private class LoadImageInternet extends AsyncTask<String, Void, Bitmap> {
+        Bitmap bitmapHinh;
+
+        @Override
+        protected Bitmap doInBackground(String... strings) {
+            try {
+                URL url = new URL(strings[0]);
+                InputStream inputStream = url.openConnection().getInputStream();
+                bitmapHinh = BitmapFactory.decodeStream(inputStream);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return bitmapHinh;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            super.onPostExecute(bitmap);
+            img.setImageBitmap(bitmap);
+        }
     }
 }
 

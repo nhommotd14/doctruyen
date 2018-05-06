@@ -5,6 +5,7 @@ public class ContentOffline {
     private String chapnum;
     private byte[] img;
 
+    public ContentOffline(){}
     public ContentOffline(String idchap, String chapnum, byte[] img) {
         this.idchap = idchap;
         this.chapnum = chapnum;
