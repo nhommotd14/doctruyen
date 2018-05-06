@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,11 +38,13 @@ import com.nhommot.doctruyen.risk.comment_risk;
 import com.nhommot.doctruyen.models.Author;
 import com.nhommot.doctruyen.models.Book;
 import com.nhommot.doctruyen.models.Rating;
+import com.nhommot.doctruyen.models.User;
 import com.nhommot.doctruyen.ui.adapters.TabAdapter;
 import com.nhommot.doctruyen.ui.fragments.ChapterFragment;
 import com.nhommot.doctruyen.ui.fragments.CommentFragment;
 import com.nhommot.doctruyen.ui.fragments.ReviewFragment;
 import com.nhommot.doctruyen.utils.FirebaseUtils;
+import com.nhommot.doctruyen.utils.JsonUtils;
 import com.nhommot.doctruyen.utils.SharedPrefsUtils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -72,6 +75,7 @@ public class ReviewActivity extends AppCompatActivity {
     private RatingBar ratingBar;
     private String userId;
     private Bitmap bmp;
+    private ImageButton btnLike;
 
     DatabaseReference contentDatabase;
 
@@ -93,6 +97,8 @@ public class ReviewActivity extends AppCompatActivity {
         tvTheLoai = (TextView) findViewById(R.id.tvTheLoai);
         btnDocTruyen = (Button) findViewById(R.id.doctruyen);
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
+        btnLike = findViewById(R.id.imageButtonLike);
+
 
 //        //Test
         buttonDownload = findViewById(R.id.imageButtonDownload);

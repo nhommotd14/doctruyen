@@ -70,7 +70,40 @@ public class ReadActivity extends AppCompatActivity {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Iterable<DataSnapshot> nodeChild = dataSnapshot.getChildren();
                     for (DataSnapshot dataSnapshot1:nodeChild){
-                        Content content=dataSnapshot1.getValue(Content.class);
+                        final Content content=dataSnapshot1.getValue(Content.class);
+                        if(FirebaseAuth.getInstance().getCurrentUser() !=null){
+                            userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                            Log.d(TAG, "onChildAdded: +++++"+ userID);
+                            FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).addChildEventListener(new ChildEventListener() {
+                                @Override
+                                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                                    if(dataSnapshot.getKey().equals(content.getContentId())){
+                                        Log.d(TAG, "onChildAdded: ="+ dataSnapshot.getKey());
+                                        recyclerView.scrollToPosition(content.getContentNumber()-1);
+                                    }
+                                }
+
+                                @Override
+                                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                                }
+
+                                @Override
+                                public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                                }
+
+                                @Override
+                                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+                        }
                         contentArrayList.add(content);
                     }
                     mAdapter.notifyDataSetChanged();
@@ -181,9 +214,12 @@ public class ReadActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-//        FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).removeValue();
-//        FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).child(SharedPrefsUtils.getCurrentContentId(this)).setValue(true);
-//        Log.d(TAG, "onStop: "+ SharedPrefsUtils.getCurrentContentId(this));
+        if (userID != null) {
+            FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).removeValue();
+            FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).child(SharedPrefsUtils.getCurrentContentId(this)).setValue(true);
+            Log.d(TAG, "onStop: "+ SharedPrefsUtils.getCurrentContentId(this));
+        }
+
     }
 
 }
