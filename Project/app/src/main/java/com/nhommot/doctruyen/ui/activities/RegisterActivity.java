@@ -47,7 +47,7 @@ public class RegisterActivity extends AppCompatActivity {
         btnDangKy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String flg = checkValidate(edtFirstName.getText().toString(), edtLastName.getText().toString(),edtEmail.getText().toString(), edtPassword.getText().toString(), edtAge.getText().toString());
+                String flg = checkValidate(edtFirstName.getText().toString(), edtLastName.getText().toString(),edtEmail.getText().toString().trim(), edtPassword.getText().toString().trim(), edtAge.getText().toString());
                 if (flg.equals("")) {
                     DangKy();
                 } else {
