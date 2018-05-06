@@ -1,12 +1,15 @@
 package com.nhommot.doctruyen.ui.activities;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nhommot.doctruyen.R;
 import com.nhommot.doctruyen.database.BookOfflineSQLite;
+import com.nhommot.doctruyen.models.BookOffline;
 import com.nhommot.doctruyen.models.Chapter;
 import com.nhommot.doctruyen.models.ChapterOffline;
 import com.nhommot.doctruyen.models.Content;
@@ -62,7 +66,7 @@ public class ReviewActivity extends AppCompatActivity {
     private String userId;
     private Bitmap bmp;
 
-//    //Test by Toan
+    //    //Test by Toan
     private ImageButton buttonDownload;
     private String des;
 
@@ -82,39 +86,85 @@ public class ReviewActivity extends AppCompatActivity {
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
 
 //        //Test
-        buttonDownload=findViewById(R.id.imageButtonDownload);
+        buttonDownload = findViewById(R.id.imageButtonDownload);
 //        //
-//        final BookOfflineSQLite dbOffline=new BookOfflineSQLite(getApplicationContext(),"OfflineBook.sqlite",null,1);
-//        dbOffline.DeleteBook("Naruto");
-//        dbOffline.QueryData("Drop table OfflineBook.bookoffline");
-        final BookOfflineSQLite dbOffline=new BookOfflineSQLite(getApplicationContext(),"OfflineBook.sqlite",null,1);
-        String tableBook="create table if not exists bookoff(id nvarchar,name nvarchar,author nvarchar,description nvarchar,img Blob)";
-        dbOffline.QueryData(tableBook);
-        String tableBookChap="create table if not exists BookChapoff(idtruyen nvarchar,idchap nvarchar,chapname nvarchar)";
-        dbOffline.QueryData(tableBookChap);
-        String tableChap="create table if not exists Chap(idchap nvarchar,chapnum integer,img Blob)";
-        dbOffline.QueryData(tableChap);
+
+        final BookOfflineSQLite dbOffline = new BookOfflineSQLite(getApplicationContext(), "OfflineBook.sqlite", null, 1);
+
 
         final ImageView img = (ImageView) findViewById(R.id.imgReview);
-        ValueEventListener bookListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Book book = dataSnapshot.getValue(Book.class);
+        Log.d(TAG, "onCreate: "+SharedPrefsUtils.getOfflineState(this));
+        if (SharedPrefsUtils.getOfflineState(this)) {
+            Cursor cursor = dbOffline.Getdata("select * from bookoff where id='" + bookId + "'");
+            BookOffline bookOffline = null;
+            while (cursor.moveToNext()) {
+                bookOffline = new BookOffline(
+                        cursor.getString(0),
+                        cursor.getString(1),
+                        cursor.getString(2),
+                        cursor.getString(3),
+                        cursor.getBlob(4),
+                        cursor.getString(5),
+                        cursor.getDouble(6)
+                );
+            }
+            tvTenTruyen.setText(bookOffline.getName());
+            tvTacGia.setText(bookOffline.getAuthor());
+            tvTheLoai.setText(bookOffline.getType());
+            ratingBar.setRating((float) bookOffline.getStar());
+            Bitmap bitmap = BitmapFactory.decodeByteArray(bookOffline.getImg(), 0, bookOffline.getImg().length);
+            img.setImageBitmap(bitmap);
+
+        } else {
+
+            ValueEventListener bookListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Book book = dataSnapshot.getValue(Book.class);
 //                Log.d(TAG, "onDataChange: " + JsonUtils.encode(book));
-                tvTenTruyen.setText(String.valueOf(book.getName()));
-                String theLoai = "";
+                    tvTenTruyen.setText(String.valueOf(book.getName()));
+                    String theLoai = "";
 
-                for (Map.Entry<String, Boolean> entry : book.getTypes().entrySet()) {
-                    theLoai += entry.getKey() + " ";
+                    for (Map.Entry<String, Boolean> entry : book.getTypes().entrySet()) {
+                        theLoai += entry.getKey() + " ";
+                    }
+                    tvTheLoai.setText(theLoai);
+                    Picasso.get().load(book.getImgPreview()).into(img);
+
+                    FirebaseUtils.getAuthorRef().child(book.getAuthor()).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            Author author = dataSnapshot.getValue(Author.class);
+                            tvTacGia.setText(author.getName());
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+//                //Test
+                    des = book.getDescription();
+//                //
                 }
-                tvTheLoai.setText(theLoai);
-                Picasso.get().load(book.getImgPreview()).into(img);
 
-                FirebaseUtils.getAuthorRef().child(book.getAuthor()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            };
+            FirebaseUtils.getBookRef().child(bookId).addValueEventListener(bookListener);
+            if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                FirebaseDatabase.getInstance().getReference("ratings").child(bookId).child(userId).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        Author author = dataSnapshot.getValue(Author.class);
-                        tvTacGia.setText(author.getName());
+                        Rating rate = dataSnapshot.getValue(Rating.class);
+//                    Toast.makeText(ReviewActivity.this,"ass "+rate.getBookId(),Toast.LENGTH_LONG).show();
+                        if (rate != null) {
+                            ratingBar.setRating(rate.getStars());
+                        }
                     }
 
                     @Override
@@ -122,99 +172,93 @@ public class ReviewActivity extends AppCompatActivity {
 
                     }
                 });
-
-//                //Test
-                des=book.getDescription();
-//                //
+                addListenerOnRatingBar();
             }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        };
-        FirebaseUtils.getBookRef().child(bookId).addValueEventListener(bookListener);
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-            FirebaseDatabase.getInstance().getReference("ratings").child(bookId).child(userId).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    Rating rate = dataSnapshot.getValue(Rating.class);
-//                    Toast.makeText(ReviewActivity.this,"ass "+rate.getBookId(),Toast.LENGTH_LONG).show();
-                    if(rate!=null) {
-                        ratingBar.setRating(rate.getStars());
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-            addListenerOnRatingBar();
         }
-
 //        //Test
         buttonDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                final BookOfflineSQLite dbOffline=new BookOfflineSQLite(getApplicationContext(),"OfflineBook.sqlite",null,1);
-//                String tableBook="create table if not exists bookoff(id nvarchar,name nvarchar,author nvarchar,description nvarchar,img Blob)";
-//                dbOffline.QueryData(tableBook);
-//                String tableBookChap="create table if not exists BookChap(idtruyen nvarchar,idchap nvarchar,chapname nvarchar)";
-//                dbOffline.QueryData(tableBookChap);
-//                String tableChap="create table if not exists Chap(idchap nvarchar,chapnum integer,img Blob)";
-//                dbOffline.QueryData(tableChap);
 
-                //InsertBook
-                dbOffline.InsertBook(bookId,tvTenTruyen.getText().toString(),tvTacGia.getText().toString(),des,ImageViewToByte(img));
+                Cursor cursor = dbOffline.Getdata("select 1 from bookoff where id='" + bookId + "'");
+                if (cursor.getCount() > 0) {
+                    Toast.makeText(ReviewActivity.this, "Truyen Da Tai", Toast.LENGTH_SHORT).show();
+                } else {
+                    //InsertBook
+                    BookOffline bookOffline = new BookOffline();
+                    bookOffline.setBookId(bookId);
+                    bookOffline.setName(tvTenTruyen.getText().toString());
+                    bookOffline.setAuthor(tvTacGia.getText().toString());
+                    bookOffline.setDescription(des);
+                    bookOffline.setImg(ImageViewToByte(img));
+                    bookOffline.setType(tvTheLoai.getText().toString());
+                    bookOffline.setStar(ratingBar.getNumStars());
 
-                //InsertChap
-                String currentBookId = SharedPrefsUtils.getCurrentBookId(getApplicationContext());
-                final List<Chapter> result= new ArrayList<>();
-                FirebaseUtils.getChapterRef().child(currentBookId).addChildEventListener(new ChildEventListener() {
-                    @Override
-                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                        Log.d(TAG, "onChildAdded: KEY " + dataSnapshot.getKey());
-                        Chapter chapter = dataSnapshot.getValue(Chapter.class);
-                        dbOffline.InsertChap(chapter.getBookId(),chapter.getChapterId(),chapter.getChapterName());
+                    dbOffline.InsertBook(bookOffline);
 
-                        //InsertContent
-                        FirebaseUtils.getContentRef().child(chapter.getChapterId()).addChildEventListener(new ChildEventListener() {
-                            @Override
-                            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                                Content content=dataSnapshot.getValue(Content.class);
-                                try {
-                                    dbOffline.InsertContent(content.getChapterId(),content.getContentId(),urlImgToByte(content.getSrc()));
-                                } catch (Exception e) {
-                                    e.printStackTrace();
+                    //InsertChap
+                    String currentBookId = SharedPrefsUtils.getCurrentBookId(getApplicationContext());
+                    final List<Chapter> result = new ArrayList<>();
+                    FirebaseUtils.getChapterRef().child(currentBookId).addChildEventListener(new ChildEventListener() {
+                        @Override
+                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                            Log.d(TAG, "onChildAdded: KEY " + dataSnapshot.getKey());
+                            Chapter chapter = dataSnapshot.getValue(Chapter.class);
+                            dbOffline.InsertChap(chapter.getBookId(), chapter.getChapterId(), chapter.getChapterName());
+
+                            //InsertContent
+                            FirebaseUtils.getContentRef().child(chapter.getChapterId()).addChildEventListener(new ChildEventListener() {
+                                @Override
+                                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                                    Content content = dataSnapshot.getValue(Content.class);
+                                    try {
+//                                    dbOffline.InsertContent(content.getChapterId(),content.getContentId(),urlImgToByte(content.getSrc()));
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
                                 }
-                            }
-                            @Override
-                            public void onChildChanged(DataSnapshot dataSnapshot, String s) { }
-                            @Override
-                            public void onChildRemoved(DataSnapshot dataSnapshot) { }
-                            @Override
-                            public void onChildMoved(DataSnapshot dataSnapshot, String s) { }
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) { }
-                        });
-                    }
-                    @Override
-                    public void onChildChanged(DataSnapshot dataSnapshot, String s) { }
-                    @Override
-                    public void onChildRemoved(DataSnapshot dataSnapshot) { }
-                    @Override
-                    public void onChildMoved(DataSnapshot dataSnapshot, String s) { }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) { }
-                });
 
+                                @Override
+                                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                                }
 
+                                @Override
+                                public void onChildRemoved(DataSnapshot dataSnapshot) {
+                                }
+
+                                @Override
+                                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                        }
+
+                        @Override
+                        public void onChildRemoved(DataSnapshot dataSnapshot) {
+                        }
+
+                        @Override
+                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                        }
+                    });
+
+                    Toast.makeText(ReviewActivity.this, "Da Tai Thanh Cong", Toast.LENGTH_SHORT).show();
+                }
             }
         });
-//        //
     }
+
 
     public void onClickDocTruyen(View v) {
         Intent intent = new Intent(ReviewActivity.this, ReadActivity.class);
@@ -230,17 +274,18 @@ public class ReviewActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
     }
 
-//    //Test
-    public byte[] ImageViewToByte(ImageView imageView){
-        BitmapDrawable drawable=(BitmapDrawable) imageView.getDrawable();
-        Bitmap bitmap=drawable.getBitmap();
+    //    //Test
+    public byte[] ImageViewToByte(ImageView imageView) {
+        BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
+        Bitmap bitmap = drawable.getBitmap();
 
-        ByteArrayOutputStream stream=new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,100,stream);
-        byte[] bytes=stream.toByteArray();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] bytes = stream.toByteArray();
         return bytes;
     }
-//    //
+
+    //    //
     public void addListenerOnRatingBar() {
         FirebaseAuth.getInstance().getCurrentUser();
         ratingBar.setOnTouchListener(new View.OnTouchListener() {
@@ -267,7 +312,7 @@ public class ReviewActivity extends AppCompatActivity {
 
         try (InputStream inputStream = url.openStream()) {
             int n = 0;
-            byte [] buffer = new byte[ 1024 ];
+            byte[] buffer = new byte[1024];
             while (-1 != (n = inputStream.read(buffer))) {
                 output.write(buffer, 0, n);
             }

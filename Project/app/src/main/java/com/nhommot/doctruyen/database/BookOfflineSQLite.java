@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
 
+import com.nhommot.doctruyen.models.BookOffline;
+
 public class BookOfflineSQLite extends SQLiteOpenHelper {
     public BookOfflineSQLite(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -23,16 +25,18 @@ public class BookOfflineSQLite extends SQLiteOpenHelper {
         return db.rawQuery(sql,null);
     }
 
-    public void InsertBook(String id,String name,String author,String description, byte[] img){
+    public void InsertBook(BookOffline bookOffline){
         SQLiteDatabase db=getWritableDatabase();
-        String insert="insert into bookoff values(?,?,?,?,?)";
+        String insert="insert into bookoff values(?,?,?,?,?,?,?)";
         SQLiteStatement statement=db.compileStatement(insert);
         statement.clearBindings();
-        statement.bindString(1,id);
-        statement.bindString(2,name);
-        statement.bindString(3,author);
-        statement.bindString(4,description);
-        statement.bindBlob(5,img);
+        statement.bindString(1,bookOffline.getBookId());
+        statement.bindString(2,bookOffline.getName());
+        statement.bindString(3,bookOffline.getAuthor());
+        statement.bindString(4,bookOffline.getDescription());
+        statement.bindBlob(5,bookOffline.getImg());
+        statement.bindString(6,bookOffline.getType());
+        statement.bindDouble(7,bookOffline.getStar());
         statement.execute();
     }
 

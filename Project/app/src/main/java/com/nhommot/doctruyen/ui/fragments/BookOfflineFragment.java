@@ -40,12 +40,6 @@ public class BookOfflineFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_book_offline, container, false);
         //Database
         final BookOfflineSQLite dbOffline=new BookOfflineSQLite(this.getContext(),"OfflineBook.sqlite",null,1);
-//        String tableBook="create table if not exists Bookoffline(id integer primary key,name nvarchar,author nvarchar,description nvarchar,img Blob)";
-//        dbOffline.QueryData(tableBook);
-//        String tableBookChap="create table if not exists BookChap(idtruyen integer,idchap integer,chapnum integer,hinh Blob)";
-//        dbOffline.QueryData(tableBookChap);
-//        String tableChap="create table if not exists chap(id integer primary key,hinh Blob)";
-
         bookArray=new ArrayList<BookOffline>();
 
         //Ket noi database
@@ -56,7 +50,9 @@ public class BookOfflineFragment extends Fragment {
                     cursor.getString(1),
                     cursor.getString(2),
                     cursor.getString(3),
-                    cursor.getBlob(4)
+                    cursor.getBlob(4),
+                    cursor.getString(5),
+                    cursor.getDouble(6)
             ));
         }
         recyclerView = rootView.findViewById(R.id.bookoffline_recycle_view);
@@ -67,8 +63,6 @@ public class BookOfflineFragment extends Fragment {
         recyclerView.addItemDecoration(new SimpleDividerItemDecoration(this.getContext()));
         mAdapter = new AListOfflineBookAdapter(this.getContext(), bookArray);
         recyclerView.setAdapter(mAdapter);
-
-
 
         mAdapter.notifyDataSetChanged();
         return rootView;

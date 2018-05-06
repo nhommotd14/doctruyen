@@ -48,10 +48,11 @@ public class AListOfflineBookAdapter extends RecyclerView.Adapter<AListOfflineBo
         final BookOffline bookOffline = bookOfflines.get(position);
 
         if (bookOffline != null) {
-            holder.textViewName.setText(bookOffline.getBookName());
-            holder.textViewAuthor.setText(bookOffline.getBookAuthor());
+            holder.textViewName.setText(bookOffline.getName());
+            holder.textViewAuthor.setText(bookOffline.getAuthor());
             Bitmap bitmap = BitmapFactory.decodeByteArray(bookOffline.getImg(), 0, bookOffline.getImg().length);
             holder.imageViewHinh.setImageBitmap(bitmap);
+
         }
         holder.setItemClickListener(new AListOfflineBookAdapter.ItemClickListener() {
             @Override

@@ -14,6 +14,7 @@ public class SharedPrefsUtils {
     private static final String CURRENT_BOOK = "currentBook";
     private static final String CURRENT_BOOK_ID = "currentBookId";
     private static final String CURRENT_CONTENT_ID = "currentContentId";
+    private static final String OFFLINE_STATE = "offlineState";
 
 
     public static SharedPreferences getPrefs(Context context) {
@@ -53,6 +54,17 @@ public class SharedPrefsUtils {
 
     public static void removeCurrentContentId(Context context) {
         getPrefs(context).edit().remove(CURRENT_CONTENT_ID).commit();
+    }
+    public static boolean getOfflineState (Context context) {
+        return getPrefs(context).getBoolean(OFFLINE_STATE, false);
+    }
+
+    public static void setOfflineState(Context context, boolean b) {
+        getPrefs(context).edit().putBoolean(OFFLINE_STATE, b).commit();
+    }
+
+    public static void removeOfflineState(Context context) {
+        getPrefs(context).edit().remove(OFFLINE_STATE).commit();
     }
 
 

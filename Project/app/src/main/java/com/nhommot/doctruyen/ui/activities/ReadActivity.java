@@ -34,6 +34,7 @@ public class ReadActivity extends AppCompatActivity {
     String chapterId = "";
     String userID;
     String bookId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,10 +43,10 @@ public class ReadActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerRead);
 
         //get value từ Adapter
-        mAdapter = new ReadAdapter(this,contentArrayList);
+        mAdapter = new ReadAdapter(this, contentArrayList);
 
         //tạo layout Horizontal
-        layoutManager = new LinearLayoutManager(this, layoutManager.HORIZONTAL,false);
+        layoutManager = new LinearLayoutManager(this, layoutManager.HORIZONTAL, false);
 
         //set các thông số cho recyclerView
         recyclerView.setHasFixedSize(true);
@@ -60,7 +61,7 @@ public class ReadActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent.hasExtra("chapterId")) {
             chapterId = intent.getStringExtra("chapterId");
-            Log.d(TAG, "onCreate: ==============="+ chapterId);
+            Log.d(TAG, "onCreate: ===============" + chapterId);
             chapterId = intent.getStringExtra("chapterId");
             contentDatabase = FirebaseDatabase.getInstance().getReference().child("contents").child(chapterId);
 
@@ -68,8 +69,8 @@ public class ReadActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Iterable<DataSnapshot> nodeChild = dataSnapshot.getChildren();
-                    for (DataSnapshot dataSnapshot1:nodeChild){
-                        Content content=dataSnapshot1.getValue(Content.class);
+                    for (DataSnapshot dataSnapshot1 : nodeChild) {
+                        Content content = dataSnapshot1.getValue(Content.class);
                         contentArrayList.add(content);
                     }
                     mAdapter.notifyDataSetChanged();
@@ -84,95 +85,99 @@ public class ReadActivity extends AppCompatActivity {
 
 
             Log.d(TAG, "============== " + bookId);
-            contentDatabase = FirebaseDatabase.getInstance().getReference().child("chapters").child(bookId);
-            Log.d(TAG, "onCreate: else =======================================");
-            contentDatabase.addChildEventListener(new ChildEventListener() {
-                @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    Chapter chapter = dataSnapshot.getValue(Chapter.class);
+            if (SharedPrefsUtils.getOfflineState(this)) {
 
-                    if (chapter.getChapterNumber() == 1){
-                        Log.d(TAG, "onChildAdded: chaptrer 1======================" );
-                        String chapterId = chapter.getChapterId();
-                        contentDatabase = FirebaseDatabase.getInstance().getReference().child("contents").child(chapterId);
+            } else {
+                contentDatabase = FirebaseDatabase.getInstance().getReference().child("chapters").child(bookId);
+                Log.d(TAG, "onCreate: else =======================================");
+                contentDatabase.addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        Chapter chapter = dataSnapshot.getValue(Chapter.class);
 
-                        contentDatabase.addValueEventListener(new ValueEventListener() {
+                        if (chapter.getChapterNumber() == 1) {
+                            Log.d(TAG, "onChildAdded: chaptrer 1======================");
+                            String chapterId = chapter.getChapterId();
+                            contentDatabase = FirebaseDatabase.getInstance().getReference().child("contents").child(chapterId);
 
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                Iterable<DataSnapshot> nodeChild = dataSnapshot.getChildren();
-                                for (final DataSnapshot dataSnapshot1 : nodeChild){
-                                    final Content content = dataSnapshot1.getValue(Content.class);
-                                    contentArrayList.add(content);
-                                    if(FirebaseAuth.getInstance().getCurrentUser() !=null){
-                                        userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                                        Log.d(TAG, "onChildAdded: +++++"+ userID);
-                                        FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).addChildEventListener(new ChildEventListener() {
-                                            @Override
-                                            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                                                Log.d(TAG, "onChildAdded: +++++"+ dataSnapshot.getKey());
-                                                Log.d(TAG, "onChildAdded: -----"+ dataSnapshot1.getKey());
-                                                Log.d(TAG, "onChildAdded: *****"+ dataSnapshot.getKey().equals(dataSnapshot1.getKey()));
-                                                if(dataSnapshot.getKey().equals(dataSnapshot1.getKey())){
-                                                    Log.d(TAG, "onChildAdded: ="+ dataSnapshot.getKey());
-                                                    recyclerView.scrollToPosition(content.getContentId()-1);
+                            contentDatabase.addValueEventListener(new ValueEventListener() {
+
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    Iterable<DataSnapshot> nodeChild = dataSnapshot.getChildren();
+                                    for (final DataSnapshot dataSnapshot1 : nodeChild) {
+                                        final Content content = dataSnapshot1.getValue(Content.class);
+                                        contentArrayList.add(content);
+                                        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                                            userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                            Log.d(TAG, "onChildAdded: +++++" + userID);
+                                            FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).addChildEventListener(new ChildEventListener() {
+                                                @Override
+                                                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                                                    Log.d(TAG, "onChildAdded: +++++" + dataSnapshot.getKey());
+                                                    Log.d(TAG, "onChildAdded: -----" + dataSnapshot1.getKey());
+                                                    Log.d(TAG, "onChildAdded: *****" + dataSnapshot.getKey().equals(dataSnapshot1.getKey()));
+                                                    if (dataSnapshot.getKey().equals(dataSnapshot1.getKey())) {
+                                                        Log.d(TAG, "onChildAdded: =" + dataSnapshot.getKey());
+                                                        recyclerView.scrollToPosition(content.getContentId() - 1);
+
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
                                                 }
-                                            }
 
-                                            @Override
-                                            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                                                @Override
+                                                public void onChildRemoved(DataSnapshot dataSnapshot) {
 
-                                            }
+                                                }
 
-                                            @Override
-                                            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                                                @Override
+                                                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
-                                            }
+                                                }
 
-                                            @Override
-                                            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                                                @Override
+                                                public void onCancelled(DatabaseError databaseError) {
 
-                                            }
-
-                                            @Override
-                                            public void onCancelled(DatabaseError databaseError) {
-
-                                            }
-                                        });
+                                                }
+                                            });
+                                        }
                                     }
+                                    mAdapter.notifyDataSetChanged();
                                 }
-                                mAdapter.notifyDataSetChanged();
-                            }
 
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
 
-                            }
-                        });
+                                }
+                            });
+                        }
                     }
-                }
 
-                @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-                }
+                    }
 
-                @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
 
-                }
+                    }
 
-                @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
-                }
+                    }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
-                }
-            });
+                    }
+                });
+            }
         }
 
     }
@@ -180,13 +185,13 @@ public class ReadActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d(TAG, "onStop: "+ SharedPrefsUtils.getCurrentContentId(this));
+        Log.d(TAG, "onStop: " + SharedPrefsUtils.getCurrentContentId(this));
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d(TAG, "onPause: "+ SharedPrefsUtils.getCurrentContentId(this));
+        Log.d(TAG, "onPause: " + SharedPrefsUtils.getCurrentContentId(this));
 //        FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).removeValue();
 //        FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).child("contentRandomStr"+SharedPrefsUtils.getCurrentContentId(this)).setValue(true);
 
