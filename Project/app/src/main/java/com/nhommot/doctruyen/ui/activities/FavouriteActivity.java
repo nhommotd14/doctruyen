@@ -13,7 +13,7 @@ public class FavouriteActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_favourite);
+        setContentView(R.layout.fragment_main);
         setControl();
 
     }
