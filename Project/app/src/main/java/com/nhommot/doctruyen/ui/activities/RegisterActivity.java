@@ -84,7 +84,7 @@ public class RegisterActivity extends AppCompatActivity {
                             startActivity(intent);
                         }
                         else {
-                            Toast.makeText(RegisterActivity.this, "Lỗi !", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this, "Tài khoản đã tồn tại !", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
