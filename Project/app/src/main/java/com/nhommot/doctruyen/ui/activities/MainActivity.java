@@ -33,6 +33,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nhommot.doctruyen.R;
 import com.nhommot.doctruyen.models.User;
+import com.nhommot.doctruyen.ui.fragments.BookOfflineFragment;
 import com.nhommot.doctruyen.ui.fragments.FavouriteFragment;
 import com.nhommot.doctruyen.ui.fragments.MainFragment;
 import com.squareup.picasso.Picasso;
@@ -143,6 +144,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new MainFragment();
                 break;
             case R.id.nav_download:
+                fragment = new BookOfflineFragment();
                 break;
             case R.id.nav_favourite:
                 fragment = new FavouriteFragment();

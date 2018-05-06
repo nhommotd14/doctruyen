@@ -10,15 +10,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.nhommot.doctruyen.R;
 import com.nhommot.doctruyen.database.BookOfflineSQLite;
+import com.nhommot.doctruyen.models.Chapter;
+import com.nhommot.doctruyen.models.ChapterOffline;
+import com.nhommot.doctruyen.models.Content;
 import com.nhommot.doctruyen.risk.comment_risk;
 import com.nhommot.doctruyen.models.Author;
 import com.nhommot.doctruyen.models.Book;
@@ -32,6 +37,10 @@ import com.nhommot.doctruyen.utils.SharedPrefsUtils;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class ReviewActivity extends AppCompatActivity {
@@ -47,8 +56,8 @@ public class ReviewActivity extends AppCompatActivity {
     private String bookId = "";
 
 //    //Test by Toan
-//    private Button buttonTest;
-//    private String des;
+    private ImageButton buttonDownload;
+    private String des;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +74,18 @@ public class ReviewActivity extends AppCompatActivity {
         btnDocTruyen = (Button) findViewById(R.id.doctruyen);
 
 //        //Test
-//        buttonTest=(Button) findViewById(R.id.buttonTest);
+        buttonDownload=findViewById(R.id.imageButtonDownload);
 //        //
+//        final BookOfflineSQLite dbOffline=new BookOfflineSQLite(getApplicationContext(),"OfflineBook.sqlite",null,1);
+//        dbOffline.DeleteBook("Naruto");
+//        dbOffline.QueryData("Drop table OfflineBook.bookoffline");
+        final BookOfflineSQLite dbOffline=new BookOfflineSQLite(getApplicationContext(),"OfflineBook.sqlite",null,1);
+        String tableBook="create table if not exists bookoff(id nvarchar,name nvarchar,author nvarchar,description nvarchar,img Blob)";
+        dbOffline.QueryData(tableBook);
+        String tableBookChap="create table if not exists BookChapoff(idtruyen nvarchar,idchap nvarchar,chapname nvarchar)";
+        dbOffline.QueryData(tableBookChap);
+        String tableChap="create table if not exists Chap(idchap nvarchar,chapnum integer,img Blob)";
+        dbOffline.QueryData(tableChap);
 
         final ImageView img = (ImageView) findViewById(R.id.imgReview);
         ValueEventListener bookListener = new ValueEventListener() {
@@ -97,7 +116,7 @@ public class ReviewActivity extends AppCompatActivity {
                 });
 
 //                //Test
-//                des=book.getDescription();
+                des=book.getDescription();
 //                //
             }
 
@@ -109,18 +128,64 @@ public class ReviewActivity extends AppCompatActivity {
         FirebaseUtils.getBookRef().child(bookId).addValueEventListener(bookListener);
 
 //        //Test
-//        buttonTest.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
+        buttonDownload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 //                final BookOfflineSQLite dbOffline=new BookOfflineSQLite(getApplicationContext(),"OfflineBook.sqlite",null,1);
-//                String tableBook="create table if not exists Bookoffline(id integer primary key,name nvarchar,author nvarchar,description nvarchar,img Blob)";
+//                String tableBook="create table if not exists bookoff(id nvarchar,name nvarchar,author nvarchar,description nvarchar,img Blob)";
 //                dbOffline.QueryData(tableBook);
-//                String tableBookChap="create table if not exists BookChap(idtruyen integer,idchap integer,chapnum integer,hinh Blob)";
+//                String tableBookChap="create table if not exists BookChap(idtruyen nvarchar,idchap nvarchar,chapname nvarchar)";
 //                dbOffline.QueryData(tableBookChap);
-//
-//                dbOffline.InsertBook((double)1,tvTenTruyen.getText().toString(),tvTacGia.getText().toString(),des,ImageViewToByte(img));
-//            }
-//        });
+//                String tableChap="create table if not exists Chap(idchap nvarchar,chapnum integer,img Blob)";
+//                dbOffline.QueryData(tableChap);
+
+                //InsertBook
+                dbOffline.InsertBook(bookId,tvTenTruyen.getText().toString(),tvTacGia.getText().toString(),des,ImageViewToByte(img));
+
+                //InsertChap
+                String currentBookId = SharedPrefsUtils.getCurrentBookId(getApplicationContext());
+                final List<Chapter> result= new ArrayList<>();
+                FirebaseUtils.getChapterRef().child(currentBookId).addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        Log.d(TAG, "onChildAdded: KEY " + dataSnapshot.getKey());
+                        Chapter chapter = dataSnapshot.getValue(Chapter.class);
+                        dbOffline.InsertChap(chapter.getBookId(),chapter.getChapterId(),chapter.getChapterName());
+
+                        //InsertContent
+                        FirebaseUtils.getContentRef().child(chapter.getChapterId()).addChildEventListener(new ChildEventListener() {
+                            @Override
+                            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                                Content content=dataSnapshot.getValue(Content.class);
+                                try {
+                                    dbOffline.InsertContent(content.getChapterId(),content.getContentId(),urlImgToByte(content.getSrc()));
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            @Override
+                            public void onChildChanged(DataSnapshot dataSnapshot, String s) { }
+                            @Override
+                            public void onChildRemoved(DataSnapshot dataSnapshot) { }
+                            @Override
+                            public void onChildMoved(DataSnapshot dataSnapshot, String s) { }
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) { }
+                        });
+                    }
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) { }
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) { }
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) { }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) { }
+                });
+
+
+            }
+        });
 //        //
     }
 
@@ -139,18 +204,32 @@ public class ReviewActivity extends AppCompatActivity {
     }
 
 //    //Test
-//    public byte[] ImageViewToByte(ImageView imageView){
-//        BitmapDrawable drawable=(BitmapDrawable) imageView.getDrawable();
-//        Bitmap bitmap=drawable.getBitmap();
-//
-//        ByteArrayOutputStream stream=new ByteArrayOutputStream();
-//        bitmap.compress(Bitmap.CompressFormat.PNG,100,stream);
-//        byte[] bytes=stream.toByteArray();
-//        return bytes;
-//    }
+    public byte[] ImageViewToByte(ImageView imageView){
+        BitmapDrawable drawable=(BitmapDrawable) imageView.getDrawable();
+        Bitmap bitmap=drawable.getBitmap();
+
+        ByteArrayOutputStream stream=new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100,stream);
+        byte[] bytes=stream.toByteArray();
+        return bytes;
+    }
 //    //
     public void getBookId() {
         bookId = SharedPrefsUtils.getCurrentBookId(this);
+    }
+
+    public byte[] urlImgToByte(String urlText) throws Exception {
+        URL url = new URL(urlText);
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+
+        try (InputStream inputStream = url.openStream()) {
+            int n = 0;
+            byte [] buffer = new byte[ 1024 ];
+            while (-1 != (n = inputStream.read(buffer))) {
+                output.write(buffer, 0, n);
+            }
+        }
+        return output.toByteArray();
     }
 }
 

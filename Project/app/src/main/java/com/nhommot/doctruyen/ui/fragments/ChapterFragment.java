@@ -63,6 +63,7 @@ public class ChapterFragment extends Fragment {
                     Chapter chapter = dataSnapshot.getValue(Chapter.class);
                     result.add(chapter);
                     mAdapter.notifyDataSetChanged();
+
                 }
 
                 @Override

@@ -1,47 +1,37 @@
 package com.nhommot.doctruyen.models;
 
 public class ChapterOffline {
-    private int idBook;
-    private int idChap;
-    private int chapNum;
-    private byte[] img;
+    private String idBook;
+    private String idChap;
+    private String chapName;
 
-    public ChapterOffline(int idBook, int idChap, int chapNum, byte[] img) {
+    public ChapterOffline(String idBook, String idChap, String chapName) {
         this.idBook = idBook;
         this.idChap = idChap;
-        this.chapNum = chapNum;
-        this.img = img;
+        this.chapName = chapName;
     }
 
-    public int getIdBook() {
+    public String getIdBook() {
         return idBook;
     }
 
-    public void setIdBook(int idBook) {
+    public void setIdBook(String idBook) {
         this.idBook = idBook;
     }
 
-    public int getIdChap() {
+    public String getIdChap() {
         return idChap;
     }
 
-    public void setIdChap(int idChap) {
+    public void setIdChap(String idChap) {
         this.idChap = idChap;
     }
 
-    public int getChapNum() {
-        return chapNum;
+    public String getChapName() {
+        return chapName;
     }
 
-    public void setChapNum(int chapNum) {
-        this.chapNum = chapNum;
-    }
-
-    public byte[] getImg() {
-        return img;
-    }
-
-    public void setImg(byte[] img) {
-        this.img = img;
+    public void setChapName(String chapName) {
+        this.chapName = chapName;
     }
 }

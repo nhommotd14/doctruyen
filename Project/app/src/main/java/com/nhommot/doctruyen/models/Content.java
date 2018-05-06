@@ -15,6 +15,9 @@ public class Content {
         this.src = src;
     }
 
+    public Content() {
+    }
+
     public String getContentId() {
         return contentId;
     }

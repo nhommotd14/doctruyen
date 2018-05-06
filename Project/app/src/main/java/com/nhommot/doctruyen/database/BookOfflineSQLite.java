@@ -23,12 +23,12 @@ public class BookOfflineSQLite extends SQLiteOpenHelper {
         return db.rawQuery(sql,null);
     }
 
-    public void InsertBook(Double id,String name,String author,String description, byte[] img){
+    public void InsertBook(String id,String name,String author,String description, byte[] img){
         SQLiteDatabase db=getWritableDatabase();
-        String insert="insert into Bookoffline values(?,?,?,?,?)";
+        String insert="insert into bookoff values(?,?,?,?,?)";
         SQLiteStatement statement=db.compileStatement(insert);
         statement.clearBindings();
-        statement.bindDouble(1,id);
+        statement.bindString(1,id);
         statement.bindString(2,name);
         statement.bindString(3,author);
         statement.bindString(4,description);
@@ -38,18 +38,28 @@ public class BookOfflineSQLite extends SQLiteOpenHelper {
 
     public boolean DeleteBook(String name){
         SQLiteDatabase db=getWritableDatabase();
-        return db.delete("bookoffline","name='"+name+"'",null)>0;
+        return db.delete("bookoff","name='"+name+"'",null)>0;
     }
 
-    public void InsertChap(Double idBook,Double idChap,Double chapNum, byte[] img){
+    public void InsertChap(String idBook,String idChap,String chapName){
         SQLiteDatabase db=getWritableDatabase();
-        String insert="insert into BookChap values(?,?,?,?)";
+        String insert="insert into BookChapoff values(?,?,?)";
         SQLiteStatement statement=db.compileStatement(insert);
         statement.clearBindings();
-        statement.bindDouble(1,idBook);
-        statement.bindDouble(2,idChap);
-        statement.bindDouble(3,chapNum);
-        statement.bindBlob(4,img);
+        statement.bindString(1,idBook);
+        statement.bindString(2,idChap);
+        statement.bindString(3,chapName);
+        statement.execute();
+    }
+
+    public void InsertContent(String idChap,String chapNum,byte[] img){
+        SQLiteDatabase db=getWritableDatabase();
+        String insert="insert into Chap values(?,?,?)";
+        SQLiteStatement statement=db.compileStatement(insert);
+        statement.clearBindings();
+        statement.bindString(1,idChap);
+        statement.bindString(2,chapNum);
+        statement.bindBlob(3,img);
         statement.execute();
     }
 
