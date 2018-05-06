@@ -4,33 +4,11 @@
     android:layout_height="match_parent"
     >
 
-    <ViewFlipper
-        android:id="@+id/viewFlipper"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerRead"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
-                android:src="@drawable/conan" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
-                android:src="@drawable/connan2" />
-        </RelativeLayout>
-
-    </ViewFlipper>
+    </android.support.v7.widget.RecyclerView>
 
 
 </RelativeLayout>

@@ -13,6 +13,8 @@ import com.nhommot.doctruyen.models.Book;
 public class SharedPrefsUtils {
     private static final String CURRENT_BOOK = "currentBook";
     private static final String CURRENT_BOOK_ID = "currentBookId";
+    private static final String CURRENT_CONTENT_ID = "currentContentId";
+
 
     public static SharedPreferences getPrefs(Context context) {
         return context.getSharedPreferences(Constants.PACKAGE_NAME, Context.MODE_PRIVATE);
@@ -40,6 +42,17 @@ public class SharedPrefsUtils {
 
     public static void removeCurrentBookId(Context context) {
         getPrefs(context).edit().remove(CURRENT_BOOK_ID).commit();
+    }
+    public static int getCurrentContentId(Context context) {
+        return getPrefs(context).getInt(CURRENT_CONTENT_ID, -1);
+    }
+
+    public static void setCurrentContentId(Context context, int bookId) {
+        getPrefs(context).edit().putInt(CURRENT_CONTENT_ID, bookId).commit();
+    }
+
+    public static void removeCurrentContentId(Context context) {
+        getPrefs(context).edit().remove(CURRENT_CONTENT_ID).commit();
     }
 
 
