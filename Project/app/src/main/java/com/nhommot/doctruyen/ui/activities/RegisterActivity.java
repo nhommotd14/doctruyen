@@ -58,12 +58,12 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void DangKy() {
-        String email = edtEmail.getText().toString();
-        String pass = edtPassword.getText().toString();
+        String email = edtEmail.getText().toString().trim();
+        String pass = edtPassword.getText().toString().trim();
         final String userName = email;
         final String firstName = edtFirstName.getText().toString();
         final String lastName = edtLastName.getText().toString();
-        final String image = "https://firebasestorage.googleapis.com/v0/b/doctruyen-697d3.appspot.com/o/ImageAccount%2Faccount2.png?alt=media&token=cd8d5ce8-f18b-48fb-b1e3-5821799d7aa4";
+        final String image = "https://i.pinimg.com/originals/18/47/7b/18477b6021da0bc5ce4e54000118818f.png";
         final int age = Integer.parseInt(edtAge.getText().toString());
         final String sex = radionButton.getText().toString();
 
@@ -103,6 +103,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private String checkValidate(String fistName, String lastName, String email, String pass,  String age) {
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
         if (fistName.equals("")) {
             return "Vui lòng nhập Tên !";
         }
@@ -117,6 +118,10 @@ public class RegisterActivity extends AppCompatActivity {
         }
         if (age.equals("")) {
             return "Vui lòng nhập tuổi !";
+        }
+        if(!email.matches(emailPattern))
+        {
+            return "Vui lòng nhập đúng định dạng email !";
         }
         return "";
     }
