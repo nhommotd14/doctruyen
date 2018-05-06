@@ -82,11 +82,16 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private String checkValidate(String email, String password) {
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
         if (email.equals("")) {
             return "Vui lòng nhập email !";
         }
         if (password.equals("")) {
             return "Vui lòng nhập password !";
+        }
+        if(!email.matches(emailPattern))
+        {
+            return "Vui lòng nhập đúng định dạng email !";
         }
         return "";
     }

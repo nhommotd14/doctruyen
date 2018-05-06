@@ -1,6 +1,7 @@
 package com.nhommot.doctruyen.ui.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,7 +23,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nhommot.doctruyen.R;
 import com.nhommot.doctruyen.models.Comment;
+import com.nhommot.doctruyen.ui.activities.LoginActivity;
 import com.nhommot.doctruyen.ui.adapters.CommentAdapter;
+import com.nhommot.doctruyen.utils.AuthorUtils;
 import com.nhommot.doctruyen.utils.FirebaseUtils;
 import com.nhommot.doctruyen.utils.SharedPrefsUtils;
 
@@ -45,6 +49,16 @@ public class CommentFragment extends Fragment {
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        if(firebaseAuth.getCurrentUser() == null){
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -89,8 +103,7 @@ public class CommentFragment extends Fragment {
                 Comment comment = new Comment();
                 comment.setContent(content);
                 comment.setBookId(SharedPrefsUtils.getCurrentBookId(getContext()));
-               // comment.setUserId(AuthorUtils.getCurrentUserId());
-
+                comment.setUserId(AuthorUtils.getCurrentUserId());
                 DatabaseReference databaseReference = FirebaseUtils.getCommentRef();
                 Date date = new Date();
                 comment.setCommentId(date.getTime()+"");
