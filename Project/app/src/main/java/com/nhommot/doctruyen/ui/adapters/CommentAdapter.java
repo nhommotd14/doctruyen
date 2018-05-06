@@ -71,8 +71,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentH
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     User user = dataSnapshot.getValue(User.class);
-                    txtName.setText(user.userName);
-                    Picasso.with(mContext).load(user.URLImage).into(imgAvatar);
+                    //txtName.setText(user.userName);
+                   // Picasso.with(mContext).load(user.URLImage).into(imgAvatar);
                 }
 
                 @Override

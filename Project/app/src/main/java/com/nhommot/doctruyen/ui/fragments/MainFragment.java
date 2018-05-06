@@ -38,12 +38,12 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_favourite, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         result = new ArrayList<>();
 //        TODO: replace main_recycle_view to ...
-        recyclerView = rootView.findViewById(R.id.favourite_recycle_view);
-        recyclerView.setHasFixedSize(true);
+        recyclerView = rootView.findViewById(R.id.recyclerView);
+       recyclerView.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(this.getContext());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(llm);

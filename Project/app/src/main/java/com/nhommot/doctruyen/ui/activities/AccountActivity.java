@@ -166,7 +166,7 @@ public class AccountActivity extends AppCompatActivity {
                         edPhoneAcc.setText(dataSnapshot.getValue(User.class).getPhoneNumber());
 
                         String imageUrl = dataSnapshot.getValue(User.class).getImgURL();
-                        Picasso.with(AccountActivity.this).load(imageUrl).into(circleImageTaiKhoan);
+                        Picasso.get().load(imageUrl).into(circleImageTaiKhoan);
                     }
 
                     @Override
@@ -269,7 +269,7 @@ public class AccountActivity extends AppCompatActivity {
                        String lastName = dataSnapshot.getValue(User.class).getLastName()+"";
                        tvTenTaiKhoan.setText(userName);
                        tvHoTen.setText(firstName+" "+lastName);
-                       Picasso.with(AccountActivity.this).load(imageUrl).into(imgTaiKhoan);
+                       Picasso.get().load(imageUrl).into(imgTaiKhoan);
                    }
 
                    @Override
@@ -289,7 +289,7 @@ public class AccountActivity extends AppCompatActivity {
                 && data != null && data.getData() != null) {
             mImageUri = data.getData();
 
-            Picasso.with(this).load(mImageUri).into(imgTaiKhoan);
+            Picasso.get().load(mImageUri).into(imgTaiKhoan);
         }
     }
 
