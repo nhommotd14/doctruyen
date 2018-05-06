@@ -136,4 +136,8 @@ public class User {
     public void setBirth(String birth) {
         this.birth = birth;
     }
+
+    public String getFullName(){
+        return firstName + " " + lastName;
+    }
 }
