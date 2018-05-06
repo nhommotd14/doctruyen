@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -16,9 +17,12 @@ import com.google.firebase.database.ValueEventListener;
 import com.nhommot.doctruyen.R;
 import com.nhommot.doctruyen.models.Book;
 import com.nhommot.doctruyen.models.Chapter;
+import com.nhommot.doctruyen.ui.activities.MainActivity;
 import com.nhommot.doctruyen.ui.adapters.ChapterAdapter;
 import com.nhommot.doctruyen.ui.adapters.FavouriteAdapter;
 import com.nhommot.doctruyen.ui.adapters.SimpleDividerItemDecoration;
+import com.nhommot.doctruyen.ui.adapters.Snap;
+import com.nhommot.doctruyen.ui.adapters.SnapAdapter;
 import com.nhommot.doctruyen.utils.FirebaseUtils;
 import com.nhommot.doctruyen.utils.JsonUtils;
 import com.nhommot.doctruyen.utils.SharedPrefsUtils;
@@ -34,7 +38,7 @@ import java.util.Map;
 public class FavouriteFragment extends Fragment {
     private final String TAG = "FavouriteFragment";
     private FavouriteAdapter mAdapter;
-
+    private SnapAdapter snapAdapter;
     List<Book> result;
     RecyclerView recyclerView;
 
@@ -42,20 +46,22 @@ public class FavouriteFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_favourite, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        //snapAdapter = new SnapAdapter();
 
 //        Get current user id
         String userId = "4mPxG86sC0OuSalGRDeR3XBU3Uh2";
         result = new ArrayList<>();
-//        TODO: replace favourite_recycle_view to ...
-        recyclerView = rootView.findViewById(R.id.favourite_recycle_view);
+//        TODO: replace favourite_recycle_view to ...ma
+        recyclerView = rootView.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(this.getContext());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(llm);
         recyclerView.addItemDecoration(new SimpleDividerItemDecoration(this.getContext()));
         mAdapter = new FavouriteAdapter(this.getContext(), result);
-        recyclerView.setAdapter(mAdapter);
+
+
         FirebaseUtils.getFavouriteRef().child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -77,6 +83,8 @@ public class FavouriteFragment extends Fragment {
                         }
                     });
                 }
+                snapAdapter.addSnap(new Snap(1,"TOP 10",result));
+                recyclerView.setAdapter(snapAdapter);
             }
 
             @Override
@@ -84,7 +92,10 @@ public class FavouriteFragment extends Fragment {
 
             }
         });
+       // Toast.makeText(container.getContext(), result.get(0).getName(), Toast.LENGTH_SHORT).show();
+
 
         return rootView;
     }
+
 }

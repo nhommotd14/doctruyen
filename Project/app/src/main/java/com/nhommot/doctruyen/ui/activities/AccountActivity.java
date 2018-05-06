@@ -160,7 +160,7 @@ public class AccountActivity extends AppCompatActivity {
                         edPhoneAcc.setText(dataSnapshot.getValue(User.class).getPhoneNumber());
 
                         String imageUrl = dataSnapshot.getValue(User.class).getImgURL();
-                        Picasso.with(AccountActivity.this).load(imageUrl).into(circleImageTaiKhoan);
+                        Picasso.get().load(imageUrl).into(circleImageTaiKhoan);
                     }
 
                     @Override
@@ -172,19 +172,19 @@ public class AccountActivity extends AppCompatActivity {
         btnDongY.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                user.setUsername(edUsernameAcc.getText()+"");
-                user.setFirstName(edFirstNameAcc.getText()+"");
-                user.setLastName(edLastNameAcc.getText()+"");
-                user.setAge(Integer.parseInt(String.valueOf(edTuoi.getText())));
-                user.setAddress(edAddressAcc.getText()+"");
-                user.setPhoneNumber(edPhoneAcc.getText()+"");
-                root.child("User").child(uIdAccount).setValue(user);
-//                root.child("User").child(uIdAccount).child("username").setValue(edUsernameAcc.getText()+"");
-//                root.child("User").child(uIdAccount).child("firstName").setValue(edFirstNameAcc.getText()+"");
-//                root.child("User").child(uIdAccount).child("lastName").setValue(edLastNameAcc.getText()+"");
-//                root.child("User").child(uIdAccount).child("age").setValue(edTuoi.getText()+"");
-//                root.child("User").child(uIdAccount).child("address").setValue(edAddressAcc.getText()+"");
-//                root.child("User").child(uIdAccount).child("phoneNumber").setValue(edPhoneAcc.getText()+"");
+//                user.setUsername(edUsernameAcc.getText()+"");
+//                user.setFirstName(edFirstNameAcc.getText()+"");
+//                user.setLastName(edLastNameAcc.getText()+"");
+//                user.setAge(Integer.parseInt(String.valueOf(edTuoi.getText())));
+//                user.setAddress(edAddressAcc.getText()+"");
+//                user.setPhoneNumber(edPhoneAcc.getText()+"");
+//                root.child("User").child(uIdAccount).setValue(user);
+                root.child("User").child(uIdAccount).child("username").setValue(edUsernameAcc.getText()+"");
+                root.child("User").child(uIdAccount).child("firstName").setValue(edFirstNameAcc.getText()+"");
+                root.child("User").child(uIdAccount).child("lastName").setValue(edLastNameAcc.getText()+"");
+                root.child("User").child(uIdAccount).child("age").setValue(Integer.valueOf(edTuoi.getText().toString()));
+                root.child("User").child(uIdAccount).child("address").setValue(edAddressAcc.getText()+"");
+                root.child("User").child(uIdAccount).child("phoneNumber").setValue(edPhoneAcc.getText()+"");
 
                 dialog.hide();
             }
@@ -263,7 +263,7 @@ public class AccountActivity extends AppCompatActivity {
                        String lastName = dataSnapshot.getValue(User.class).getLastName()+"";
                        tvTenTaiKhoan.setText(userName);
                        tvHoTen.setText(firstName+" "+lastName);
-                       Picasso.with(AccountActivity.this).load(imageUrl).into(imgTaiKhoan);
+                       Picasso.get().load(imageUrl).into(imgTaiKhoan);
                    }
 
                    @Override
@@ -283,7 +283,7 @@ public class AccountActivity extends AppCompatActivity {
                 && data != null && data.getData() != null) {
             mImageUri = data.getData();
 
-            Picasso.with(this).load(mImageUri).into(imgTaiKhoan);
+            Picasso.get().load(mImageUri).into(imgTaiKhoan);
         }
     }
 

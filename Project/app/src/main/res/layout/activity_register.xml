@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#90caf9"
+    android:background="#ffffff"
     tools:context=".ui.activities.RegisterActivity">
 
     <LinearLayout
@@ -45,10 +44,10 @@
             android:layout_alignParentTop="true"
             android:layout_margin="15dp"
             android:ems="10"
-            android:hint="Email"
             android:fontFamily="sans-serif-medium"
-            android:textSize="20dp"
-            android:inputType="textPersonName" />
+            android:hint="Email"
+            android:inputType="textPersonName"
+            android:textSize="20dp" />
 
         <EditText
             android:id="@+id/editTextPassword"
@@ -57,10 +56,10 @@
             android:layout_alignParentTop="true"
             android:layout_margin="15dp"
             android:ems="10"
-            android:hint="Password"
             android:fontFamily="sans-serif-medium"
-            android:textSize="20dp"
-            android:inputType="textPassword" />
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:textSize="20dp" />
 
         <EditText
             android:id="@+id/editTextAge"
@@ -70,8 +69,8 @@
             android:layout_margin="15dp"
             android:ems="10"
             android:fontFamily="sans-serif-medium"
-            android:textSize="20dp"
-            android:hint="Age" />
+            android:hint="Age"
+            android:textSize="20dp" />
 
         <RadioGroup
             android:id="@+id/radioSex"
@@ -88,8 +87,8 @@
                 android:layout_margin="5dp"
                 android:checked="true"
                 android:fontFamily="sans-serif-medium"
-                android:textSize="20dp"
-                android:text="Male" />
+                android:text="Male"
+                android:textSize="20dp" />
 
             <RadioButton
                 android:id="@+id/radioFemale"
@@ -97,8 +96,8 @@
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
                 android:fontFamily="sans-serif-medium"
-                android:textSize="20dp"
-                android:text="Female" />
+                android:text="Female"
+                android:textSize="20dp" />
 
         </RadioGroup>
 
@@ -113,9 +112,11 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="20dp"
-            android:background="@android:color/holo_blue_dark"
+            android:background="#f44336"
             android:fontFamily="sans-serif-medium"
             android:text="SIGN UP"
+            android:textColor="#ffffff"
+            android:textColorLink="#f44336"
             android:textSize="20sp"
             android:textStyle="bold" />
 
