@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -17,17 +18,22 @@ import com.nhommot.doctruyen.R;
 import com.nhommot.doctruyen.models.Chapter;
 import com.nhommot.doctruyen.models.Content;
 import com.nhommot.doctruyen.ui.adapters.ReadAdapter;
+import com.nhommot.doctruyen.utils.FirebaseUtils;
 import com.nhommot.doctruyen.utils.SharedPrefsUtils;
 
 import java.util.ArrayList;
 
 public class ReadActivity extends AppCompatActivity {
     private final String TAG = "ReadActivity";
+    private String currentContent;
     DatabaseReference contentDatabase;
     RecyclerView recyclerView;
     private final ArrayList<Content> contentArrayList = new ArrayList<>();
     private LinearLayoutManager layoutManager;
     private ReadAdapter mAdapter;
+    String chapterId = "";
+    String userID;
+    String bookId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +42,7 @@ public class ReadActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerRead);
 
         //get value từ Adapter
-        mAdapter = new ReadAdapter(contentArrayList);
+        mAdapter = new ReadAdapter(this,contentArrayList);
 
         //tạo layout Horizontal
         layoutManager = new LinearLayoutManager(this, layoutManager.HORIZONTAL,false);
@@ -45,13 +51,12 @@ public class ReadActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(mAdapter);
-
 //
-        String bookId = SharedPrefsUtils.getCurrentBookId(this);
+        bookId = SharedPrefsUtils.getCurrentBookId(this);
 
 
         //truy xuất vào database
-        String chapterId = "";
+
         Intent intent = getIntent();
         if (intent.hasExtra("chapterId")) {
             chapterId = intent.getStringExtra("chapterId");
@@ -76,6 +81,8 @@ public class ReadActivity extends AppCompatActivity {
                 }
             });
         } else {
+
+
             Log.d(TAG, "============== " + bookId);
             contentDatabase = FirebaseDatabase.getInstance().getReference().child("chapters").child(bookId);
             Log.d(TAG, "onCreate: else =======================================");
@@ -94,9 +101,46 @@ public class ReadActivity extends AppCompatActivity {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 Iterable<DataSnapshot> nodeChild = dataSnapshot.getChildren();
-                                for (DataSnapshot dataSnapshot1 : nodeChild){
-                                    Content content = dataSnapshot1.getValue(Content.class);
+                                for (final DataSnapshot dataSnapshot1 : nodeChild){
+                                    final Content content = dataSnapshot1.getValue(Content.class);
                                     contentArrayList.add(content);
+                                    if(FirebaseAuth.getInstance().getCurrentUser() !=null){
+                                        userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                        Log.d(TAG, "onChildAdded: +++++"+ userID);
+                                        FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).addChildEventListener(new ChildEventListener() {
+                                            @Override
+                                            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                                                Log.d(TAG, "onChildAdded: +++++"+ dataSnapshot.getKey());
+                                                Log.d(TAG, "onChildAdded: -----"+ dataSnapshot1.getKey());
+                                                Log.d(TAG, "onChildAdded: *****"+ dataSnapshot.getKey().equals(dataSnapshot1.getKey()));
+                                                if(dataSnapshot.getKey().equals(dataSnapshot1.getKey())){
+                                                    Log.d(TAG, "onChildAdded: ="+ dataSnapshot.getKey());
+                                                    recyclerView.scrollToPosition(content.getContentId()-1);
+
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                                            }
+
+                                            @Override
+                                            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                                            }
+
+                                            @Override
+                                            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                                            }
+
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+
+                                            }
+                                        });
+                                    }
                                 }
                                 mAdapter.notifyDataSetChanged();
                             }
@@ -133,4 +177,18 @@ public class ReadActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop: "+ SharedPrefsUtils.getCurrentContentId(this));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause: "+ SharedPrefsUtils.getCurrentContentId(this));
+        FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).removeValue();
+        FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).child("contentRandomStr"+SharedPrefsUtils.getCurrentContentId(this)).setValue(true);
+
+    }
 }
