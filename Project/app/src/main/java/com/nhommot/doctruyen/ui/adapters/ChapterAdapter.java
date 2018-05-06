@@ -7,25 +7,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-import com.nhommot.doctruyen.Constants;
 import com.nhommot.doctruyen.R;
 import com.nhommot.doctruyen.models.Chapter;
 import com.nhommot.doctruyen.ui.activities.ReadActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -58,7 +45,7 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
             public void onClick(View view, int position, boolean isLongClick) {
 //                Toast.makeText(mContext, " "+chapters.get(position), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(mContext, ReadActivity.class);
-                intent.putExtra("chapter", chapters.get(position));
+                intent.putExtra("chapterId", chapters.get(position).getChapterId());
                 mContext.startActivity(intent);
             }
         });

@@ -109,23 +109,28 @@
                         android:orientation="horizontal"
                         android:layout_height="wrap_content">
 
+
+
                         <ImageButton
                             android:id="@+id/imageButtonDownload"
                             style="@style/Widget.AppCompat.Button.Borderless"
+                            android:id="@+id/imageButton"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="2dp"
                             android:layout_weight="1"
                             app:srcCompat="@drawable/ic_file_download" />
 
+                            style="@style/Widget.AppCompat.Button.Borderless"
+                            app:srcCompat="@drawable/ic_thumb_up_black_18dp" />
                         <ImageButton
-                            android:id="@+id/imageButton"
+                            android:id="@+id/imageButton3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:layout_margin="2dp"
                             style="@style/Widget.AppCompat.Button.Borderless"
-                            app:srcCompat="@drawable/ic_thumb_up_black_18dp" />
+                            app:srcCompat="@drawable/ic_file_download" />
 
                     </LinearLayout>
                 </LinearLayout>

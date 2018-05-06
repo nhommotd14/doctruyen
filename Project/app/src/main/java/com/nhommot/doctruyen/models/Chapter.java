@@ -11,7 +11,16 @@ public class Chapter implements Serializable{
     private String chapterId;
     private String bookId;
     private String chapterName;
+    private int chapterNumber;
     private List<Content> contents;
+
+    public int getChapterNumber() {
+        return chapterNumber;
+    }
+
+    public void setChapterNumber(int chapterNumber) {
+        this.chapterNumber = chapterNumber;
+    }
 
     public Chapter(){};
 
