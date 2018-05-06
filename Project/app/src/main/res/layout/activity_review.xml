@@ -19,7 +19,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="170dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="horizontal"
             android:paddingBottom="8dp">
@@ -37,32 +37,35 @@
                     android:layout_height="120dp"
                     android:layout_gravity="left|top"
                     android:layout_weight="1"
-                    android:minWidth="1dp"
-                     />
+                    android:padding="8px"
+                    android:minWidth="1dp" />
 
                 <Button
                     android:id="@+id/doctruyen"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
                     android:layout_weight="1"
-                    android:textSize="12sp"
                     android:onClick="onClickDocTruyen"
-                    android:text="Đọc Truyện" />
+                    android:text="Đọc Truyện"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="1dp"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="1dp">
 
                 <TextView
                     android:id="@+id/tvTenTruyen"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
-                    android:paddingRight="16dp"
-                    android:paddingTop="16dp"
+                    android:layout_weight="1"
                     android:textSize="24sp" />
 
                 <TextView
@@ -81,8 +84,50 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
+                    <RatingBar
+                        android:id="@+id/ratingBar"
+                        style="?android:attr/ratingBarStyleIndicator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:isIndicator="false"
+                        android:max="5"
+                        android:numStars="5"
+                        android:rating="0"
+                        android:scaleX="0.5"
+                        android:scaleY="0.5"
+                        android:stepSize="0.5"
+                        android:transformPivotX="0dp"
+                        android:transformPivotY="0dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content">
+
+                        <ImageButton
+                            android:id="@+id/imageButton3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_margin="2dp"
+                            style="@style/Widget.AppCompat.Button.Borderless"
+                            app:srcCompat="@drawable/ic_file_download" />
+
+                        <ImageButton
+                            android:id="@+id/imageButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_margin="2dp"
+                            style="@style/Widget.AppCompat.Button.Borderless"
+                            app:srcCompat="@drawable/ic_thumb_up_black_18dp" />
+
+                    </LinearLayout>
                 </LinearLayout>
 
             </LinearLayout>
