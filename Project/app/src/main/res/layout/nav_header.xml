@@ -9,6 +9,7 @@
         android:id="@+id/imageView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="#009624"
         android:contentDescription="@string/kitty_cat_cover"
         android:scaleType="centerCrop"
         android:src="@drawable/nav_cover" />
@@ -29,8 +30,7 @@
                 android:id="@+id/avata_user_nav"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:layout_marginRight="10dp"
-                android:background="#ff00f2" />
+                android:layout_marginRight="10dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"

@@ -50,7 +50,6 @@ public class AccountActivity extends AppCompatActivity {
     TextView tvCaiDat, tvCapNhat,tvTenTaiKhoan,tvHoTen;
     RelativeLayout layoutCaiDat,layoutChinhSach,layoutAbout,layoutDangXuat,layoutTaiKhoan,layoutThongTinTaiKhoan;
     CircleImageView imgTaiKhoan;
-    private android.support.design.widget.FloatingActionButton floatingActionButton;
     private static final int PICK_IMAGE_REQUEST = 1;
     private Uri mImageUri;
     private StorageReference mStorageRef;
@@ -116,12 +115,7 @@ public class AccountActivity extends AppCompatActivity {
         });
 
 
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                loadDialogAccount();
-            }
-        });
+
         layoutThongTinTaiKhoan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -305,7 +299,6 @@ public class AccountActivity extends AppCompatActivity {
         layoutCaiDat = findViewById(R.id.layoutCaiDat);
         layoutThongTinTaiKhoan = findViewById(R.id.layoutThongTinTaiKhoan);
         layoutTaiKhoan = findViewById(R.id.layoutTaiKhoan);
-        floatingActionButton = findViewById(R.id.fab);
         mStorageRef = FirebaseStorage.getInstance().getReference("ImageAccount");
         root = FirebaseDatabase.getInstance().getReference();
         loadImageAccount();
