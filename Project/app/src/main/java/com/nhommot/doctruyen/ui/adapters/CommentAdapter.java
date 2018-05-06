@@ -64,30 +64,34 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentH
 
         public void bindView(final Comment comment) {
 
-//
-//            txtComment.setText(comment.getContent());
-//          //  FirebaseUtils.getUserRef().child(comment.getUserId())
-//           //         .addValueEventListener(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(DataSnapshot dataSnapshot) {
-//                    User user = dataSnapshot.getValue(User.class);
-//                  //  txtName.setText(user.userName);
-//                    Picasso.with(mContext).load(user.URLImage).into(imgAvatar);
-//                }
-//
-//                @Override
-//                public void onCancelled(DatabaseError databaseError) {
-//
-//                }
-//            });
-//            imgDelete.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    FirebaseUtils.getCommentRef()
-//                            .child(comment.getBookId())
-//                            .child(comment.getCommentId()).removeValue();
-//                }
-//            });
+            try{
+                txtComment.setText(comment.getContent());
+                FirebaseUtils.getUserRef().child(comment.getUserId())
+                        .addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                User user = dataSnapshot.getValue(User.class);
+                                txtName.setText(user.getFullName());
+                                Picasso.with(mContext).load(user.getImgURL()).into(imgAvatar);
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                imgDelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        FirebaseUtils.getCommentRef()
+                                .child(comment.getBookId())
+                                .child(comment.getCommentId()).removeValue();
+                    }
+                });
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
         }
     }
 }
