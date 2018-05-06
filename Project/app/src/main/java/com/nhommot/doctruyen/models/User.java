@@ -43,12 +43,6 @@ public class User {
     public void setSex(String sex) {
         this.sex = sex;
     }
-    public User(String userName, Integer age, String sex, String URLImage) {
-        //this.userName = userName;
-        this.age = age;
-        this.sex = sex;
-        //this.URLImage = URLImage;
-    }
 
     public User() {
     }

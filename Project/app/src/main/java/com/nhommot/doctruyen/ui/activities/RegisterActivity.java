@@ -1,5 +1,7 @@
 package com.nhommot.doctruyen.ui.activities;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -77,10 +79,12 @@ public class RegisterActivity extends AppCompatActivity {
                             }
                             User data = new User(userName,firstName, lastName, age, image, sex);
                             mData.child("User").child(uid).setValue(data);
-                            Toast.makeText(RegisterActivity.this, "Đăng Ký Thành Công !", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this, "Đăng Ký Thành Công !", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                            startActivity(intent);
                         }
                         else {
-                            Toast.makeText(RegisterActivity.this, "Lỗi !", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this, "Tài khoản đã tồn tại !", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

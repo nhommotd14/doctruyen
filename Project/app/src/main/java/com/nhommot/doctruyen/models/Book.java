@@ -19,14 +19,19 @@ public class Book {
     private List<Rating> ratings;
     private List<Comment> comments;
 
-   public  Book (String name, String author, String imgPreview, int views)
-   {
-       this.name = name;
-       this.author=author;
-       this.imgPreview=imgPreview;
-       this.views=views;
-   }
-   public Book(){}
+    public Book() {
+
+    }
+
+    public Book(String bookId, String author, String name, String description, String imgPreview, int views) {
+        this.bookId = bookId;
+        this.author = author;
+        this.name = name;
+        this.description = description;
+        this.imgPreview = imgPreview;
+        this.views = views;
+    }
+
     public String getBookId() {
         return bookId;
     }
