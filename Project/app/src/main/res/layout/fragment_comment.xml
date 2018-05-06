@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context="com.nhommot.doctruyen.ui.activities.MainActivity">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/comment"
+        android:textColor="@android:color/background_dark"
+        android:textSize="16sp"
+        android:textStyle="normal|italic" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:height="1dp"
+        android:background="@android:color/background_dark"
+        android:text="TextView" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <EditText
+            android:id="@+id/edtComment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:minLines="5"
+            android:layout_weight="1"
+            android:minHeight="50dp"
+            android:background="@android:color/background_light"
+            android:ems="10"
+            android:gravity="top|center_vertical"
+            android:hint="Add a comment..."
+            android:inputType="textPersonName" />
+
+        <Button
+            android:id="@+id/btnPost"
+            android:layout_width="63dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:background="@color/colorPrimaryDark"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:text="Post"
+            android:textColor="@android:color/background_dark"
+            android:textStyle="normal|italic" />
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvComments"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/background_light"
+        android:listSelector="@color/colorPrimary"
+        android:layout_marginTop="10dp" />
+</LinearLayout>

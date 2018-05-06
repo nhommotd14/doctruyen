@@ -1,42 +1,33 @@
-package com.nhommot.doctruyen.ui;
+package com.nhommot.doctruyen.ui.activities;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
@@ -46,20 +37,16 @@ import com.google.firebase.storage.UploadTask;
 import com.nhommot.doctruyen.R;
 import com.nhommot.doctruyen.models.ImageAccount;
 import com.nhommot.doctruyen.models.User;
-import com.nhommot.doctruyen.ui.activities.LoginActivity;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.nhommot.doctruyen.ui.activities.LoginActivity.mAuthencation;
-//import static com.nhommot.doctruyen.ui.activities.LoginActivity.uIdAccount;
 
 public class AccountActivity extends AppCompatActivity {
+    private static final String TAG ="" ;
     TextView tvCaiDat, tvCapNhat,tvTenTaiKhoan,tvHoTen;
     RelativeLayout layoutCaiDat,layoutChinhSach,layoutAbout,layoutDangXuat,layoutTaiKhoan,layoutThongTinTaiKhoan;
     CircleImageView imgTaiKhoan;
@@ -71,17 +58,22 @@ public class AccountActivity extends AppCompatActivity {
     private String uIdAccount;
     private StorageTask mUploadTask;
     private List<ImageAccount> imageAccounts;
-
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.taikhoan_layout);
-        System.out.println(uIdAccount);
-        if (mAuthencation!=null){
-            uIdAccount=mAuthencation.getCurrentUser().getUid();
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        if (user!=null){
+            uIdAccount = user.getUid();
             addControls();
             addEvents();
+        }
+        else {
+            Toast.makeText(AccountActivity.this,"Vui lòng đăng nhập để sử dụng các chức năng",Toast.LENGTH_LONG);
         }
 
             layoutCaiDat = findViewById(R.id.layoutCaiDat);
@@ -101,6 +93,11 @@ public class AccountActivity extends AppCompatActivity {
             });
 
     }
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
 
     private void addEvents() {
 
@@ -136,20 +133,12 @@ public class AccountActivity extends AppCompatActivity {
         layoutDangXuat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mAuthencation.signOut();
-                mAuthencation=null;
+                FirebaseAuth.getInstance().signOut();
                 finish();
             }
         });
     }
 
-
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        FirebaseAuth.getInstance().signOut();
-    }
 
     private void loadDialogAccount() {
         final Dialog dialog = new Dialog(AccountActivity.this);
@@ -164,8 +153,7 @@ public class AccountActivity extends AppCompatActivity {
         final CircleImageView circleImageTaiKhoan = dialog.findViewById(R.id.circleImgTaiKhoan);
         Button btnDongY = dialog.findViewById(R.id.btnDongY);
         Button btnThoatAccount = dialog.findViewById(R.id.btnThoatAccount);
-        User user = new User();
-
+        final User user = new User();
         root.child("User").child(uIdAccount).
                 addValueEventListener(new ValueEventListener() {
                     @Override
@@ -173,9 +161,10 @@ public class AccountActivity extends AppCompatActivity {
                         edUsernameAcc.setText(dataSnapshot.getValue(User.class).getUsername());
                         edFirstNameAcc.setText(dataSnapshot.getValue(User.class).getFirstName());
                         edLastNameAcc.setText(dataSnapshot.getValue(User.class).getLastName());
+                        edTuoi.setText(dataSnapshot.getValue(User.class).getAge()+"");
                         edAddressAcc.setText(dataSnapshot.getValue(User.class).getAddress());
                         edPhoneAcc.setText(dataSnapshot.getValue(User.class).getPhoneNumber());
-                        edTuoi.setText(dataSnapshot.getValue(User.class).getAge()+"");
+
                         String imageUrl = dataSnapshot.getValue(User.class).getImgURL();
                         Picasso.with(AccountActivity.this).load(imageUrl).into(circleImageTaiKhoan);
                     }
@@ -189,14 +178,20 @@ public class AccountActivity extends AppCompatActivity {
         btnDongY.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                User user = new User();
                 user.setUsername(edUsernameAcc.getText()+"");
-                root.child("User").child(uIdAccount).child("username").setValue(edUsernameAcc.getText()+"");
-                root.child("User").child(uIdAccount).child("firstName").setValue(edFirstNameAcc.getText()+"");
-                root.child("User").child(uIdAccount).child("lastName").setValue(edLastNameAcc.getText()+"");
-                root.child("User").child(uIdAccount).child("address").setValue(edAddressAcc.getText()+"");
-                root.child("User").child(uIdAccount).child("phoneNumber").setValue(edPhoneAcc.getText()+"");
-                root.child("User").child(uIdAccount).child("age").setValue(edTuoi.getText()+"");
+                user.setFirstName(edFirstNameAcc.getText()+"");
+                user.setLastName(edLastNameAcc.getText()+"");
+                user.setAge(Integer.parseInt(String.valueOf(edTuoi.getText())));
+                user.setAddress(edAddressAcc.getText()+"");
+                user.setPhoneNumber(edPhoneAcc.getText()+"");
+                root.child("User").child(uIdAccount).setValue(user);
+//                root.child("User").child(uIdAccount).child("username").setValue(edUsernameAcc.getText()+"");
+//                root.child("User").child(uIdAccount).child("firstName").setValue(edFirstNameAcc.getText()+"");
+//                root.child("User").child(uIdAccount).child("lastName").setValue(edLastNameAcc.getText()+"");
+//                root.child("User").child(uIdAccount).child("age").setValue(edTuoi.getText()+"");
+//                root.child("User").child(uIdAccount).child("address").setValue(edAddressAcc.getText()+"");
+//                root.child("User").child(uIdAccount).child("phoneNumber").setValue(edPhoneAcc.getText()+"");
+
                 dialog.hide();
             }
         });
@@ -265,25 +260,23 @@ public class AccountActivity extends AppCompatActivity {
     public void loadImageAccount() {
 
         root.child("User").child(uIdAccount).
-                addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+               addValueEventListener(new ValueEventListener() {
+                   @Override
+                   public void onDataChange(DataSnapshot dataSnapshot) {
+                       String imageUrl = dataSnapshot.getValue(User.class).getImgURL()+"";
+                       String userName = dataSnapshot.getValue(User.class).getUsername()+"";
+                       String firstName = dataSnapshot.getValue(User.class).getFirstName()+"";
+                       String lastName = dataSnapshot.getValue(User.class).getLastName()+"";
+                       tvTenTaiKhoan.setText(userName);
+                       tvHoTen.setText(firstName+" "+lastName);
+                       Picasso.with(AccountActivity.this).load(imageUrl).into(imgTaiKhoan);
+                   }
 
-                         String imageUrl = dataSnapshot.getValue(User.class).getImgURL();
-                        String userName = dataSnapshot.getValue(User.class).getUsername();
-                        String firstName = dataSnapshot.getValue(User.class).getFirstName();
-                        String lastName = dataSnapshot.getValue(User.class).getLastName();
-                        tvTenTaiKhoan.setText(userName);
-                        tvHoTen.setText(firstName+" "+lastName);
-                        Picasso.with(AccountActivity.this).load(imageUrl).into(imgTaiKhoan);
+                   @Override
+                   public void onCancelled(DatabaseError databaseError) {
 
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
+                   }
+               });
 
 
     }

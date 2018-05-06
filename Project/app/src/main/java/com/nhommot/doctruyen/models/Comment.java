@@ -16,6 +16,8 @@ public class Comment {
         this.content = content;
         this.commentId = commentId;
     }
+    public Comment() {
+    }
 
     public String getUserId() {
         return userId;

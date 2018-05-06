@@ -19,8 +19,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.nhommot.doctruyen.R;
-import com.nhommot.doctruyen.ui.AccountActivity;
-import com.nhommot.doctruyen.ui.SettingActivity;
 import com.nhommot.doctruyen.ui.fragments.FavouriteFragment;
 import com.nhommot.doctruyen.ui.fragments.MainFragment;
 
