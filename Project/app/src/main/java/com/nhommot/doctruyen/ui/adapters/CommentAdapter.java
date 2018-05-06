@@ -72,7 +72,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentH
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 User user = dataSnapshot.getValue(User.class);
 //                                txtName.setText(user.getFullName());
-                                Picasso.with(mContext).load(user.getImgURL()).into(imgAvatar);
+                                Picasso.get().load(user.getImgURL()).into(imgAvatar);
 //                                Picasso.with(mContext).load(user.getImgURL()).into(imgAvatar);
                             }
 

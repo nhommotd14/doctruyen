@@ -59,7 +59,7 @@ public class AListOfflineBookAdapter extends RecyclerView.Adapter<AListOfflineBo
 //                Toast.makeText(mContext, " "+favourites.get(position), Toast.LENGTH_SHORT).show();
                 SharedPrefsUtils.setCurrentBookId(mContext, bookOfflines.get(position).getBookId());
                 Intent intent = new Intent(mContext, ReviewActivity.class);
-//                intent.putExtra("bookOffline",);
+                intent.putExtra("bookOffline",true);
                 mContext.startActivity(intent);
             }
         });
