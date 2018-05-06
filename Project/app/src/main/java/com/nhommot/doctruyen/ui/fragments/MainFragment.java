@@ -90,5 +90,18 @@ public class MainFragment extends Fragment {
 
         return rootView;
     }
+    public ArrayList<String> ListBookTpye(List<Book> books)
+    {
+        ArrayList<String> filter= new ArrayList<>();
 
+        for (Book i : books)
+        {
+            String s = new String();
+            if(!filter.contains(s))
+            {
+                filter.add(s);
+            }
+        }
+        return filter;
+    }
 }

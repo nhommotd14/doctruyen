@@ -25,6 +25,7 @@
         <activity android:name=".ui.activities.FavouriteActivity" />
         <activity android:name=".ui.activities.ReviewActivity" />
         <activity android:name=".ui.activities.AdminActivity" />
+        <activity android:name=".ui.activities.Detail" />
         <activity
             android:name=".ui.activities.SplashScreenActivity"
             android:theme="@style/SplashscreenTheme">
