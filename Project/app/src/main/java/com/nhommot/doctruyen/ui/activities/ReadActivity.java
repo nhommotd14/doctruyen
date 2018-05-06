@@ -52,7 +52,8 @@ public class ReadActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(mAdapter);
-//
+//      Set onSwipe
+
         bookId = SharedPrefsUtils.getCurrentBookId(this);
 
 
@@ -85,43 +86,39 @@ public class ReadActivity extends AppCompatActivity {
 
 
             Log.d(TAG, "============== " + bookId);
-            if (SharedPrefsUtils.getOfflineState(this)) {
+            contentDatabase = FirebaseDatabase.getInstance().getReference().child("chapters").child(bookId);
+            Log.d(TAG, "onCreate: else =======================================");
+            contentDatabase.addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    Chapter chapter = dataSnapshot.getValue(Chapter.class);
 
-            } else {
-                contentDatabase = FirebaseDatabase.getInstance().getReference().child("chapters").child(bookId);
-                Log.d(TAG, "onCreate: else =======================================");
-                contentDatabase.addChildEventListener(new ChildEventListener() {
-                    @Override
-                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                        Chapter chapter = dataSnapshot.getValue(Chapter.class);
+                    if (chapter.getChapterNumber() == 1){
+                        Log.d(TAG, "onChildAdded: chaptrer 1======================" );
+                        String chapterId = chapter.getChapterId();
+                        contentDatabase = FirebaseDatabase.getInstance().getReference().child("contents").child(chapterId);
 
-                        if (chapter.getChapterNumber() == 1) {
-                            Log.d(TAG, "onChildAdded: chaptrer 1======================");
-                            String chapterId = chapter.getChapterId();
-                            contentDatabase = FirebaseDatabase.getInstance().getReference().child("contents").child(chapterId);
+                        contentDatabase.addValueEventListener(new ValueEventListener() {
 
-                            contentDatabase.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                Iterable<DataSnapshot> nodeChild = dataSnapshot.getChildren();
+                                for (final DataSnapshot dataSnapshot1 : nodeChild){
+                                    final Content content = dataSnapshot1.getValue(Content.class);
+                                    contentArrayList.add(content);
+                                    if(FirebaseAuth.getInstance().getCurrentUser() !=null){
+                                        userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                        Log.d(TAG, "onChildAdded: +++++"+ userID);
+                                        FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).addChildEventListener(new ChildEventListener() {
+                                            @Override
+                                            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                                                Log.d(TAG, "onChildAdded: +++++"+ dataSnapshot.getKey());
+                                                Log.d(TAG, "onChildAdded: -----"+ dataSnapshot1.getKey());
+                                                Log.d(TAG, "onChildAdded: *****"+ dataSnapshot.getKey().equals(dataSnapshot1.getKey()));
+                                                if(dataSnapshot.getKey().equals(dataSnapshot1.getKey())){
+                                                    Log.d(TAG, "onChildAdded: ="+ dataSnapshot.getKey());
+                                                    recyclerView.scrollToPosition(content.getContentNumber()-1);
 
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    Iterable<DataSnapshot> nodeChild = dataSnapshot.getChildren();
-                                    for (final DataSnapshot dataSnapshot1 : nodeChild) {
-                                        final Content content = dataSnapshot1.getValue(Content.class);
-                                        contentArrayList.add(content);
-                                        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-                                            userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                                            Log.d(TAG, "onChildAdded: +++++" + userID);
-                                            FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).addChildEventListener(new ChildEventListener() {
-                                                @Override
-                                                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                                                    Log.d(TAG, "onChildAdded: +++++" + dataSnapshot.getKey());
-                                                    Log.d(TAG, "onChildAdded: -----" + dataSnapshot1.getKey());
-                                                    Log.d(TAG, "onChildAdded: *****" + dataSnapshot.getKey().equals(dataSnapshot1.getKey()));
-                                                    if (dataSnapshot.getKey().equals(dataSnapshot1.getKey())) {
-                                                        Log.d(TAG, "onChildAdded: =" + dataSnapshot.getKey());
-                                                        recyclerView.scrollToPosition(content.getContentId() - 1);
-
-                                                    }
                                                 }
 
                                                 @Override
@@ -185,6 +182,7 @@ public class ReadActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+<<<<<<< HEAD
         Log.d(TAG, "onStop: " + SharedPrefsUtils.getCurrentContentId(this));
     }
 
@@ -196,4 +194,11 @@ public class ReadActivity extends AppCompatActivity {
 //        FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).child("contentRandomStr"+SharedPrefsUtils.getCurrentContentId(this)).setValue(true);
 
     }
+=======
+        FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).removeValue();
+        FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).child(SharedPrefsUtils.getCurrentContentId(this)).setValue(true);
+        Log.d(TAG, "onStop: "+ SharedPrefsUtils.getCurrentContentId(this));
+    }
+
+>>>>>>> 0c998e72a193dc4b3529715e782f31d0b5f6d710
 }

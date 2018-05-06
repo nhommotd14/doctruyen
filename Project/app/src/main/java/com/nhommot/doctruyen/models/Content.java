@@ -5,24 +5,33 @@ package com.nhommot.doctruyen.models;
  */
 
 public class Content {
-    private int contentId;
+    private String contentId;
     private String chapterId;
     private String src;
+    private int contentNumber;
+
+    public int getContentNumber() {
+        return contentNumber;
+    }
+
+    public void setContentNumber(int contentNumber) {
+        this.contentNumber = contentNumber;
+    }
 
     public Content() {
     }
 
-    public Content(int contentId, String chapterId, String src) {
+    public Content(String contentId, String chapterId, String src) {
         this.contentId = contentId;
         this.chapterId = chapterId;
         this.src = src;
     }
 
-    public int getContentId() {
+    public String getContentId() {
         return contentId;
     }
 
-    public void setContentId(int contentId) {
+    public void setContentId(String contentId) {
         this.contentId = contentId;
     }
 
