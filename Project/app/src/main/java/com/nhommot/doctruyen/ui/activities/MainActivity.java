@@ -39,12 +39,14 @@ import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private final String TAG = "MainActivity";
     private DrawerLayout drawer;
     Button login, register;
     TextView email, name;
-    ImageView avataUser;
+    CircleImageView avataUser;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference root = firebaseDatabase.getReference();
     NavigationView navigationView;
