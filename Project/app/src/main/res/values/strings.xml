@@ -2,8 +2,8 @@
     <string name="app_name" translatable="false">Doc Truyen</string>
     <string name="comment" translatable="false">COMMENT</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_open_drawer">Open navigation drawer</string>
+    <string name="nav_close_drawer">Close navigation drawer</string>
 
     //TVQuang
     <string name="main_activity_name" translatable="false">Trang chủ</string>
@@ -13,19 +13,36 @@
     <string name="home">Đọc truyện</string>
     <string name="history">Truyện đã đọc</string>
     <string name="file_download">Truyện đã tải</string>
-    <string name="favorite">Yêu thích</string>
-    <string name="setting">Cài đặt</string>
-    <string name="account">Account</string>
-    <string name="register">Đăng ký</string>
-    <string name="login">Đăng nhập</string>
-
+    <string name="nav_favorite">Yêu thích</string>
+    <string name="nav_setting">Cài đặt</string>
+    <string name="nav_account">Account</string>
+    <string name="nav_register">Đăng ký</string>
+    <string name="nav_login">Đăng nhập</string>
+    <string name="nav_user_name">spot@catchat.com</string>
 
     //TVQuang
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!--New book activity-->
     <string name="hint_edtBookName">Tên truyện</string>
     <string name="hint_edtAuthorName">Tên tác giả</string>
     <string name="hint_edtDescription">Mô tả</string>
     <string name="hint_edtType">Thể loại</string>
+    <string name="kitty_cat_cover">kitty cat cover</string>
+    <string name="nav_support"></string>
+    <string name="nav_about">About</string>
+
     //Quang Chien
     <string-array name="DreamTeam">
         <item>Nguyễn Tấn Dũng</item>

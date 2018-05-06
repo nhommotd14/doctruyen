@@ -27,10 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by Huy on 4/22/2018.
- */
-
 public class MainFragment extends Fragment {
     private final String TAG = "MainFragment";
     private MainAdapter mAdapter;

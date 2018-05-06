@@ -16,18 +16,16 @@
         <activity
             android:name=".ui.activities.MainActivity"
             android:label="@string/main_activity_name">
-
-        </activity>
-        <activity android:name=".ui.activities.SettingActivity" />
-        <activity android:name=".ui.activities.AccountActivity" />
-        <activity android:name=".ui.activities.ChaptersActivity" />
-        <activity android:name=".ui.activities.LoginActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.activities.SettingActivity" />
+        <activity android:name=".ui.activities.AccountActivity" />
+        <activity android:name=".ui.activities.ChaptersActivity" />
+        <activity android:name=".ui.activities.LoginActivity" />
         <activity android:name=".ui.activities.RegisterActivity" />
         <activity android:name=".ui.activities.ReadActivity" />
         <activity android:name=".ui.activities.FavouriteActivity" />
