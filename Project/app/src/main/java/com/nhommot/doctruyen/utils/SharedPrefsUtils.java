@@ -14,6 +14,8 @@ public class SharedPrefsUtils {
     private static final String CURRENT_BOOK = "currentBook";
     private static final String CURRENT_BOOK_ID = "currentBookId";
     private static final String CURRENT_CONTENT_ID = "currentContentId";
+    private static final String CURRENT_CHAPTER_ID = "currentChapterId";
+    private static final String CURRENT_USER_ID = "currentUserId";
     private static final String OFFLINE_STATE = "offlineState";
 
 
@@ -52,8 +54,30 @@ public class SharedPrefsUtils {
         getPrefs(context).edit().putString(CURRENT_CONTENT_ID, contentId).commit();
     }
 
-    public static void removeCurrentContentNumber(Context context) {
+    public static void removeCurrentContentId(Context context) {
         getPrefs(context).edit().remove(CURRENT_CONTENT_ID).commit();
+    }
+    public static String getCurrentUserId(Context context) {
+        return getPrefs(context).getString(CURRENT_USER_ID, "");
+    }
+
+    public static void setCurrentUserId(Context context, String contentId) {
+        getPrefs(context).edit().putString(CURRENT_USER_ID, contentId).commit();
+    }
+
+    public static void removeCurrentUserId(Context context) {
+        getPrefs(context).edit().remove(CURRENT_USER_ID).commit();
+    }
+    public static String getCurrentChapterId(Context context) {
+        return getPrefs(context).getString(CURRENT_CHAPTER_ID, "");
+    }
+
+    public static void setCurrentChapterId(Context context, String contentId) {
+        getPrefs(context).edit().putString(CURRENT_CHAPTER_ID, contentId).commit();
+    }
+
+    public static void removeCurrentChapterId(Context context) {
+        getPrefs(context).edit().remove(CURRENT_CHAPTER_ID).commit();
     }
     public static boolean getOfflineState (Context context) {
         return getPrefs(context).getBoolean(OFFLINE_STATE, false);

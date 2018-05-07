@@ -192,94 +192,154 @@ public class ReviewActivity extends AppCompatActivity {
             }
         }
 //        //Test
-        buttonDownload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Cursor cursor = dbOffline.Getdata("select 1 from bookoff where id='" + bookId + "'");
-                if (cursor.getCount() > 0) {
-                    Toast.makeText(ReviewActivity.this, "Truyen Da Tai", Toast.LENGTH_SHORT).show();
-                } else {
-                    //InsertBook
-                    BookOffline bookOffline = new BookOffline();
-                    bookOffline.setBookId(bookId);
-                    bookOffline.setName(tvTenTruyen.getText().toString());
-                    bookOffline.setAuthor(tvTacGia.getText().toString());
-                    bookOffline.setDescription(des);
-                    bookOffline.setImg(ImageViewToByte(img));
-                    bookOffline.setType(tvTheLoai.getText().toString());
-                    bookOffline.setStar(ratingBar.getNumStars());
-
-                    dbOffline.InsertBook(bookOffline);
-
-                    //InsertChap
-                    final String currentBookId = SharedPrefsUtils.getCurrentBookId(getApplicationContext());
-                    final List<Chapter> result = new ArrayList<>();
-                    FirebaseUtils.getChapterRef().child(currentBookId).addChildEventListener(new ChildEventListener() {
-                        @Override
-                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                            Log.d(TAG, "onChildAdded: KEY " + dataSnapshot.getKey());
-                            final Chapter chapter = dataSnapshot.getValue(Chapter.class);
-                            Cursor cursor = dbOffline.Getdata("Select * from bookchapoff where idtruyen='" + currentBookId + "' AND idchap='" + chapter.getChapterId() + "'");
-                            if (cursor.getCount() == 0)
-                                dbOffline.InsertChap(chapter.getBookId(), chapter.getChapterId(), chapter.getChapterName());
-
-                            //InsertContent
-                            contentDatabase = FirebaseDatabase.getInstance().getReference().child("contents").child(chapter.getChapterId());
-
-                            contentDatabase.addValueEventListener(new ValueEventListener() {
-
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    Iterable<DataSnapshot> nodeChild = dataSnapshot.getChildren();
-                                    for (final DataSnapshot dataSnapshot1 : nodeChild) {
-                                        final Content content = dataSnapshot1.getValue(Content.class);
-                                        try {
-                                            Cursor cursor = dbOffline.Getdata("Select * from chap where chapnum='" + content.getContentNumber() + "' AND idchap='" + chapter.getChapterId() + "'");
-                                            if (cursor.getCount() == 0)
-                                                new LoadImageInternet().execute(content.getSrc());
-                                                dbOffline.InsertContent(content.getChapterId(), content.getContentNumber(), ImageViewToByte(img));
-                                            Log.d(TAG, "onDataChange: asdsaf333"+JsonUtils.encode(content));
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
+        if (userId != null) {
+            FirebaseUtils.getFavouriteRef().child(userId).addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(final DataSnapshot dataSnapshot, String s) {
+                    if (dataSnapshot.getKey().equals(bookId)) {
+                        Log.d(TAG, "onChildAdded: true");
+                        btnLike.setImageResource(R.drawable.ic_thumb_up_black_18dp_pressed);
+                        btnLike.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                FirebaseUtils.getFavouriteRef().child(userId).child(dataSnapshot.getKey()).removeValue();
+                                btnLike.setImageResource(R.drawable.ic_thumb_up_black_18dp);
+                                btnLike.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        if (userId != null) {
+                                            FirebaseUtils.getFavouriteRef().child(userId).child(bookId).setValue(true);
+                                            btnLike.setImageResource(R.drawable.ic_thumb_up_black_18dp_pressed);
                                         }
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+
+                    }
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+
+            btnLike.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (userId != null) {
+                        FirebaseUtils.getFavouriteRef().child(userId).child(bookId).setValue(true);
+                        btnLike.setImageResource(R.drawable.ic_thumb_up_black_18dp_pressed);
+                    }
+                }
+            });
+            buttonDownload.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Cursor cursor = dbOffline.Getdata("select 1 from bookoff where id='" + bookId + "'");
+                    if (cursor.getCount() > 0) {
+                        Toast.makeText(ReviewActivity.this, "Truyen Da Tai", Toast.LENGTH_SHORT).show();
+                    } else {
+                        //InsertBook
+                        BookOffline bookOffline = new BookOffline();
+                        bookOffline.setBookId(bookId);
+                        bookOffline.setName(tvTenTruyen.getText().toString());
+                        bookOffline.setAuthor(tvTacGia.getText().toString());
+                        bookOffline.setDescription(des);
+                        bookOffline.setImg(ImageViewToByte(img));
+                        bookOffline.setType(tvTheLoai.getText().toString());
+                        bookOffline.setStar(ratingBar.getNumStars());
+
+                        dbOffline.InsertBook(bookOffline);
+
+                        //InsertChap
+                        final String currentBookId = SharedPrefsUtils.getCurrentBookId(getApplicationContext());
+                        final List<Chapter> result = new ArrayList<>();
+                        FirebaseUtils.getChapterRef().child(currentBookId).addChildEventListener(new ChildEventListener() {
+                            @Override
+                            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                                Log.d(TAG, "onChildAdded: KEY " + dataSnapshot.getKey());
+                                final Chapter chapter = dataSnapshot.getValue(Chapter.class);
+                                Cursor cursor = dbOffline.Getdata("Select * from bookchapoff where idtruyen='" + currentBookId + "' AND idchap='" + chapter.getChapterId() + "'");
+                                if (cursor.getCount() == 0)
+                                    dbOffline.InsertChap(chapter.getBookId(), chapter.getChapterId(), chapter.getChapterName());
+
+                                //InsertContent
+                                contentDatabase = FirebaseDatabase.getInstance().getReference().child("contents").child(chapter.getChapterId());
+
+                                contentDatabase.addValueEventListener(new ValueEventListener() {
+
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        Iterable<DataSnapshot> nodeChild = dataSnapshot.getChildren();
+                                        for (final DataSnapshot dataSnapshot1 : nodeChild) {
+                                            final Content content = dataSnapshot1.getValue(Content.class);
+                                            try {
+                                                Cursor cursor = dbOffline.Getdata("Select * from chap where chapnum='" + content.getContentNumber() + "' AND idchap='" + chapter.getChapterId() + "'");
+                                                if (cursor.getCount() == 0)
+                                                    new LoadImageInternet().execute(content.getSrc());
+                                                dbOffline.InsertContent(content.getChapterId(), content.getContentNumber(), ImageViewToByte(img));
+                                                Log.d(TAG, "onDataChange: asdsaf333" + JsonUtils.encode(content));
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
 
                                     }
-                                }
+                                });
+                            }
 
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
+                            @Override
+                            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-                                }
-                            });
-                        }
+                            }
 
-                        @Override
-                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                            @Override
+                            public void onChildRemoved(DataSnapshot dataSnapshot) {
 
-                        }
+                            }
 
-                        @Override
-                        public void onChildRemoved(DataSnapshot dataSnapshot) {
+                            @Override
+                            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
-                        }
+                            }
 
-                        @Override
-                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
 
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
+                            }
+                        });
 
 
-                    Toast.makeText(ReviewActivity.this, "Da Tai Thanh Cong", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ReviewActivity.this, "Da Tai Thanh Cong", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
 

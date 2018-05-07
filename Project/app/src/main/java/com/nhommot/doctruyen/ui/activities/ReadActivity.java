@@ -28,12 +28,13 @@ public class ReadActivity extends AppCompatActivity {
     private String currentContent;
     DatabaseReference contentDatabase;
     RecyclerView recyclerView;
-    private final ArrayList<Content> contentArrayList = new ArrayList<>();
+    private ArrayList<Content> contentArrayList = new ArrayList<>();
     private LinearLayoutManager layoutManager;
     private ReadAdapter mAdapter;
     String chapterId = "";
     String userID;
     String bookId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,10 +43,10 @@ public class ReadActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerRead);
 
         //get value từ Adapter
-        mAdapter = new ReadAdapter(this,contentArrayList);
+        mAdapter = new ReadAdapter(this, contentArrayList);
 
         //tạo layout Horizontal
-        layoutManager = new LinearLayoutManager(this, layoutManager.HORIZONTAL,false);
+        layoutManager = new LinearLayoutManager(this, layoutManager.HORIZONTAL, false);
 
         //set các thông số cho recyclerView
         recyclerView.setHasFixedSize(true);
@@ -61,25 +62,103 @@ public class ReadActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent.hasExtra("chapterId")) {
             chapterId = intent.getStringExtra("chapterId");
-            Log.d(TAG, "onCreate: ==============="+ chapterId);
+            Log.d(TAG, "onCreate: ===============" + chapterId);
             chapterId = intent.getStringExtra("chapterId");
+
             contentDatabase = FirebaseDatabase.getInstance().getReference().child("contents").child(chapterId);
 
             contentDatabase.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Iterable<DataSnapshot> nodeChild = dataSnapshot.getChildren();
-                    for (DataSnapshot dataSnapshot1:nodeChild){
-                        final Content content=dataSnapshot1.getValue(Content.class);
-                        if(FirebaseAuth.getInstance().getCurrentUser() !=null){
-                            userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                            Log.d(TAG, "onChildAdded: +++++"+ userID);
-                            FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).addChildEventListener(new ChildEventListener() {
+                    for (DataSnapshot dataSnapshot1 : nodeChild) {
+                        final Content content = dataSnapshot1.getValue(Content.class);
+
+                        contentArrayList.add(content);
+                    }
+                    mAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        } else {
+            if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                SharedPrefsUtils.setCurrentUserId(ReadActivity.this, userID);
+                FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(final DataSnapshot dataSnapshot, String s) {
+                        if (dataSnapshot.exists()) {
+                            Log.d(TAG, "onChildAdded: = dataSnapshot.getKey()" + dataSnapshot.getKey());
+                            Log.d(TAG, "onChildAdded: = dataSnapshot.getValue(String.class)" + dataSnapshot.getValue(String.class));
+                            FirebaseUtils.getContentRef().child(dataSnapshot.getValue(String.class)).addChildEventListener(new ChildEventListener() {
+                                @Override
+                                public void onChildAdded(DataSnapshot dataSnapshot1, String s) {
+                                    Content content = dataSnapshot1.getValue(Content.class);
+                                    contentArrayList.add(content);
+                                    mAdapter.notifyDataSetChanged();
+                                    if (content.getContentId().equals(dataSnapshot.getKey())) {
+                                        recyclerView.scrollToPosition(content.getContentNumber() - 1);
+                                    }
+
+                                }
+
+                                @Override
+                                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                                }
+
+                                @Override
+                                public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                                }
+
+                                @Override
+                                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+
+
+                        } else {
+                            Log.d(TAG, "onChildAdded: not exist=========");
+                            FirebaseUtils.getChapterRef().child(bookId).addChildEventListener(new ChildEventListener() {
                                 @Override
                                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                                    if(dataSnapshot.getKey().equals(content.getContentId())){
-                                        Log.d(TAG, "onChildAdded: ="+ dataSnapshot.getKey());
-                                        recyclerView.scrollToPosition(content.getContentNumber()-1);
+                                    Chapter chapter = dataSnapshot.getValue(Chapter.class);
+                                    contentArrayList = new ArrayList<>();
+                                    if (chapter.getChapterNumber() == 1) {
+                                        Log.d(TAG, "onChildAdded: chaptrer 1======================");
+                                        String chapterId = chapter.getChapterId();
+                                        contentDatabase = FirebaseDatabase.getInstance().getReference().child("contents").child(chapterId);
+
+                                        contentDatabase.addValueEventListener(new ValueEventListener() {
+
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                Iterable<DataSnapshot> nodeChild = dataSnapshot.getChildren();
+                                                for (final DataSnapshot dataSnapshot1 : nodeChild) {
+
+                                                    final Content content = dataSnapshot1.getValue(Content.class);
+                                                    contentArrayList.add(content);
+
+                                                }
+                                                mAdapter.notifyDataSetChanged();
+                                            }
+
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+
+                                            }
+                                        });
                                     }
                                 }
 
@@ -104,122 +183,146 @@ public class ReadActivity extends AppCompatActivity {
                                 }
                             });
                         }
-                        contentArrayList.add(content);
                     }
-                    mAdapter.notifyDataSetChanged();
-                }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-                }
-            });
-        } else {
+                    }
 
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
 
-            Log.d(TAG, "============== " + bookId);
-            contentDatabase = FirebaseDatabase.getInstance().getReference().child("chapters").child(bookId);
-            Log.d(TAG, "onCreate: else =======================================");
-            contentDatabase.addChildEventListener(new ChildEventListener() {
-                @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    Chapter chapter = dataSnapshot.getValue(Chapter.class);
+                    }
 
-                    if (chapter.getChapterNumber() == 1){
-                        Log.d(TAG, "onChildAdded: chaptrer 1======================" );
-                        String chapterId = chapter.getChapterId();
-                        contentDatabase = FirebaseDatabase.getInstance().getReference().child("contents").child(chapterId);
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
-                        contentDatabase.addValueEventListener(new ValueEventListener() {
+                    }
 
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                Iterable<DataSnapshot> nodeChild = dataSnapshot.getChildren();
-                                for (final DataSnapshot dataSnapshot1 : nodeChild){
-                                    final Content content = dataSnapshot1.getValue(Content.class);
-                                    contentArrayList.add(content);
-                                    if(FirebaseAuth.getInstance().getCurrentUser() !=null){
-                                        userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                                        Log.d(TAG, "onChildAdded: +++++"+ userID);
-                                        FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).addChildEventListener(new ChildEventListener() {
-                                            @Override
-                                            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                                                Log.d(TAG, "onChildAdded: +++++"+ dataSnapshot.getKey());
-                                                Log.d(TAG, "onChildAdded: -----"+ dataSnapshot1.getKey());
-                                                Log.d(TAG, "onChildAdded: *****"+ dataSnapshot.getKey().equals(dataSnapshot1.getKey()));
-                                                if(dataSnapshot.getKey().equals(dataSnapshot1.getKey())){
-                                                    Log.d(TAG, "onChildAdded: ="+ dataSnapshot.getKey());
-                                                    recyclerView.scrollToPosition(content.getContentNumber()-1);
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            } else {
+                contentDatabase = FirebaseDatabase.getInstance().getReference().child("chapters").child(bookId);
+                Log.d(TAG, "onCreate: else =======================================");
+                contentDatabase.addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        Chapter chapter = dataSnapshot.getValue(Chapter.class);
+
+                        if (chapter.getChapterNumber() == 1) {
+                            Log.d(TAG, "onChildAdded: chaptrer 1======================");
+                            String chapterId = chapter.getChapterId();
+                            contentDatabase = FirebaseDatabase.getInstance().getReference().child("contents").child(chapterId);
+
+                            contentDatabase.addValueEventListener(new ValueEventListener() {
+
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    Iterable<DataSnapshot> nodeChild = dataSnapshot.getChildren();
+                                    for (final DataSnapshot dataSnapshot1 : nodeChild) {
+                                        final Content content = dataSnapshot1.getValue(Content.class);
+                                        contentArrayList.add(content);
+                                        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                                            userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                            Log.d(TAG, "onChildAdded: +++++" + userID);
+                                            FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).addChildEventListener(new ChildEventListener() {
+                                                @Override
+                                                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                                                    Log.d(TAG, "onChildAdded: +++++" + dataSnapshot.getKey());
+                                                    Log.d(TAG, "onChildAdded: -----" + dataSnapshot1.getKey());
+                                                    Log.d(TAG, "onChildAdded: *****" + dataSnapshot.getKey().equals(dataSnapshot1.getKey()));
+                                                    if (dataSnapshot.getKey().equals(dataSnapshot1.getKey())) {
+                                                        Log.d(TAG, "onChildAdded: =" + dataSnapshot.getKey());
+                                                        recyclerView.scrollToPosition(content.getContentNumber() - 1);
+
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
                                                 }
-                                            }
 
-                                            @Override
-                                            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                                                @Override
+                                                public void onChildRemoved(DataSnapshot dataSnapshot) {
 
-                                            }
+                                                }
 
-                                            @Override
-                                            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                                                @Override
+                                                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
-                                            }
+                                                }
 
-                                            @Override
-                                            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                                                @Override
+                                                public void onCancelled(DatabaseError databaseError) {
 
-                                            }
-
-                                            @Override
-                                            public void onCancelled(DatabaseError databaseError) {
-
-                                            }
-                                        });
+                                                }
+                                            });
+                                        }
                                     }
+                                    mAdapter.notifyDataSetChanged();
                                 }
-                                mAdapter.notifyDataSetChanged();
-                            }
 
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
 
-                            }
-                        });
+                                }
+                            });
+                        }
                     }
-                }
 
-                @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-                }
+                    }
 
-                @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
 
-                }
+                    }
 
-                @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
-                }
+                    }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
-                }
-            });
+                    }
+                });
+            }
+
+
         }
 
+    }
+
+    public void setCurrentContent() {
+        Log.d(TAG, "setCurrentContent: userId" + SharedPrefsUtils.getCurrentUserId(this));
+
+        if (SharedPrefsUtils.getCurrentUserId(this) != null) {
+            FirebaseUtils.getCurrentCotentRef().child(SharedPrefsUtils.getCurrentUserId(this)).child(bookId).removeValue();
+            FirebaseUtils.getCurrentCotentRef().child(SharedPrefsUtils.getCurrentUserId(this)).child(bookId).child(SharedPrefsUtils.getCurrentContentId(this)).setValue(SharedPrefsUtils.getCurrentChapterId(this));
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (userID != null) {
-            FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).removeValue();
-            FirebaseUtils.getCurrentCotentRef().child(userID).child(bookId).child(SharedPrefsUtils.getCurrentContentId(this)).setValue(true);
-            Log.d(TAG, "onStop: "+ SharedPrefsUtils.getCurrentContentId(this));
-        }
+        Log.d(TAG, "onStop: =================");
+        setCurrentContent();
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause: =================");
+        setCurrentContent();
+    }
 }

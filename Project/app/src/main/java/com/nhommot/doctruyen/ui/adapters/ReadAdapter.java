@@ -67,6 +67,7 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.ContentViewHol
             @Override
             public boolean onTouch(View view, MotionEvent event) {
                 SharedPrefsUtils.setCurrentContentId(context,content.getContentId());
+                SharedPrefsUtils.setCurrentChapterId(context,content.getChapterId());
                 return false;
             }
         });
