@@ -1,15 +1,20 @@
 package com.nhommot.doctruyen.ui.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.nhommot.doctruyen.R;
+import com.nhommot.doctruyen.models.BookOffline;
 import com.nhommot.doctruyen.models.Content;
+import com.nhommot.doctruyen.models.ContentOffline;
 import com.nhommot.doctruyen.utils.SharedPrefsUtils;
 import com.squareup.picasso.Picasso;
 
@@ -20,9 +25,11 @@ import java.util.ArrayList;
  */
 
 public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.ContentViewHolder>{
-
+    private static final String TAG = "ReadAdapter";
     ArrayList<Content> contentArrayList;
     Context context;
+    private float x1,x2;
+    static final int MIN_DISTANCE = 150;
 
 
     public ReadAdapter(Context context, ArrayList<Content> contentArrayList) {
@@ -43,23 +50,35 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.ContentViewHol
     public void onBindViewHolder(ContentViewHolder holder, final int position) {
         holder.imgLeft.setVisibility(View.INVISIBLE);
         holder.imgLeft.setEnabled(false);
-
         holder.imgRight.setVisibility(View.INVISIBLE);
         holder.imgRight.setEnabled(false);
 
-        
         final Content content=contentArrayList.get(position);
 
-        String imgUrl=content.getSrc();
 
-        Picasso.get().load(imgUrl).into(holder.img);
+        String imgUrl=content.getSrc();
+        if (SharedPrefsUtils.getOfflineState(context)) {
+            Bitmap bitmap = BitmapFactory.decodeByteArray(((ContentOffline)content).getImg(), 0, ((ContentOffline)content).getImg().length);
+            holder.img.setImageBitmap(bitmap);
+        } else {
+            Picasso.get().load(imgUrl).into(holder.img);
+
+        }
 
         holder.img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Log.d("123","=============" + position);
                 SharedPrefsUtils.setCurrentContentId(context,content.getContentId());
+            }
+        });
+
+        holder.img.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                SharedPrefsUtils.setCurrentContentId(context,content.getContentId());
+                SharedPrefsUtils.setCurrentChapterId(context,content.getChapterId());
+                return false;
             }
         });
     }

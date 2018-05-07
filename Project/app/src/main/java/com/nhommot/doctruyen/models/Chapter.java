@@ -13,6 +13,12 @@ public class Chapter implements Serializable{
     private String chapterName;
     private int chapterNumber;
     private List<Content> contents;
+    public Chapter(String bookId, String chapterId, String chapterName) {
+        this.bookId = bookId;
+        this.chapterId = chapterId;
+        this.chapterName = chapterName;
+    }
+
 
     public int getChapterNumber() {
         return chapterNumber;
@@ -24,11 +30,7 @@ public class Chapter implements Serializable{
 
     public Chapter(){};
 
-    public Chapter(String chapterId, String bookId, String chapterName) {
-        this.chapterId = chapterId;
-        this.bookId = bookId;
-        this.chapterName = chapterName;
-    }
+
 
     public String getChapterId() {
         return chapterId;

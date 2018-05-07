@@ -3,11 +3,14 @@ package com.nhommot.doctruyen.ui.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nhommot.doctruyen.R;
@@ -15,6 +18,7 @@ import com.nhommot.doctruyen.models.Book;
 import com.nhommot.doctruyen.ui.activities.ReadActivity;
 import com.nhommot.doctruyen.ui.activities.ReviewActivity;
 import com.nhommot.doctruyen.utils.SharedPrefsUtils;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -37,7 +41,7 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.Favo
     @Override
     public FavouriteAdapter.FavouriteViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 //        TODO: replace item_chapters to layout list book @Quang
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chapters, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_downloaded_book, parent, false);
         return new FavouriteAdapter.FavouriteViewHolder(view);
     }
 
@@ -45,7 +49,10 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.Favo
     public void onBindViewHolder(FavouriteAdapter.FavouriteViewHolder holder, int position) {
         Book favourite = favourites.get(position);
 //        TODO: setText all items in layout list book @Quang
-        holder.textFavouritename.setText(favourite.getName());
+        holder.textViewName.setText(favourite.getName());
+        holder.textViewAuthor.setText(favourite.getAuthor());
+
+        Picasso.get().load(favourite.getImgPreview()).into(holder.imageViewHinh);
         holder.setItemClickListener(new FavouriteAdapter.ItemClickListener() {
             @Override
             public void onClick(View view, int position, boolean isLongClick) {
@@ -63,15 +70,21 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.Favo
     }
 
     class FavouriteViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        TextView textViewName;
+        TextView textViewAuthor;
+        ImageView imageViewHinh;
+        Bitmap bitmap;
         TextView textFavouritename;
         private FavouriteAdapter.ItemClickListener itemClickListener;
 
 
         public FavouriteViewHolder(View itemView) {
             super(itemView);
-            Log.d(TAG, "FavouriteViewHolder: ");
+            Log.d(TAG, "BookOfflineViewHolder: ");
 //            TODO: replace tvChapterName to tvName of layout list book @Quang
-            textFavouritename = itemView.findViewById(R.id.tvChapterName);
+            textViewName = (TextView) itemView.findViewById(R.id.textViewTenTruyen);
+            textViewAuthor = (TextView) itemView.findViewById(R.id.textViewTacgia);
+            imageViewHinh = (ImageView) itemView.findViewById(R.id.imageViewDownloadedBook);
             itemView.setOnClickListener(this);
         }
         public void setItemClickListener(FavouriteAdapter.ItemClickListener itemClickListener)

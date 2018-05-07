@@ -35,6 +35,13 @@ public class Book  {
         this.views = views;
     }
 
+    public Book(String bookId, String bookName, String bookAuthor, String bookDescription) {
+        this.bookId = bookId;
+        this.name = bookName;
+        this.author = bookAuthor;
+        this.description = bookDescription;
+    }
+
     public String getBookId() {
         return bookId;
     }

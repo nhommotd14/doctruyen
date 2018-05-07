@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "968084501589",
+    "firebase_url": "https://giavang-cdb7a.firebaseio.com",
+    "project_id": "giavang-cdb7a",
+    "storage_bucket": "giavang-cdb7a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:968084501589:android:d7e2927190d063d9",
+        "android_client_info": {
+          "package_name": "nhommot.com.giavang"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "968084501589-mm3epfimukhgngcufdusvk5eg93gfbka.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "nhommot.com.giavang",
+            "certificate_hash": "ebfd5d94a8b1f4b1c40e680b0975a1d567f95b75"
+          }
+        },
+        {
+          "client_id": "968084501589-ar66e191nnoh95l87jk98b9hv0lnnens.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCVKssmnIcf_fRzSvnxIMuNycVyPEHopw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "968084501589-ar66e191nnoh95l87jk98b9hv0lnnens.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
