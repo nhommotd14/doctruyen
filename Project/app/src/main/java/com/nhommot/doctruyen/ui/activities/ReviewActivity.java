@@ -126,7 +126,7 @@ public class ReviewActivity extends AppCompatActivity {
             img.setImageBitmap(bitmap);
 
         } else {
-
+//Dung
             ValueEventListener bookListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -293,7 +293,7 @@ public class ReviewActivity extends AppCompatActivity {
 
                                         final Content content = dataSnapshot1.getValue(Content.class);
                                         try {
-                                            new LoadImageInternet().execute(content.getChapterId(),String.valueOf(content.getContentNumber()),content.getSrc());
+                                            new LoadImageInternet().execute(content.getChapterId(), String.valueOf(content.getContentNumber()), content.getSrc());
                                         } catch (Exception e) {
                                             e.printStackTrace();
                                         }
@@ -394,9 +394,9 @@ public class ReviewActivity extends AppCompatActivity {
     }
 
     public byte[] urlImgToByte(String src) throws Exception {
-        byte[] byteArray=null;
+        byte[] byteArray = null;
         try {
-            Bitmap bitmap = BitmapFactory.decodeStream((InputStream)new URL(src).getContent());
+            Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL(src).getContent());
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byteArray = stream.toByteArray();
@@ -406,7 +406,7 @@ public class ReviewActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return  byteArray;
+        return byteArray;
     }
 
     public byte[] getByteFromUrl(String urlImg) {
@@ -419,8 +419,7 @@ public class ReviewActivity extends AppCompatActivity {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             byte[] buf = new byte[1024];
             int n = 0;
-            while (-1!=(n=in.read(buf)))
-            {
+            while (-1 != (n = in.read(buf))) {
                 out.write(buf, 0, n);
             }
             out.close();
@@ -431,7 +430,7 @@ public class ReviewActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return  response;
+        return response;
 
     }
 
@@ -452,8 +451,7 @@ public class ReviewActivity extends AppCompatActivity {
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
                 byte[] buf = new byte[1024];
                 int n = 0;
-                while (-1!=(n=in.read(buf)))
-                {
+                while (-1 != (n = in.read(buf))) {
                     out.write(buf, 0, n);
                 }
                 out.close();
@@ -468,9 +466,9 @@ public class ReviewActivity extends AppCompatActivity {
             if (cursor.getCount() == 0) {
                 dbOffline.InsertContent(chapterid, chaptetNum, response);
             }
-            Log.d(TAG, "doInBackground: byteeeeee "+ response);
+            Log.d(TAG, "doInBackground: byteeeeee " + response);
 
-            return  response;
+            return response;
         }
 
         @Override

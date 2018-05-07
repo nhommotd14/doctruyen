@@ -75,6 +75,7 @@ public class ChapterFragment extends Fragment {
 
             }else {
                 recyclerView.setAdapter(mAdapter);
+//                Get data
                 FirebaseUtils.getChapterRef().child(currentBookId).addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {

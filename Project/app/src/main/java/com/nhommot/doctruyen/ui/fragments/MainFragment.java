@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -18,14 +19,11 @@ import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 import com.nhommot.doctruyen.R;
 import com.nhommot.doctruyen.models.Book;
-<<<<<<< HEAD
 import com.nhommot.doctruyen.models.BookCompare;
 import com.nhommot.doctruyen.models.Chapter;
 import com.nhommot.doctruyen.models.Type;
 import com.nhommot.doctruyen.ui.adapters.ChapterAdapter;
 import com.nhommot.doctruyen.ui.adapters.DetailAdapter;
-=======
->>>>>>> 57a0a51c498a8f8a4770a3502a0089350406e0ef
 import com.nhommot.doctruyen.ui.adapters.MainAdapter;
 import com.nhommot.doctruyen.ui.adapters.SimpleDividerItemDecoration;
 import com.nhommot.doctruyen.ui.adapters.Snap;
@@ -120,24 +118,7 @@ public class MainFragment extends Fragment {
           @Override
           public void onChildAdded(DataSnapshot dataSnapshot, String s) {
               final Type type= dataSnapshot.getValue(Type.class);
-
-
-             new Thread(new Runnable() {
-                 @Override
-                 public void run() {
-                     List<Book> books = new ArrayList<>();
-                     for(Book book:result)
-                     {
-                          if(book.getTypes().get(book.getName()))
-                          {
-                              books.add(book);
-                          }
-                     }
-                     snapAdapter.addSnap(new Snap(1,type.getName(),result));
-                     snapAdapter.notifyDataSetChanged();
-                 }
-             }).start();
-
+              snapAdapter.addSnap(new Snap(1,type.getName(),result));
 
               snapAdapter.notifyDataSetChanged();
           }

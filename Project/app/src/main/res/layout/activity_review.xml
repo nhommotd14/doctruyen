@@ -26,28 +26,28 @@
 
 
             <LinearLayout
-                android:layout_width="116dp"
+                android:layout_width="143dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:padding="8px">
 
                 <ImageView
                     android:id="@+id/imgReview"
-                    android:layout_width="100dp"
+                    android:layout_width="130dp"
                     android:layout_height="120dp"
                     android:layout_gravity="left|top"
                     android:layout_weight="1"
-                    android:padding="8px"
-                    android:minWidth="1dp" />
+                    android:minWidth="1dp"
+                    android:padding="8px" />
 
                 <Button
                     android:id="@+id/doctruyen"
-                    android:layout_width="100dp"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="131dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
                     android:onClick="onClickDocTruyen"
                     android:text="Đọc Truyện"
-                    style="@style/Widget.AppCompat.Button.Borderless"
 
                     android:textSize="12sp" />
             </LinearLayout>
