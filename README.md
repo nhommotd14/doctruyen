@@ -16,6 +16,7 @@
 * Lê Đức Toàn - N14DCCN141
 * Lê Tấn Phát - N14DCCN050
 * Phạm Anh Hào - N14DCCN088
+* Đinh Nhất Thi - N14DCCN076
 
 
 
