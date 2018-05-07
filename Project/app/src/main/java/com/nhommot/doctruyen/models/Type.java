@@ -1,21 +1,31 @@
 package com.nhommot.doctruyen.models;
 
-import java.util.List;
+import java.util.HashMap;
 
 /**
  * Created by Huy on 4/8/2018.
  */
 
 public class Type {
+    private  String name;
     private String typeId;
     private String description;
-    private List<Book> books;
+    private HashMap<String, Boolean> books;
 
     public Type(String typeId, String description) {
         this.typeId = typeId;
         this.description = description;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public  Type(){}
     public String getTypeId() {
         return typeId;
     }
@@ -32,11 +42,11 @@ public class Type {
         this.description = description;
     }
 
-    public List<Book> getBooks() {
+    public HashMap<String, Boolean> getBooks() {
         return books;
     }
 
-    public void setBooks(List<Book> books) {
+    public void setBooks(HashMap<String, Boolean> books) {
         this.books = books;
     }
 }

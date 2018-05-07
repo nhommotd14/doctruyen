@@ -1,5 +1,8 @@
 package com.nhommot.doctruyen.models;
 
+import android.support.annotation.NonNull;
+
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -7,7 +10,7 @@ import java.util.Map;
  * Created by Huy on 4/8/2018.
  */
 
-public class Book {
+public class Book  {
     private String bookId;
     private String author;
     private String name;
@@ -111,4 +114,5 @@ public class Book {
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
+
 }
