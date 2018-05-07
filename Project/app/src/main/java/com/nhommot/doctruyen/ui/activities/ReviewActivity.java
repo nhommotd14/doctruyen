@@ -193,18 +193,18 @@ public class ReviewActivity extends AppCompatActivity {
                 public void onChildAdded(final DataSnapshot dataSnapshot, String s) {
                     if (dataSnapshot.getKey().equals(bookId)) {
                         Log.d(TAG, "onChildAdded: true");
-                        btnLike.setImageResource(R.drawable.ic_thumb_up_black_18dp_pressed);
+                        btnLike.setImageResource(R.drawable.ic_favorite_pressed);
                         btnLike.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 FirebaseUtils.getFavouriteRef().child(userId).child(dataSnapshot.getKey()).removeValue();
-                                btnLike.setImageResource(R.drawable.ic_thumb_up_black_18dp);
+                                btnLike.setImageResource(R.drawable.ic_favorite);
                                 btnLike.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
                                         if (userId != null) {
                                             FirebaseUtils.getFavouriteRef().child(userId).child(bookId).setValue(true);
-                                            btnLike.setImageResource(R.drawable.ic_thumb_up_black_18dp_pressed);
+                                            btnLike.setImageResource(R.drawable.ic_favorite_pressed);
                                         }
                                     }
                                 });
@@ -242,7 +242,7 @@ public class ReviewActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     if (userId != null) {
                         FirebaseUtils.getFavouriteRef().child(userId).child(bookId).setValue(true);
-                        btnLike.setImageResource(R.drawable.ic_thumb_up_black_18dp_pressed);
+                        btnLike.setImageResource(R.drawable.ic_favorite_pressed);
                     }
                 }
             });
