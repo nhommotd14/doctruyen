@@ -1,6 +1,7 @@
 package com.nhommot.doctruyen.ui.activities;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,10 +16,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nhommot.doctruyen.R;
+import com.nhommot.doctruyen.database.BookOfflineSQLite;
+import com.nhommot.doctruyen.models.BookOffline;
 import com.nhommot.doctruyen.models.Chapter;
 import com.nhommot.doctruyen.models.Content;
+import com.nhommot.doctruyen.models.ContentOffline;
 import com.nhommot.doctruyen.ui.adapters.ReadAdapter;
 import com.nhommot.doctruyen.utils.FirebaseUtils;
+import com.nhommot.doctruyen.utils.JsonUtils;
 import com.nhommot.doctruyen.utils.SharedPrefsUtils;
 
 import java.util.ArrayList;
@@ -34,6 +39,7 @@ public class ReadActivity extends AppCompatActivity {
     String chapterId = "";
     String userID;
     String bookId;
+    ArrayList<ContentOffline> contentOfflineArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,26 +70,56 @@ public class ReadActivity extends AppCompatActivity {
             chapterId = intent.getStringExtra("chapterId");
             Log.d(TAG, "onCreate: ===============" + chapterId);
             chapterId = intent.getStringExtra("chapterId");
+            if (SharedPrefsUtils.getOfflineState(this)) {
+                //Ket noi database
+                final BookOfflineSQLite dbOffline = new BookOfflineSQLite(this, "OfflineBook.sqlite", null, 1);
+                contentArrayList = new ArrayList<Content>();
+                Cursor cursor = dbOffline.Getdata("select * from chap where idchap='" + chapterId + "'");
+                Log.d(TAG, "onCreate: sql: " + "select * from chap where idchap='" + chapterId + "'");
+                Log.d(TAG, "onCreate: count " + cursor.getCount());
+                while (cursor.moveToNext()) {
+                    ContentOffline contentOffline = new ContentOffline();
+                    contentOffline.setIdchap(cursor.getString(0));
+                    contentOffline.setChapnum(cursor.getString(1));
+                    contentOffline.setImg(cursor.getBlob(2));
+                    Log.d(TAG, "onCreate: contentOffline " + JsonUtils.encode(contentOffline));
+                    contentArrayList.add(contentOffline);
+                }
+                recyclerView = findViewById(R.id.recyclerRead);
 
-            contentDatabase = FirebaseDatabase.getInstance().getReference().child("contents").child(chapterId);
+                //get value từ Adapter
+                mAdapter = new ReadAdapter(this, contentArrayList);
 
-            contentDatabase.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    Iterable<DataSnapshot> nodeChild = dataSnapshot.getChildren();
-                    for (DataSnapshot dataSnapshot1 : nodeChild) {
-                        final Content content = dataSnapshot1.getValue(Content.class);
+                //tạo layout Horizontal
+                layoutManager = new LinearLayoutManager(this, layoutManager.HORIZONTAL, false);
 
-                        contentArrayList.add(content);
+                //set các thông số cho recyclerView
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setLayoutManager(layoutManager);
+                recyclerView.setAdapter(mAdapter);
+
+
+            } else {
+                contentDatabase = FirebaseDatabase.getInstance().getReference().child("contents").child(chapterId);
+
+                contentDatabase.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Iterable<DataSnapshot> nodeChild = dataSnapshot.getChildren();
+                        for (DataSnapshot dataSnapshot1 : nodeChild) {
+                            final Content content = dataSnapshot1.getValue(Content.class);
+
+                            contentArrayList.add(content);
+                        }
+                        mAdapter.notifyDataSetChanged();
                     }
-                    mAdapter.notifyDataSetChanged();
-                }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
-                }
-            });
+                    }
+                });
+            }
         } else {
             if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                 userID = FirebaseAuth.getInstance().getCurrentUser().getUid();

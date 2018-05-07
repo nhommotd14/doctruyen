@@ -1,6 +1,8 @@
 package com.nhommot.doctruyen.ui.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,7 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.nhommot.doctruyen.R;
+import com.nhommot.doctruyen.models.BookOffline;
 import com.nhommot.doctruyen.models.Content;
+import com.nhommot.doctruyen.models.ContentOffline;
 import com.nhommot.doctruyen.utils.SharedPrefsUtils;
 import com.squareup.picasso.Picasso;
 
@@ -51,9 +55,15 @@ public class ReadAdapter extends RecyclerView.Adapter<ReadAdapter.ContentViewHol
 
         final Content content=contentArrayList.get(position);
 
-        String imgUrl=content.getSrc();
 
-        Picasso.get().load(imgUrl).into(holder.img);
+        String imgUrl=content.getSrc();
+        if (SharedPrefsUtils.getOfflineState(context)) {
+            Bitmap bitmap = BitmapFactory.decodeByteArray(((ContentOffline)content).getImg(), 0, ((ContentOffline)content).getImg().length);
+            holder.img.setImageBitmap(bitmap);
+        } else {
+            Picasso.get().load(imgUrl).into(holder.img);
+
+        }
 
         holder.img.setOnClickListener(new View.OnClickListener() {
             @Override

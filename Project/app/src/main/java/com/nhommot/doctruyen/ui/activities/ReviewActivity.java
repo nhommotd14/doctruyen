@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -22,7 +23,6 @@ import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,13 +32,10 @@ import com.nhommot.doctruyen.R;
 import com.nhommot.doctruyen.database.BookOfflineSQLite;
 import com.nhommot.doctruyen.models.BookOffline;
 import com.nhommot.doctruyen.models.Chapter;
-import com.nhommot.doctruyen.models.ChapterOffline;
 import com.nhommot.doctruyen.models.Content;
-import com.nhommot.doctruyen.risk.comment_risk;
 import com.nhommot.doctruyen.models.Author;
 import com.nhommot.doctruyen.models.Book;
 import com.nhommot.doctruyen.models.Rating;
-import com.nhommot.doctruyen.models.User;
 import com.nhommot.doctruyen.ui.adapters.TabAdapter;
 import com.nhommot.doctruyen.ui.fragments.ChapterFragment;
 import com.nhommot.doctruyen.ui.fragments.CommentFragment;
@@ -46,16 +43,14 @@ import com.nhommot.doctruyen.ui.fragments.ReviewFragment;
 import com.nhommot.doctruyen.utils.FirebaseUtils;
 import com.nhommot.doctruyen.utils.JsonUtils;
 import com.nhommot.doctruyen.utils.SharedPrefsUtils;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -76,7 +71,7 @@ public class ReviewActivity extends AppCompatActivity {
     private String userId;
     private Bitmap bmp;
     private ImageButton btnLike;
-
+    private BookOfflineSQLite dbOffline;
     DatabaseReference contentDatabase;
 
     //    //Test by Toan
@@ -104,7 +99,7 @@ public class ReviewActivity extends AppCompatActivity {
         buttonDownload = findViewById(R.id.imageButtonDownload);
 //        //
 
-        final BookOfflineSQLite dbOffline = new BookOfflineSQLite(getApplicationContext(), "OfflineBook.sqlite", null, 1);
+        dbOffline = new BookOfflineSQLite(getApplicationContext(), "OfflineBook.sqlite", null, 1);
 
 
         img = (ImageView) findViewById(R.id.imgReview);
@@ -251,95 +246,94 @@ public class ReviewActivity extends AppCompatActivity {
                     }
                 }
             });
-            buttonDownload.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
 
-                    Cursor cursor = dbOffline.Getdata("select 1 from bookoff where id='" + bookId + "'");
-                    if (cursor.getCount() > 0) {
-                        Toast.makeText(ReviewActivity.this, "Truyen Da Tai", Toast.LENGTH_SHORT).show();
-                    } else {
-                        //InsertBook
-                        BookOffline bookOffline = new BookOffline();
-                        bookOffline.setBookId(bookId);
-                        bookOffline.setName(tvTenTruyen.getText().toString());
-                        bookOffline.setAuthor(tvTacGia.getText().toString());
-                        bookOffline.setDescription(des);
-                        bookOffline.setImg(ImageViewToByte(img));
-                        bookOffline.setType(tvTheLoai.getText().toString());
-                        bookOffline.setStar(ratingBar.getNumStars());
-
-                        dbOffline.InsertBook(bookOffline);
-
-                        //InsertChap
-                        final String currentBookId = SharedPrefsUtils.getCurrentBookId(getApplicationContext());
-                        final List<Chapter> result = new ArrayList<>();
-                        FirebaseUtils.getChapterRef().child(currentBookId).addChildEventListener(new ChildEventListener() {
-                            @Override
-                            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                                Log.d(TAG, "onChildAdded: KEY " + dataSnapshot.getKey());
-                                final Chapter chapter = dataSnapshot.getValue(Chapter.class);
-                                Cursor cursor = dbOffline.Getdata("Select * from bookchapoff where idtruyen='" + currentBookId + "' AND idchap='" + chapter.getChapterId() + "'");
-                                if (cursor.getCount() == 0)
-                                    dbOffline.InsertChap(chapter.getBookId(), chapter.getChapterId(), chapter.getChapterName());
-
-                                //InsertContent
-                                contentDatabase = FirebaseDatabase.getInstance().getReference().child("contents").child(chapter.getChapterId());
-
-                                contentDatabase.addValueEventListener(new ValueEventListener() {
-
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        Iterable<DataSnapshot> nodeChild = dataSnapshot.getChildren();
-                                        for (final DataSnapshot dataSnapshot1 : nodeChild) {
-                                            final Content content = dataSnapshot1.getValue(Content.class);
-                                            try {
-                                                Cursor cursor = dbOffline.Getdata("Select * from chap where chapnum='" + content.getContentNumber() + "' AND idchap='" + chapter.getChapterId() + "'");
-                                                if (cursor.getCount() == 0)
-                                                    new LoadImageInternet().execute(content.getSrc());
-                                                dbOffline.InsertContent(content.getChapterId(), content.getContentNumber(), ImageViewToByte(img));
-                                                Log.d(TAG, "onDataChange: asdsaf333" + JsonUtils.encode(content));
-                                            } catch (Exception e) {
-                                                e.printStackTrace();
-                                            }
-
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-
-                                    }
-                                });
-                            }
-
-                            @Override
-                            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                            }
-
-                            @Override
-                            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                            }
-
-                            @Override
-                            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
-
-
-                        Toast.makeText(ReviewActivity.this, "Da Tai Thanh Cong", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
         }
+        buttonDownload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onClick: btndwnnnnnn====");
+                Cursor cursor = dbOffline.Getdata("select 1 from bookoff where id='" + bookId + "'");
+                if (cursor.getCount() > 0) {
+                    Toast.makeText(ReviewActivity.this, "Truyen Da Tai", Toast.LENGTH_SHORT).show();
+                } else {
+                    //InsertBook
+                    BookOffline bookOffline = new BookOffline();
+                    bookOffline.setBookId(bookId);
+                    bookOffline.setName(tvTenTruyen.getText().toString());
+                    bookOffline.setAuthor(tvTacGia.getText().toString());
+                    bookOffline.setDescription(des);
+                    bookOffline.setImg(ImageViewToByte(img));
+                    bookOffline.setType(tvTheLoai.getText().toString());
+                    bookOffline.setStar(ratingBar.getNumStars());
+
+                    dbOffline.InsertBook(bookOffline);
+
+                    //InsertChap
+                    final String currentBookId = SharedPrefsUtils.getCurrentBookId(getApplicationContext());
+                    final List<Chapter> result = new ArrayList<>();
+                    FirebaseUtils.getChapterRef().child(currentBookId).addChildEventListener(new ChildEventListener() {
+                        @Override
+                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                            Log.d(TAG, "onChildAdded: KEY " + dataSnapshot.getKey());
+                            final Chapter chapter = dataSnapshot.getValue(Chapter.class);
+                            Cursor cursor = dbOffline.Getdata("Select * from bookchapoff where idtruyen='" + currentBookId + "' AND idchap='" + chapter.getChapterId() + "'");
+                            if (cursor.getCount() == 0)
+                                dbOffline.InsertChap(chapter.getBookId(), chapter.getChapterId(), chapter.getChapterName());
+
+                            //InsertContent
+                            contentDatabase = FirebaseDatabase.getInstance().getReference().child("contents").child(chapter.getChapterId());
+
+                            contentDatabase.addValueEventListener(new ValueEventListener() {
+
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    Iterable<DataSnapshot> nodeChild = dataSnapshot.getChildren();
+                                    for (final DataSnapshot dataSnapshot1 : nodeChild) {
+
+
+                                        final Content content = dataSnapshot1.getValue(Content.class);
+                                        try {
+                                            new LoadImageInternet().execute(content.getChapterId(),String.valueOf(content.getContentNumber()),content.getSrc());
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                        }
+
+                        @Override
+                        public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                        }
+
+                        @Override
+                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+
+                    Toast.makeText(ReviewActivity.this, "Da Tai Thanh Cong", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
 
@@ -389,47 +383,100 @@ public class ReviewActivity extends AppCompatActivity {
         bookId = SharedPrefsUtils.getCurrentBookId(this);
     }
 
-    public byte[] urlImgToByte(String src) throws Exception {
-        final byte[][] rt = new byte[1][1];
-
-        Picasso.get().load(src).into(img, new Callback() {
-            @Override
-            public void onSuccess() {
-                rt[0] = ImageViewToByte(img);
-                Picasso.get().load(urlImg).into(img);
-            }
-
-            @Override
-            public void onError(Exception e) {
-
-            }
-        });
-        return rt[0];
+    public static Drawable LoadImageFromWebOperations(String url) {
+        try {
+            InputStream is = (InputStream) new URL(url).getContent();
+            Drawable d = Drawable.createFromStream(is, "src name");
+            return d;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
-    private class LoadImageInternet extends AsyncTask<String, Void, Bitmap> {
+    public byte[] urlImgToByte(String src) throws Exception {
+        byte[] byteArray=null;
+        try {
+            Bitmap bitmap = BitmapFactory.decodeStream((InputStream)new URL(src).getContent());
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byteArray = stream.toByteArray();
+            bmp.recycle();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return  byteArray;
+    }
+
+    public byte[] getByteFromUrl(String urlImg) {
+        URL url = null;
+        byte[] response = null;
+
+        try {
+            url = new URL(urlImg);
+            InputStream in = new BufferedInputStream(url.openStream());
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            byte[] buf = new byte[1024];
+            int n = 0;
+            while (-1!=(n=in.read(buf)))
+            {
+                out.write(buf, 0, n);
+            }
+            out.close();
+            in.close();
+            response = out.toByteArray();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return  response;
+
+    }
+
+    private class LoadImageInternet extends AsyncTask<String, Void, byte[]> {
         Bitmap bitmapHinh;
 
         @Override
-        protected Bitmap doInBackground(String... strings) {
+        protected byte[] doInBackground(String... strings) {
+            String chapterid = strings[0];
+            int chaptetNum = Integer.parseInt(strings[1]);
+            String src = strings[2];
+            URL url = null;
+            byte[] response = null;
+
             try {
-                URL url = new URL(strings[0]);
-                InputStream inputStream = url.openConnection().getInputStream();
-                bitmapHinh = BitmapFactory.decodeStream(inputStream);
+                url = new URL(src);
+                InputStream in = new BufferedInputStream(url.openStream());
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                byte[] buf = new byte[1024];
+                int n = 0;
+                while (-1!=(n=in.read(buf)))
+                {
+                    out.write(buf, 0, n);
+                }
+                out.close();
+                in.close();
+                response = out.toByteArray();
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return bitmapHinh;
+            Cursor cursor = dbOffline.Getdata("Select * from chap where chapnum='" + chaptetNum + "' AND idchap='" + chapterid + "'");
+            if (cursor.getCount() == 0) {
+                dbOffline.InsertContent(chapterid, chaptetNum, response);
+            }
+            Log.d(TAG, "doInBackground: byteeeeee "+ response);
+
+            return  response;
         }
 
         @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            super.onPostExecute(bitmap);
-            img.setImageBitmap(bitmap);
+        protected void onPostExecute(byte[] bytes) {
+            super.onPostExecute(bytes);
         }
     }
 }
-
 

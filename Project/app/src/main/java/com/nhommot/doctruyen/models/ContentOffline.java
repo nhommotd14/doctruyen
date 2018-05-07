@@ -1,6 +1,6 @@
 package com.nhommot.doctruyen.models;
 
-public class ContentOffline {
+public class ContentOffline extends Content{
     private String idchap;
     private String chapnum;
     private byte[] img;
