@@ -18,6 +18,29 @@
 * Phạm Anh Hào - N14DCCN088
 * Đinh Nhất Thi - N14DCCN076
 
+## Screenshots
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/nhommotd14/doctruyen/master/Screenshots/1.png" height="340" width="190"/>
+  <img src="https://raw.githubusercontent.com/nhommotd14/doctruyen/master/Screenshots/2.png" height="340" width="190"/>
+  <img src="https://raw.githubusercontent.com/nhommotd14/doctruyen/master/Screenshots/3.png" height="340" width="190"/>
+  
+</p>
+
+<p align="center">
+<img src="https://raw.githubusercontent.com/nhommotd14/doctruyen/master/Screenshots/4.png" height="340" width="190"/>
+<img src="https://raw.githubusercontent.com/nhommotd14/doctruyen/master/Screenshots/5.png" height="340" width="190"/>
+<img src="https://raw.githubusercontent.com/nhommotd14/doctruyen/master/Screenshots/6.png" height="340" width="190"/>
+</p>
+<p align="center">
+<img src="https://raw.githubusercontent.com/nhommotd14/doctruyen/master/Screenshots/7.png" height="340" width="190"/>
+<img src="https://raw.githubusercontent.com/nhommotd14/doctruyen/master/Screenshots/8.png" height="340" width="190"/>
+<img src="https://raw.githubusercontent.com/nhommotd14/doctruyen/master/Screenshots/9.png" height="340" width="190"/>
+</p>
+<p align="center">
+<img src="https://raw.githubusercontent.com/nhommotd14/doctruyen/master/Screenshots/10.png" height="340" width="190"/>
+<img src="https://raw.githubusercontent.com/nhommotd14/doctruyen/master/Screenshots/11.png" height="340" width="190"/>
+<img src="https://raw.githubusercontent.com/nhommotd14/doctruyen/master/Screenshots/12.png" height="340" width="190"/>
+</p>
 
 [doctruyen]: https://github.com/nhommotd14/doctruyen
